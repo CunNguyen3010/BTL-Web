@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Button, TextField, Box, Typography } from "@mui/material";
-import InputBase from "@mui/material/InputBase";
 
 const PointsTransactionForm = () => {
   const [values, setValues] = useState({

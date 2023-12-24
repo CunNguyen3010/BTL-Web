@@ -13,7 +13,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import InputAdornment from "@mui/material/InputAdornment";
 import { MdOutlineLocalShipping } from "react-icons/md";
 import LoginImage from "../../assets/images/login_image.jpg";
-import Logo from "../../assets/images/logo.png";
+//import Logo from "../../assets/images/logo.png";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 function Copyright(props) {
   return (

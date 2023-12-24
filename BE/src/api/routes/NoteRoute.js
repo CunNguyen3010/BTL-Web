@@ -1,13 +1,5 @@
 import { Router } from "express";
-import {
-  getAllNotes,
-  getNote,
-  createNode,
-  updateNote,
-  deleteNote,
-  searchNote,
-  getUserNote,
-} from "../controllers/NoteController";
+import { getAllNotes, getNote, createNode, updateNote, deleteNote, searchNote, getUserNote } from "../controllers/NoteController";
 import { checkToken } from "../middlewares/authMiddleware";
 
 const noteRoute = Router();
@@ -25,5 +17,6 @@ noteRoute.post("/", createNode);
 noteRoute.put("/:id", updateNote);
 // DELETE_DELETE
 noteRoute.delete("/:id", deleteNote);
+
 
 export default noteRoute;
