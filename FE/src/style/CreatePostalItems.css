@@ -1,0 +1,69 @@
+.body {
+  display: flex;
+}
+
+.pl10 {
+  padding-left: 10px;
+}
+
+input#code.h100 {
+  height: 100px;
+}
+
+.pr10 {
+  padding-right: 10px;
+}
+
+.f1 {
+  display: flex;
+  flex: 1;
+}
+
+.main-create {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.pannel-create {
+  margin: 16px;
+  border: 1px solid #e6e9ed;
+  padding: 10px 17px;
+}
+
+.has-feedback {
+  display: flex;
+}
+
+.has-feedback.w100 {
+  width: 100%;
+}
+
+.one-row {
+  display: flex;
+}
+
+input#code.custom-control-input {
+  width: 30px;
+}
+
+label.custom-control-lable {
+  padding-top: 0px;
+  margin: 4px 6px;
+  color: #675b5b;
+  font-size: 14px;
+}
+
+.mat-checkbox-input {
+  height: 32px;
+  width: 24px;
+}
+label.mat-checkbox-label {
+  margin: 0px 6px;
+  color: #675b5b;
+  font-size: 14px;
+}
+
+textarea.form-control {
+  height: auto;
+}

@@ -1,0 +1,51 @@
+.search-container {
+    width: 40%;
+    margin: 100px auto;
+    font-size: 16px;
+    background-color: bisque;
+}
+
+.search-container img {
+    height: 33px;
+    width: 33px;
+}
+
+.search-label {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    margin: 22px 22px 22px 0;
+}
+
+.inputform {
+    display: flex;
+    gap: 6px
+}
+
+.input-code {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.input {
+    padding: 16px;
+    border: solid 2px #000000;
+    border-radius: 5px;
+}
+
+.note {
+    align-self: end;
+    font-size: 12px;
+}
+
+.track-btn {
+    cursor: pointer;
+    height: 50px;
+    border: solid 2px #000000;
+    border-radius: 5px;
+}
+
+.track-btn:hover {
+    background-color: #F7941E;
+}

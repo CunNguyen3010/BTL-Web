@@ -1,11 +1,5 @@
 import { Router } from "express";
-import {
-  getAllInformations,
-  searchInformation,
-  createInformation,
-  updateInformation,
-  deleteInformation,
-} from "../controllers/InformationController";
+import { getAllInformations, searchInformation, createInformation, updateInformation, deleteInformation } from "../controllers/InformationController";
 // import { checkToken } from "../middlewares/authMiddleware";
 
 const informationRoute = Router();
@@ -23,5 +17,6 @@ informationRoute.post("/", createInformation);
 informationRoute.put("/:id", updateInformation);
 // DELETE_DELETE
 informationRoute.delete("/:id", deleteInformation);
+
 
 export default informationRoute;
