@@ -16,8 +16,11 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
+import { FaTruck } from "react-icons/fa6";
+import { IoCreate } from "react-icons/io5";
+import { GiConfirmed } from "react-icons/gi";
+import { ImStatsBars } from "react-icons/im";
+
 import CreateOrder from "../functions/transactionStaff/CreateOrder";
 const drawerWidth = 240;
 
@@ -69,13 +72,17 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 export default function PersistentDrawerLeft() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
-
+  const [tab, setTab] = React.useState(0);
   const handleDrawerOpen = () => {
     setOpen(true);
   };
 
   const handleDrawerClose = () => {
     setOpen(false);
+  };
+
+  const handleToggle = (e, index) => {
+    setTab(index);
   };
 
   return (
@@ -92,9 +99,26 @@ export default function PersistentDrawerLeft() {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap component="div">
-            Magic Post
-          </Typography>
+          {tab === 0 ? (
+            <Typography variant="h6" noWrap>
+              Tạo đơn hàng
+            </Typography>
+          ) : null}
+          {tab === 1 ? (
+            <Typography variant="h6" noWrap>
+              Chuyển hàng
+            </Typography>
+          ) : null}
+          {tab === 2 ? (
+            <Typography variant="h6" noWrap>
+              Xác nhận
+            </Typography>
+          ) : null}
+          {tab === 3 ? (
+            <Typography variant="h6" noWrap>
+              Thống kê
+            </Typography>
+          ) : null}
         </Toolbar>
       </AppBar>
       <Drawer
@@ -111,6 +135,9 @@ export default function PersistentDrawerLeft() {
         open={open}
       >
         <DrawerHeader>
+          <Typography variant="h5">
+            <b>Magic Post</b>
+          </Typography>
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === "ltr" ? (
               <ChevronLeftIcon />
@@ -120,22 +147,36 @@ export default function PersistentDrawerLeft() {
           </IconButton>
         </DrawerHeader>
         <Divider />
+
         <List>
-          {["Tạo đơn hàng", "Chuyển hàng"].map((text, index) => (
-            <ListItem key={text} disablePadding>
-              <ListItemButton>
-                <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItemButton>
-            </ListItem>
-          ))}
+          {["Tạo đơn hàng", "Chuyển hàng", "Xác nhận", "Thống kê"].map(
+            (text, index) => (
+              <ListItem key={text} disablePadding>
+                <ListItemButton
+                  onClick={(event) => {
+                    handleToggle(event, index);
+                  }}
+                >
+                  <ListItemIcon>
+                    {index === 0 ? <IoCreate /> : null}
+                    {index === 1 ? <FaTruck /> : null}
+                    {index === 2 ? <GiConfirmed /> : null}
+                    {index === 3 ? <ImStatsBars /> : null}
+                  </ListItemIcon>
+                  <ListItemText primary={text} />
+                </ListItemButton>
+              </ListItem>
+            )
+          )}
         </List>
       </Drawer>
+
       <Main open={open}>
         <DrawerHeader />
-        <CreateOrder></CreateOrder>
+        {tab === 0 ? <CreateOrder /> : null}
+        {tab === 1 ? <div>Hello</div> : null}
+        {tab === 2 ? <div>Hello</div> : null}
+        {tab === 3 ? <div>Hello</div> : null}
       </Main>
     </Box>
   );
