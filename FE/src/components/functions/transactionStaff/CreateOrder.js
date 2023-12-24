@@ -21,6 +21,8 @@ function CreateOrder() {
   const [receiverDistrict, setReceiverDistrict] = useState("");
   const [receiverAddress, setReceiverAddress] = useState("");
 
+  // const [showSuccess, setShowSuccess] = useState(false);
+
   const handleCreatePostalItems = async () => {
     try {
       // Gửi dữ liệu đến backend
@@ -57,6 +59,9 @@ function CreateOrder() {
     } catch (error) {
       console.error("Lỗi khi gửi yêu cầu:", error);
     }
+
+    // Hiển thị thông báo thành công
+    // setShowSuccess(true);
   };
 
   return (
@@ -85,7 +90,7 @@ function CreateOrder() {
                       type="text"
                       id="code"
                       name="code"
-                      value=""
+                      // value=""
                       class="form-control has-feedback-left"
                       placeholder="Tên thông tin (nếu có)"
                       onChange={(e) => setSenderInformation(e.target.value)}
@@ -107,7 +112,7 @@ function CreateOrder() {
                       type="text"
                       id="code"
                       name="code"
-                      value=""
+                      // value=""
                       class="form-control has-feedback-left"
                       placeholder="Tên người gửi"
                       onChange={(e) => setSenderName(e.target.value)}
@@ -127,7 +132,7 @@ function CreateOrder() {
                       type="text"
                       id="code"
                       name="code"
-                      value=""
+                      // value=""
                       class="form-control has-feedback-left"
                       placeholder="SĐT người gửi"
                       onChange={(e) => setSenderPhone(e.target.value)}
@@ -146,7 +151,7 @@ function CreateOrder() {
                       type="text"
                       id="code"
                       name="code"
-                      value=""
+                      // value=""
                       class="form-control has-feedback-left"
                       placeholder="Tỉnh/Thành phố"
                       onChange={(e) => setSenderProvince(e.target.value)}
@@ -162,7 +167,7 @@ function CreateOrder() {
                       type="text"
                       id="code"
                       name="code"
-                      value=""
+                      // value=""
                       class="form-control has-feedback-left"
                       placeholder="Huyện/Quận"
                       onChange={(e) => setSenderDistrict(e.target.value)}
@@ -197,7 +202,7 @@ function CreateOrder() {
                       type="text"
                       id="code"
                       name="code"
-                      value=""
+                      // value=""
                       class="form-control has-feedback-left"
                       placeholder="Tên thông tin (nếu có)"
                       onChange={(e) => setReceiverInformation(e.target.value)}
@@ -219,7 +224,7 @@ function CreateOrder() {
                       type="text"
                       id="code"
                       name="code"
-                      value=""
+                      // value=""
                       class="form-control has-feedback-left"
                       placeholder="Tên người nhận"
                       onChange={(e) => setReceiverName(e.target.value)}
@@ -236,10 +241,10 @@ function CreateOrder() {
                       <img src={Phone} alt="" />
                     </div>
                     <input
-                      type="text"
+                      type="number"
                       id="code"
                       name="code"
-                      value=""
+                      // value=""
                       class="form-control has-feedback-left"
                       placeholder="SĐT người nhận"
                       onChange={(e) => setReceiverPhone(e.target.value)}
@@ -258,7 +263,7 @@ function CreateOrder() {
                       type="text"
                       id="code"
                       name="code"
-                      value=""
+                      // value=""
                       class="form-control has-feedback-left"
                       placeholder="Tỉnh/Thành phố"
                       onChange={(e) => setReceiverProvince(e.target.value)}
@@ -274,7 +279,7 @@ function CreateOrder() {
                       type="text"
                       id="code"
                       name="code"
-                      value=""
+                      // value=""
                       class="form-control has-feedback-left"
                       placeholder="Huyện/Quận"
                       onChange={(e) => setReceiverDistrict(e.target.value)}
@@ -309,7 +314,7 @@ function CreateOrder() {
                         type="radio"
                         id="code"
                         name="code"
-                        value=""
+                        // value=""
                         class="custom-control-input"
                         placeholder=""
                       />
@@ -321,7 +326,7 @@ function CreateOrder() {
                         type="radio"
                         id="code"
                         name="code"
-                        value=""
+                        // value=""
                         class="custom-control-input"
                         placeholder=""
                       />
@@ -341,7 +346,7 @@ function CreateOrder() {
                       type="text"
                       id="code"
                       name="code"
-                      value=""
+                      // value=""
                       class="form-control has-feedback-left"
                       placeholder="Tên sản phẩm "
                     />
@@ -356,10 +361,10 @@ function CreateOrder() {
                   </div>
                   <div className="input-group">
                     <input
-                      type="text"
+                      type="number"
                       id="code"
                       name="code"
-                      value=""
+                      // value=""
                       class="form-control has-feedback-left"
                       placeholder="vnd "
                     />
@@ -372,10 +377,10 @@ function CreateOrder() {
                   </div>
                   <div className="input-group">
                     <input
-                      type="text"
+                      type="number"
                       id="code"
                       name="code"
-                      value=""
+                      // value=""
                       class="form-control has-feedback-left"
                       placeholder="gam"
                     />
@@ -388,10 +393,10 @@ function CreateOrder() {
                   </div>
                   <div className="input-group">
                     <input
-                      type="text"
+                      type="number"
                       id="code"
                       name="code"
-                      value=""
+                      // value=""
                       class="form-control has-feedback-left"
                       placeholder=""
                     />
@@ -411,10 +416,10 @@ function CreateOrder() {
                   <div className="one-row">
                     <div className="input-group pr10">
                       <input
-                        type="text"
+                        type="number"
                         id="code"
                         name="code"
-                        value=""
+                        // value=""
                         class="form-control has-feedback-left"
                         placeholder="Dài (cm)"
                       />
@@ -422,10 +427,10 @@ function CreateOrder() {
 
                     <div className="input-group pr10 pl10">
                       <input
-                        type="text"
+                        type="number"
                         id="code"
                         name="code"
-                        value=""
+                        // value=""
                         class="form-control has-feedback-left"
                         placeholder="Rộng (cm)"
                       />
@@ -433,10 +438,10 @@ function CreateOrder() {
 
                     <div className="input-group pl10">
                       <input
-                        type="text"
+                        type="number"
                         id="code"
                         name="code"
-                        value=""
+                        // value=""
                         class="form-control has-feedback-left"
                         placeholder="Cao (cm)"
                       />
@@ -705,6 +710,11 @@ function CreateOrder() {
                 </div>
               </div>
 
+              {/* {showSuccess && (
+                <div className="success-message" style={{ color: "green" }}>
+                  Đã tạo đơn hàng thành công!
+                </div>
+              )} */}
               <div className="text-center">
                 <div className="btn-search">
                   <button
