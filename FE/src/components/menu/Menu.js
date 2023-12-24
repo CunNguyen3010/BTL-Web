@@ -22,6 +22,7 @@ import { GiConfirmed } from "react-icons/gi";
 import { ImStatsBars } from "react-icons/im";
 
 import CreateOrder from "../functions/transactionStaff/CreateOrder";
+import ShippingOrder from "../functions/transactionStaff/ShippingOrder";
 const drawerWidth = 240;
 
 const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
@@ -174,7 +175,7 @@ export default function PersistentDrawerLeft() {
       <Main open={open}>
         <DrawerHeader />
         {tab === 0 ? <CreateOrder /> : null}
-        {tab === 1 ? <div>Hello</div> : null}
+        {tab === 1 ? <ShippingOrder /> : null}
         {tab === 2 ? <div>Hello</div> : null}
         {tab === 3 ? <div>Hello</div> : null}
       </Main>
