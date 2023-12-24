@@ -114,6 +114,15 @@ h2 {
   font-size: 18px;
 }
 
+/* .content {
+  padding: 0 5px 6px;
+  position: relative;
+  width: 100%;
+  float: left;
+  clear: both;
+  margin-top: 5px;
+} */
+
 .text-info {
   color: #31708f;
 }
