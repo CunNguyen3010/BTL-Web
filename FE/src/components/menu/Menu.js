@@ -16,14 +16,15 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
+import { Button } from "@mui/material";
+import { useAuthUser } from "react-auth-kit";
+import { Outlet, useNavigate } from "react-router-dom";
 import { FaTruck } from "react-icons/fa6";
 import { IoCreate } from "react-icons/io5";
 import { GiConfirmed } from "react-icons/gi";
 import { ImStatsBars } from "react-icons/im";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
-import CreateOrder from "../functions/transactionStaff/CreateOrder";
-import ShippingOrder from "../functions/transactionStaff/ShippingOrder";
-import Confirm from "../functions/transactionStaff/Confirm";
 const drawerWidth = 240;
 
 const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
@@ -66,15 +67,43 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   display: "flex",
   alignItems: "center",
   padding: theme.spacing(0, 1),
-  // necessary for content to be below app bar
   ...theme.mixins.toolbar,
   justifyContent: "flex-end",
 }));
 
-export default function PersistentDrawerLeft() {
+export default function Menu() {
   const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
-  const [tab, setTab] = React.useState(0);
+
+  const navigate = useNavigate();
+  const auth = useAuthUser();
+  const role = auth().data?.role;
+
+  const [open, setOpen] = React.useState(true);
+  const [title, setTitle] = React.useState("");
+
+  const transactionStaffMenu = [
+    { name: "Tạo đơn hàng", Icon: IoCreate },
+    { name: "Chuyển hàng", Icon: FaTruck },
+    { name: "Xác nhận", Icon: GiConfirmed },
+    { name: "Chuyển hàng", Icon: ImStatsBars },
+  ];
+  const transactionAdminMenu = [];
+  const gatheringStaffMenu = [];
+  const gatheringAdminMenu = [];
+  const adminMenu = [];
+
+  const functions =
+    role === "transactionStaff"
+      ? transactionStaffMenu
+      : role === "transactionAdmin"
+      ? transactionAdminMenu
+      : role === "gatheringStaff"
+      ? gatheringStaffMenu
+      : role === "gatheringAdmin"
+      ? gatheringAdminMenu
+      : role === "admin"
+      ? adminMenu
+      : "";
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -82,10 +111,32 @@ export default function PersistentDrawerLeft() {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-
-  const handleToggle = (e, index) => {
-    setTab(index);
+  const handleTitle = (e, text) => {
+    e.persist();
+    setTitle(text);
   };
+  const handleToggle = (e, index) => {
+    e.persist();
+    if (role === "transactionStaff") {
+      if (index === 0) {
+        navigate("/menu/transactionStaff/createOrder");
+      }
+      if (index === 1) {
+        navigate("/menu/transactionStaff/shippingOrder");
+      }
+      if (index === 2) {
+        navigate("/menu/transactionStaff/confirm");
+      }
+      if (index === 3) {
+        navigate("/menu/transactionStaff/statistic");
+      }
+    }
+  };
+  //   if (role === "transactionAdmin") {
+  //     if (index === "0") {
+  //     }
+  //   }
+  // };
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -101,26 +152,25 @@ export default function PersistentDrawerLeft() {
           >
             <MenuIcon />
           </IconButton>
-          {tab === 0 ? (
-            <Typography variant="h6" noWrap>
-              Tạo đơn hàng
-            </Typography>
-          ) : null}
-          {tab === 1 ? (
-            <Typography variant="h6" noWrap>
-              Chuyển hàng
-            </Typography>
-          ) : null}
-          {tab === 2 ? (
-            <Typography variant="h6" noWrap>
-              Xác nhận
-            </Typography>
-          ) : null}
-          {tab === 3 ? (
-            <Typography variant="h6" noWrap>
-              Thống kê
-            </Typography>
-          ) : null}
+          <Typography variant="h6">{title}</Typography>
+          <div>
+            <Button
+              variant="contained"
+              style={{
+                fontWeight: "bold",
+                background: "#fdfdfd",
+                color: "#003e29",
+              }}
+            >
+              <AccountCircleIcon />
+            </Button>
+            <Button
+              variant="contained"
+              sx={{ background: "#fdfdfd", color: "black" }}
+            >
+              Đăng xuất
+            </Button>
+          </div>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -151,35 +201,35 @@ export default function PersistentDrawerLeft() {
         <Divider />
 
         <List>
-          {["Tạo đơn hàng", "Chuyển hàng", "Xác nhận", "Thống kê"].map(
-            (text, index) => (
-              <ListItem key={text} disablePadding>
-                <ListItemButton
-                  onClick={(event) => {
-                    handleToggle(event, index);
+          {functions.map(({ name: text, Icon }, index) => (
+            <ListItem key={text} disablePadding sx={{ display: "block" }}>
+              <ListItemButton
+                sx={{
+                  minHeight: 48,
+                  justifyContent: open ? "initial" : "center",
+                  px: 2.5,
+                }}
+                onClick={(e) => {
+                  handleTitle(e, text);
+                  handleToggle(e, index);
+                }}
+              >
+                <ListItemIcon
+                  sx={{
+                    minWidth: 0,
+                    mr: open ? 3 : "auto",
+                    justifyContent: "center",
                   }}
                 >
-                  <ListItemIcon>
-                    {index === 0 ? <IoCreate /> : null}
-                    {index === 1 ? <FaTruck /> : null}
-                    {index === 2 ? <GiConfirmed /> : null}
-                    {index === 3 ? <ImStatsBars /> : null}
-                  </ListItemIcon>
-                  <ListItemText primary={text} />
-                </ListItemButton>
-              </ListItem>
-            )
-          )}
+                  <Icon sx={{ color: "#003e29" }} />
+                </ListItemIcon>
+                <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
+              </ListItemButton>
+            </ListItem>
+          ))}
         </List>
       </Drawer>
-
-      <Main open={open}>
-        <DrawerHeader />
-        {tab === 0 ? <CreateOrder /> : null}
-        {tab === 1 ? <ShippingOrder /> : null}
-        {tab === 2 ? <Confirm /> : null}
-        {tab === 3 ? <div>Hello</div> : null}
-      </Main>
+      <Main open={open}></Main>
     </Box>
   );
 }

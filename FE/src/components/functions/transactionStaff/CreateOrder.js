@@ -2,9 +2,9 @@ import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import React, { useState } from "react";
 import User from "../../../assets/icon/user-solid.svg";
 import Phone from "../../../assets/icon/phone-solid.svg";
-import "../../../style/CreateOrder.css";
+import "../../../style/transactionStaff/CreateOrder.css";
 
-function CreateOrder() {
+export default function CreateOrder() {
   // Người gửi
   const [senderInformation, setSenderInformation] = useState("");
   const [senderName, setSenderName] = useState("");
@@ -734,5 +734,3 @@ function CreateOrder() {
     </div>
   );
 }
-
-export default CreateOrder;

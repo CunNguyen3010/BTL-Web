@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button, TextField, Box, Typography } from "@mui/material";
 
-const PointsTransactionForm = () => {
+export default function ShippingOrder() {
   const [values, setValues] = useState({
     employeeId: "",
     cashBonus: "",
@@ -29,7 +29,7 @@ const PointsTransactionForm = () => {
     >
       <Box
         sx={{
-          backgroundColor: "#FFECD6",
+          backgroundColor: "#F5F5F5",
           width: "30vw",
           height: "50%",
           padding: "20px",
@@ -106,6 +106,4 @@ const PointsTransactionForm = () => {
       </Box>
     </Box>
   );
-};
-
-export default PointsTransactionForm;
+}

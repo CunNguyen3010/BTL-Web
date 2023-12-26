@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import "../../../style/Confirm.css";
+import "../../../style/transactionStaff/Confirm.css";
 
-function Confirm() {
+export default function Confirm() {
   const [orderCode, setOrderCode] = useState("");
   const [orderCodeError, setOrderCodeError] = useState("");
   const [employeeCode, setEmployeeCode] = useState("");
@@ -124,7 +124,9 @@ function Confirm() {
           </div>
         </div>
 
-        <button type="submit">Tìm kiếm</button>
+        <button className="btn-search" type="submit">
+          Tìm kiếm
+        </button>
       </form>
 
       <div class="row">
@@ -185,5 +187,3 @@ function Confirm() {
     </div>
   );
 }
-
-export default Confirm;

@@ -13,8 +13,13 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import InputAdornment from "@mui/material/InputAdornment";
 import { MdOutlineLocalShipping } from "react-icons/md";
 import LoginImage from "../../assets/images/login_image.jpg";
+import axios from "axios";
+import { useSignIn } from "react-auth-kit";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 //import Logo from "../../assets/images/logo.png";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
+
 function Copyright(props) {
   return (
     <Typography
@@ -35,16 +40,67 @@ function Copyright(props) {
 
 const defaultTheme = createTheme();
 
-export default function SignInSide() {
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+export default function Login() {
+  const signIn = useSignIn();
+  const navigate = useNavigate();
+  const [username, setUserName] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    axios
+      .post("http://localhost:3001/auth/login", { username, password })
+      .then((result) => {
+        // console.log(result);
+        if (result.status === 200) {
+          if (
+            signIn({
+              token: result.data.token,
+              expiresIn: 480,
+              tokenType: "Bearer",
+              authState: {
+                data: result.data.user,
+              },
+            })
+          ) {
+            navigate("/menu");
+          }
+          // console.log(result.data.role);
+          setError("");
+        }
+      })
+      .catch((err) => {
+        setError(err.response.data.message);
+        console.log(err.response.data.message);
+      });
+    console.log(username, password);
   };
-
+  // const handleSubmit = (e) => {
+  //   let url = "http://localhost:3001/auth/login";
+  //   const data = new FormData(e.currentTarget);
+  //   const body = {
+  //     username: data.get("email"),
+  //     password: data.get("password"),
+  //   };
+  //   fetch(url, {
+  //     method: "POST",
+  //     body: body,
+  //   })
+  //     .then((response) => {
+  //       if (!response.ok) {
+  //         throw new Error("Network response was not ok");
+  //       }
+  //       return response.json();
+  //     })
+  //     .then((data) => {
+  //       console.log(data);
+  //       return "OKOK";
+  //     })
+  //     .catch((error) => {
+  //       console.error("Fetch error:", error);
+  //       return "abcd";
+  //     });
+  // };
   return (
     <ThemeProvider theme={defaultTheme}>
       <Grid container component="main" sx={{ height: "100vh" }}>
@@ -91,10 +147,10 @@ export default function SignInSide() {
                 margin="normal"
                 required
                 fullWidth
-                id="email"
-                placeholder="Email"
-                name="email"
-                autoComplete="email"
+                id="username"
+                placeholder="Tên đăng nhập"
+                name="username"
+                autoComplete="username"
                 autoFocus
                 InputProps={{
                   startAdornment: (
@@ -102,6 +158,9 @@ export default function SignInSide() {
                       <EmailOutlinedIcon />
                     </InputAdornment>
                   ),
+                  onChange: (e) => {
+                    setUserName(e.target.value);
+                  },
                 }}
               />
               <TextField
@@ -119,6 +178,9 @@ export default function SignInSide() {
                       <LockOutlinedIcon />
                     </InputAdornment>
                   ),
+                  onChange: (e) => {
+                    setPassword(e.target.value);
+                  },
                 }}
               />
 
