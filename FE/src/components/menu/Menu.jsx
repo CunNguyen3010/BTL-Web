@@ -18,12 +18,17 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import { Button } from "@mui/material";
 import { useAuthUser } from "react-auth-kit";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useNavigate, Link } from "react-router-dom";
 import { FaTruck } from "react-icons/fa6";
 import { IoCreate } from "react-icons/io5";
 import { GiConfirmed } from "react-icons/gi";
 import { ImStatsBars } from "react-icons/im";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+
+import CreateOrder from "../functions/transactionStaff/CreateOrder";
+import ShippingOrder from "../functions/transactionStaff/ShippingOrder";
+import Confirm from "../functions/transactionStaff/Confirm";
+import Statistics from "../functions/transactionStaff/Statistics";
 
 const drawerWidth = 240;
 
@@ -80,12 +85,13 @@ export default function Menu() {
 
   const [open, setOpen] = React.useState(true);
   const [title, setTitle] = React.useState("");
+  const [tab, setTab] = React.useState(0);
 
   const transactionStaffMenu = [
     { name: "Tạo đơn hàng", Icon: IoCreate },
     { name: "Chuyển hàng", Icon: FaTruck },
     { name: "Xác nhận", Icon: GiConfirmed },
-    { name: "Chuyển hàng", Icon: ImStatsBars },
+    { name: "Thống kê", Icon: ImStatsBars },
   ];
   const transactionAdminMenu = [];
   const gatheringStaffMenu = [];
@@ -117,27 +123,27 @@ export default function Menu() {
   };
   const handleToggle = (e, index) => {
     e.persist();
-    if (role === "transactionStaff") {
-      if (index === 0) {
-        navigate("/menu/transactionStaff/createOrder");
-      }
-      if (index === 1) {
-        navigate("/menu/transactionStaff/shippingOrder");
-      }
-      if (index === 2) {
-        navigate("/menu/transactionStaff/confirm");
-      }
-      if (index === 3) {
-        navigate("/menu/transactionStaff/statistic");
-      }
-    }
+    setTab(index);
+    // if (role === "transactionStaff") {
+    //   if (index === 0) {
+    //     navigate("/menu/transactionStaff/createOrder");
+    //   }
+    //   if (index === 1) {
+    //     navigate("/menu/transactionStaff/shippingOrder");
+    //   }
+    //   if (index === 2) {
+    //     navigate("/menu/transactionStaff/confirm");
+    //   }
+    //   if (index === 3) {
+    //     navigate("/menu/transactionStaff/statistic");
+    //   }
+    // }
   };
   //   if (role === "transactionAdmin") {
   //     if (index === "0") {
   //     }
   //   }
   // };
-
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
@@ -167,6 +173,18 @@ export default function Menu() {
             <Button
               variant="contained"
               sx={{ background: "#fdfdfd", color: "black" }}
+              onClick={() => {
+                document.cookie =
+                  "_auth=;expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
+                document.cookie =
+                  "_auth_storage=;expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
+                document.cookie =
+                  "_auth_state=;expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
+                document.cookie =
+                  "_auth_type=;expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
+
+                navigate("/login");
+              }}
             >
               Đăng xuất
             </Button>
@@ -229,7 +247,17 @@ export default function Menu() {
           ))}
         </List>
       </Drawer>
-      <Main open={open}></Main>
+      <Main open={open}>
+        <DrawerHeader />
+        {role === "transactionStaff" && (
+          <>
+            {tab === 0 ? <CreateOrder /> : null}
+            {tab === 1 ? <ShippingOrder /> : null}
+            {tab === 2 ? <Confirm /> : null}
+            {tab === 3 ? <Statistics /> : null}
+          </>
+        )}
+      </Main>
     </Box>
   );
 }

@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import User from "../../../assets/icon/user-solid.svg";
 import Phone from "../../../assets/icon/phone-solid.svg";
 import "../../../style/transactionStaff/CreateOrder.css";
-
+import axios from "axios";
 export default function CreateOrder() {
   // Người gửi
   const [senderInformation, setSenderInformation] = useState("");
@@ -11,6 +11,7 @@ export default function CreateOrder() {
   const [senderPhone, setSenderPhone] = useState("");
   const [senderProvince, setSenderProvince] = useState("");
   const [senderDistrict, setSenderDistrict] = useState("");
+  const [senderWard, setSenderWard] = useState("");
   const [senderAddress, setSenderAddress] = useState("");
 
   // Người nhận
@@ -19,6 +20,7 @@ export default function CreateOrder() {
   const [receiverPhone, setReceiverPhone] = useState("");
   const [receiverProvince, setReceiverProvince] = useState("");
   const [receiverDistrict, setReceiverDistrict] = useState("");
+  const [receiverWard, setReceiverWard] = useState("");
   const [receiverAddress, setReceiverAddress] = useState("");
 
   // const [showSuccess, setShowSuccess] = useState(false);
@@ -38,6 +40,7 @@ export default function CreateOrder() {
             phone: senderPhone,
             province: senderProvince,
             district: senderDistrict,
+            ward: senderWard,
             address: senderAddress,
           },
           receiver: {
@@ -46,6 +49,7 @@ export default function CreateOrder() {
             phone: receiverPhone,
             province: receiverProvince,
             district: receiverDistrict,
+            ward: receiverWard,
             address: receiverAddress,
           },
         }),
@@ -62,6 +66,82 @@ export default function CreateOrder() {
 
     // Hiển thị thông báo thành công
     // setShowSuccess(true);
+  };
+  const host = "https://provinces.open-api.vn/api/";
+  var callAPI = async (api) => {
+    return axios.get(api).then((response) => {
+      renderData(response.data, "province");
+      renderData(response.data, "provinces");
+    });
+  };
+  callAPI("https://provinces.open-api.vn/api/?depth=1");
+
+  var renderData = (array, select) => {
+    let row = ' <option disable value="">Chọn</option>';
+    array.forEach((element) => {
+      row += `<option data-id="${element.code}" value="${element.name}">${element.name}</option>`;
+    });
+    // document.querySelector("#" + select).innerHTML = row;
+    const selectElement = document.querySelector("." + select);
+    if (selectElement) {
+      selectElement.innerHTML = row;
+    } else {
+      console.error("Element with class '" + select + "' not found.");
+    }
+  };
+
+  const [province, setProvince] = useState([]);
+  const [district, setDistrict] = useState([]);
+  const [ward, setWard] = useState([]);
+
+  const handleProvinceChange = async (e, className) => {
+    const selectedProvinceName = e.target.value;
+    let api = "https://provinces.open-api.vn/api/?depth=2";
+    const callApiDistrict = async (api) => {
+      let data = await axios.get(api).then((response) => {
+        return response.data;
+      });
+      return data;
+    };
+    let responses = await callApiDistrict(api);
+    let i = 0;
+    for (; i < responses.length; i++) {
+      if (responses[i].name === selectedProvinceName) {
+        break;
+      }
+    }
+    renderData(responses[i].districts, className);
+  };
+
+  const handleDistrictChange = async (e, className) => {
+    const selectedDistrictName = e.target.value;
+    let api = "https://provinces.open-api.vn/api/?depth=3";
+    // Gọi API để lấy dữ liệu quận/huyện dựa trên mã tỉnh/thành phố
+    const callApiDistrict = async (api) => {
+      let data = await axios.get(api).then((response) => {
+        return response.data;
+      });
+      return data;
+    };
+    let responses = await callApiDistrict(api);
+    let i = 0,
+      j = 0;
+    for (; i < responses.length; i++) {
+      let flag = true;
+      let k = 0;
+      for (; k < responses[i].districts.length; k++) {
+        if (responses[i].districts[k].name === selectedDistrictName) {
+          flag = false;
+          j = k;
+          break;
+        }
+      }
+      if (flag === false) {
+        break;
+      }
+    }
+    // console.log(responses[i].districts[j]);
+    renderData(responses[i].districts[j].wards, className);
   };
 
   return (
@@ -88,8 +168,8 @@ export default function CreateOrder() {
                   <div className="input-group">
                     <input
                       type="text"
-                      id="code"
-                      name="code"
+                      id="senderInformation"
+                      name="senderInformation"
                       // value=""
                       class="form-control has-feedback-left"
                       placeholder="Tên thông tin (nếu có)"
@@ -110,8 +190,8 @@ export default function CreateOrder() {
                     </div>
                     <input
                       type="text"
-                      id="code"
-                      name="code"
+                      id="senderName"
+                      name="senderName"
                       // value=""
                       class="form-control has-feedback-left"
                       placeholder="Tên người gửi"
@@ -130,8 +210,8 @@ export default function CreateOrder() {
                     </div>
                     <input
                       type="text"
-                      id="code"
-                      name="code"
+                      id="senderPhone"
+                      name="senderPhone"
                       // value=""
                       class="form-control has-feedback-left"
                       placeholder="SĐT người gửi"
@@ -147,15 +227,17 @@ export default function CreateOrder() {
                     <label className="control-label"> TỈNH/THÀNH PHỐ</label>
                   </div>
                   <div className="input-group">
-                    <input
-                      type="text"
-                      id="code"
-                      name="code"
-                      // value=""
-                      class="form-control has-feedback-left"
-                      placeholder="Tỉnh/Thành phố"
-                      onChange={(e) => setSenderProvince(e.target.value)}
-                    />
+                    <select
+                      id="province"
+                      name="province"
+                      className="form-control has-feedback-left province"
+                      onChange={(event) =>
+                        handleProvinceChange(event, "district")
+                      }
+                    >
+                      <option value="">Chọn Tỉnh/Thành phố</option>
+                      {renderData(province)}
+                    </select>
                   </div>
                 </div>
                 <div className="has-feedback">
@@ -163,22 +245,37 @@ export default function CreateOrder() {
                     <label className="control-label"> HUYỆN/QUẬN</label>
                   </div>
                   <div className="input-group">
-                    <input
-                      type="text"
-                      id="code"
-                      name="code"
-                      // value=""
-                      class="form-control has-feedback-left"
-                      placeholder="Huyện/Quận"
-                      onChange={(e) => setSenderDistrict(e.target.value)}
-                    />
+                    <select
+                      id="district"
+                      name="district"
+                      className="form-control has-feedback-left district"
+                      onChange={(event) => handleDistrictChange(event, "ward")}
+                    >
+                      <option value="">Chọn Huyện/Quận</option>
+                      {renderData(district)}
+                    </select>
+                  </div>
+                </div>
+                <div className="has-feedback">
+                  <div className="name">
+                    <label className="control-label"> XÃ/PHƯỜNG</label>
+                  </div>
+                  <div className="input-group">
+                    <select
+                      id="ward"
+                      name="ward"
+                      className="form-control has-feedback-left ward"
+                    >
+                      <option value="">Chọn Xã/Phường</option>
+                      {renderData(ward)}
+                    </select>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-
+        {/* Người NHẬN */}
         <div className="pannel-create">
           <div className="title">
             <h2>
@@ -200,8 +297,8 @@ export default function CreateOrder() {
                   <div className="input-group">
                     <input
                       type="text"
-                      id="code"
-                      name="code"
+                      id="receiverInformation"
+                      name="receiverInformation"
                       // value=""
                       class="form-control has-feedback-left"
                       placeholder="Tên thông tin (nếu có)"
@@ -222,8 +319,8 @@ export default function CreateOrder() {
                     </div>
                     <input
                       type="text"
-                      id="code"
-                      name="code"
+                      id="receiverName"
+                      name="receiverName"
                       // value=""
                       class="form-control has-feedback-left"
                       placeholder="Tên người nhận"
@@ -242,8 +339,8 @@ export default function CreateOrder() {
                     </div>
                     <input
                       type="number"
-                      id="code"
-                      name="code"
+                      id="receiverPhone"
+                      name="receiverPhone"
                       // value=""
                       class="form-control has-feedback-left"
                       placeholder="SĐT người nhận"
@@ -259,31 +356,49 @@ export default function CreateOrder() {
                     <label className="control-label"> TỈNH/THÀNH PHỐ</label>
                   </div>
                   <div className="input-group">
-                    <input
-                      type="text"
-                      id="code"
-                      name="code"
-                      // value=""
-                      class="form-control has-feedback-left"
-                      placeholder="Tỉnh/Thành phố"
-                      onChange={(e) => setReceiverProvince(e.target.value)}
-                    />
+                    <select
+                      id="province"
+                      name="province"
+                      className="form-control has-feedback-left provinces"
+                      onChange={(event) =>
+                        handleProvinceChange(event, "districts")
+                      }
+                    >
+                      <option value="">Chọn Tỉnh/Thành phố</option>
+                      {renderData(province)}
+                    </select>
                   </div>
                 </div>
+
                 <div className="has-feedback">
                   <div className="name">
                     <label className="control-label"> HUYỆN/QUẬN</label>
                   </div>
                   <div className="input-group">
-                    <input
-                      type="text"
-                      id="code"
-                      name="code"
-                      // value=""
-                      class="form-control has-feedback-left"
-                      placeholder="Huyện/Quận"
-                      onChange={(e) => setReceiverDistrict(e.target.value)}
-                    />
+                    <select
+                      id="district"
+                      name="district"
+                      className="form-control has-feedback-left districts"
+                      onChange={(event) => handleDistrictChange(event, "wards")}
+                    >
+                      <option value="">Chọn Huyện/Quận</option>
+                      {renderData(district)}
+                    </select>
+                  </div>
+                </div>
+                <div className="has-feedback">
+                  <div className="name">
+                    <label className="control-label"> XÃ/PHƯỜNG</label>
+                  </div>
+                  <div className="input-group">
+                    <select
+                      id="ward"
+                      name="ward"
+                      className="form-control has-feedback-left wards"
+                    >
+                      <option value="">Chọn Xã/Phường</option>
+                      {renderData(ward)}
+                    </select>
                   </div>
                 </div>
               </div>
