@@ -251,17 +251,10 @@ export default function Menu() {
             {tab === 3 ? <Statistics /> : null}
           </>
         )}
-<<<<<<< HEAD
         {role === "admin" && (
           <>
             {tab === 0 ? <AccountManagement /> : null}
             {tab === 1 ? <CreateAccount /> : null}
-=======
-        {role === "transactionAdmin" && (
-          <>
-            {tab === 0 ? <CreateAccountTranAdmin /> : null}
-            {tab === 1 ? <StatisticsTranAdmin /> : null}
->>>>>>> 8ce3c946707f2b9a3b9f1eb3ee0c8d711f26d9f7
           </>
         )}
       </Main>
