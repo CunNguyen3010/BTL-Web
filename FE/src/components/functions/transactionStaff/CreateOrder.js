@@ -233,9 +233,10 @@ export default function CreateOrder() {
                       id="province"
                       name="province"
                       className="form-control has-feedback-left province"
-                      onChange={(event) =>
-                        handleProvinceChange(event, "district")
-                      }
+                      onChange={(event) => {
+                        handleProvinceChange(event, "district");
+                        setSenderProvince(event.target.value);
+                      }}
                     >
                       <option value="">Chọn Tỉnh/Thành phố</option>
                       {renderData(province)}
