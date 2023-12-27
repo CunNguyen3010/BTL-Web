@@ -212,3 +212,17 @@ label {
   border: 1px solid #ccc;
   width: 100%;
 }
+
+@media (max-width: 768px) {
+  .text-info {
+    flex-direction: column;
+  }
+
+  .column {
+    margin-right: 0;
+  }
+
+  .main-create {
+    margin: 10px 0;
+  }
+}

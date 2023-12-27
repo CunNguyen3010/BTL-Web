@@ -24,15 +24,22 @@ import { IoCreate } from "react-icons/io5";
 import { GiConfirmed } from "react-icons/gi";
 import { ImStatsBars } from "react-icons/im";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import { MdManageAccounts } from "react-icons/md";
+
 //TransactionStaff
 import CreateOrder from "../functions/transactionStaff/CreateOrder";
 import ShippingOrder from "../functions/transactionStaff/ShippingOrder";
 import Confirm from "../functions/transactionStaff/Confirm";
 import Statistics from "../functions/transactionStaff/Statistics";
 
+<<<<<<< HEAD
 //admin
+=======
+//Admin
+>>>>>>> b0e8fa6b18fda5678b0ad8172a9d9ad5b9138b61
 import AccountManagement from "../functions/admin/AccountManagement";
 import CreateAccount from "../functions/admin/CreateAccount";
+import StatisticsAdmin from "../functions/admin/StatisticsAdmin";
 
 //gatheringStaff
 import ConfirmGathering from "../functions/gatheringStaff/ConfirmGathering";
@@ -40,6 +47,9 @@ import ConfirmGathering from "../functions/gatheringStaff/ConfirmGathering";
 //TransactionAdmin
 import CreateAccountTranAdmin from "../functions/transactionAdmin/CreateAccountTranAdmin";
 import StatisticsTranAdmin from "../functions/transactionAdmin/StatisticsTranAdmin";
+
+//GatheringAdmin
+import CreateAccountGatheringAdmin from "../functions/gatheringAdmin/CreateAccountGatheringAdmin";
 const drawerWidth = 240;
 
 const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
@@ -107,11 +117,20 @@ export default function Menu() {
     { name: "Tạo tài khoản", Icon: IoCreate },
     { name: "Thống kê", Icon: ImStatsBars },
   ];
+<<<<<<< HEAD
   const gatheringStaffMenu = [{ name: "xác nhận đơn hàng", Icon: ImStatsBars }];
   const gatheringAdminMenu = [];
+=======
+  const gatheringStaffMenu = [];
+  const gatheringAdminMenu = [
+    { name: "Tạo tài khoản", Icon: IoCreate },
+    { name: "Thống kê", Icon: ImStatsBars },
+  ];
+>>>>>>> b0e8fa6b18fda5678b0ad8172a9d9ad5b9138b61
   const adminMenu = [
-    { name: "Quản lí tài khoản", Icon: ImStatsBars },
-    { name: "Tạo tài khoản", Icon: ImStatsBars },
+    { name: "Quản lí tài khoản", Icon: MdManageAccounts },
+    { name: "Tạo tài khoản", Icon: IoCreate },
+    { name: "Thống kê", Icon: ImStatsBars },
   ];
 
   const functions =
@@ -164,7 +183,7 @@ export default function Menu() {
                 fontWeight: "bold",
                 background: "#fdfdfd",
                 color: "#003e29",
-                marginRight: "10px",
+                marginLeft: "20px",
               }}
             >
               <AccountCircleIcon />
@@ -260,6 +279,19 @@ export default function Menu() {
           <>
             {tab === 0 ? <AccountManagement /> : null}
             {tab === 1 ? <CreateAccount /> : null}
+            {tab === 2 ? <StatisticsAdmin /> : null}
+          </>
+        )}
+        {role === "transactionAdmin" && (
+          <>
+            {tab === 0 ? <CreateAccountTranAdmin /> : null}
+            {tab === 1 ? <StatisticsTranAdmin /> : null}
+          </>
+        )}
+        {role === "gartheringAdmin" && (
+          <>
+            {tab === 0 ? <CreateAccountGatheringAdmin /> : null}
+            {tab === 1 ? <StatisticsTranAdmin /> : null}
           </>
         )}
         {role === "gartheringStaff" && (
