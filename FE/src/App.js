@@ -21,11 +21,11 @@ export default function App() {
 
   return (
     <Routes>
-      <Route path="/home" element={<Home />}></Route>
+      <Route path="/" element={<Home />} />
       <Route path="/login" element={<Login />} />
       <Route path="/menu" element={<PrivateRoute />} />
       {/* <Route path="/menu" element={<PrivateRoute element={<Menu />} />} /> */}
-      <Route index element={role && <div>role</div>} />
+      <Route element={role && <div>role</div>} />
     </Routes>
   );
 }

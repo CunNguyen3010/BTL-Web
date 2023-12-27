@@ -33,6 +33,9 @@ import Statistics from "../functions/transactionStaff/Statistics";
 //TransactionAdmin
 import CreateAccountTranAdmin from "../functions/transactionAdmin/CreateAccountTranAdmin";
 import StatisticsTranAdmin from "../functions/transactionAdmin/StatisticsTranAdmin";
+
+//GatheringAdmin
+import CreateAccountGatheringAdmin from "../functions/gatheringAdmin/CreateAccountGatheringAdmin";
 const drawerWidth = 240;
 
 const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
@@ -101,7 +104,10 @@ export default function Menu() {
     { name: "Thống kê", Icon: ImStatsBars },
   ];
   const gatheringStaffMenu = [];
-  const gatheringAdminMenu = [];
+  const gatheringAdminMenu = [
+    { name: "Tạo tài khoản", Icon: IoCreate },
+    { name: "Thống kê", Icon: ImStatsBars },
+  ];
   const adminMenu = [];
 
   const functions =
@@ -109,9 +115,9 @@ export default function Menu() {
       ? transactionStaffMenu
       : role === "transactionAdmin"
       ? transactionAdminMenu
-      : role === "gatheringStaff"
+      : role === "gartheringStaff"
       ? gatheringStaffMenu
-      : role === "gatheringAdmin"
+      : role === "gartheringAdmin"
       ? gatheringAdminMenu
       : role === "admin"
       ? adminMenu
@@ -249,6 +255,12 @@ export default function Menu() {
         {role === "transactionAdmin" && (
           <>
             {tab === 0 ? <CreateAccountTranAdmin /> : null}
+            {tab === 1 ? <StatisticsTranAdmin /> : null}
+          </>
+        )}
+        {role === "gartheringAdmin" && (
+          <>
+            {tab === 0 ? <CreateAccountGatheringAdmin /> : null}
             {tab === 1 ? <StatisticsTranAdmin /> : null}
           </>
         )}
