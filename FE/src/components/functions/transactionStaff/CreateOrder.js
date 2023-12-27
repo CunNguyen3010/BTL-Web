@@ -3,6 +3,8 @@ import React, { useState } from "react";
 import User from "../../../assets/icon/user-solid.svg";
 import Phone from "../../../assets/icon/phone-solid.svg";
 import "../../../style/transactionStaff/CreateOrder.css";
+// import "../../../style/transactionStaff/CreateOrder2.css";
+
 import axios from "axios";
 export default function CreateOrder() {
   // Người gửi
