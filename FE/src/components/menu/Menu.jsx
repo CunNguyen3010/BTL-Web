@@ -29,6 +29,8 @@ import CreateOrder from "../functions/transactionStaff/CreateOrder";
 import ShippingOrder from "../functions/transactionStaff/ShippingOrder";
 import Confirm from "../functions/transactionStaff/Confirm";
 import Statistics from "../functions/transactionStaff/Statistics";
+import AccountManagement from "../functions/admin/AccountManagement";
+import CreateAccount from "../functions/admin/CreateAccount";
 
 const drawerWidth = 240;
 
@@ -96,7 +98,10 @@ export default function Menu() {
   const transactionAdminMenu = [];
   const gatheringStaffMenu = [];
   const gatheringAdminMenu = [];
-  const adminMenu = [];
+  const adminMenu = [
+    { name: "Quản lí tài khoản", Icon: ImStatsBars },
+    { name: "Tạo tài khoản", Icon: ImStatsBars },
+  ];
 
   const functions =
     role === "transactionStaff"
@@ -255,6 +260,12 @@ export default function Menu() {
             {tab === 1 ? <ShippingOrder /> : null}
             {tab === 2 ? <Confirm /> : null}
             {tab === 3 ? <Statistics /> : null}
+          </>
+        )}
+        {role === "admin" && (
+          <>
+            {tab === 0 ? <AccountManagement /> : null}
+            {tab === 1 ? <CreateAccount /> : null}
           </>
         )}
       </Main>
