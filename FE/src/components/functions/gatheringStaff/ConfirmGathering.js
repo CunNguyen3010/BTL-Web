@@ -12,13 +12,35 @@ export default function ConfirmGathering() {
   const [positionError, setPositionError] = useState("");
   //thêm
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(15);
+  const [itemsPerPage] = useState(10);
   const [selectedItem, setSelectedItem] = useState(null);
   const [successMessage, setSuccessMessage] = useState("");
 
   //thêm
   const data = [
     // Dữ liệu của bạn
+    {
+      column1: 1,
+      column2: "ABC123",
+      column3: "Nơi gửi 1",
+      column4: "Nơi nhận 1",
+      column5: "Túi",
+      column6: "10.000",
+      column7: "2.000.000",
+
+      // Các trường dữ liệu khác
+    },
+    {
+      column1: 2,
+      column2: "XYZ456",
+      column3: "Nơi gửi 2",
+      column4: "Nơi nhận 2",
+      column5: "Balo",
+      column6: "10.000",
+      column7: "20.000",
+      // Các trường dữ liệu khác
+    },
+    // Thêm các đối tượng dữ liệu khác
   ];
   //thêm
 
@@ -65,14 +87,14 @@ export default function ConfirmGathering() {
 
   const handleConfirm = (item) => {
     setSelectedItem(item);
-    setSuccessMessage(`Đã xác nhận dòng dữ liệu với ID ${item.id}`);
+    setSuccessMessage(`Đã xác nhận đơn hàng ${item.column2}`);
   };
 
   //thêm
 
   return (
     <div className="registration-form-container">
-      <form onSubmit={handleSearch} className="registration-form w90">
+      <form onSubmit={handleSearch} className="registration-form w100">
         <div className="one-row box">
           <div className="form-group has-feedback">
             <label htmlFor="orderCode">
@@ -110,8 +132,7 @@ export default function ConfirmGathering() {
               <p className="error-message">{employeeCodeError}</p>
             )}
           </div>
-        </div>
-        <div className="one-row box">
+
           <div className="form-group has-feedback">
             <label htmlFor="date">
               <span className="required-field">*</span> Ngày:
@@ -153,42 +174,6 @@ export default function ConfirmGathering() {
         </button>
       </form>
 
-      {/* <div class="row">
-        <div class="x_panel no-pd">
-          <div class="x_content no-pd no-mg">
-            <div class="col-md-12 col-sm-12 col-xs-12">
-              <div class="x_content">
-                <table class="table table-hover table-condensed table-striped text-info">
-                  <thead>
-                    <tr>
-                      <th>STT</th>
-                      <th>
-                        <i class="fa fa-barcode"></i> Mã đơn hàng
-                      </th>
-                      <th>Nơi gửi</th>
-                      <th>Nơi nhận</th>
-                      <th>Sản phẩm</th>
-                      <th>Phí</th>
-                      <th>Tiền thu hộ</th>
-                      <th></th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td colspan="30" class="text-center">
-                        Không có dữ liệu
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-                <div class="clearfix"></div>
-                <div class="pull-right"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div> */}
-
       <div className="row">
         <div className="x_panel no-pd">
           <div className="x_content no-pd no-mg">
@@ -217,6 +202,10 @@ export default function ConfirmGathering() {
                           <td>{item.column1}</td>
                           <td>{item.column2}</td>
                           <td>{item.column3}</td>
+                          <td>{item.column4}</td>
+                          <td>{item.column5}</td>
+                          <td>{item.column6}</td>
+                          <td>{item.column7}</td>
                           {/* Hiển thị các cột dữ liệu khác */}
                           <td>
                             <button
