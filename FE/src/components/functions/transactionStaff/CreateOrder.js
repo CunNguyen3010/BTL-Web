@@ -881,8 +881,7 @@ export default function CreateOrder() {
                     class="btn"
                     onClick={handleCreatePostalItems}
                   >
-                    <i class="fa fa-search"></i>
-                    <p>TẠO BƯU GỬI</p>
+                    TẠO BƯU GỬI
                   </button>
                 </div>
               </div>
