@@ -1,0 +1,118 @@
+.registration-form-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* height: 100vh; */
+  flex-direction: column;
+}
+
+.registration-form {
+  border: 1px solid #ccc;
+  padding: 20px;
+  border-radius: 8px;
+  width: 400px;
+  background-color: #f5f5f5;
+}
+
+.form-group {
+  margin-bottom: 10px;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 16px;
+  color: #31708f;
+}
+
+.required-field {
+  color: red;
+  margin-left: 5px;
+}
+
+input,
+#position {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-top: 4px;
+  font-size: 16px;
+}
+
+.error-input {
+  border: 1px solid red;
+  font-size: 12px;
+}
+
+.error-message {
+  color: red;
+  font-size: 12px;
+}
+
+.btn-search {
+  margin-top: 10px;
+  padding: 10px 20px;
+  background-color: #31708f;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  float: right;
+  align-items: center;
+  font-size: 14px;
+}
+
+.row {
+  width: 100%;
+}
+
+.x_panel {
+  width: 100%;
+  margin-top: 20px;
+  border: 1px solid #e6e9ed;
+  background-color: #fff;
+}
+
+.x_content {
+  padding: 0px 5px 6px;
+  margin-top: 5px;
+  width: 100%;
+  font-size: 14px;
+  line-height: 1.471;
+}
+
+.table {
+  width: 100%;
+  max-width: 100%;
+  margin-bottom: 20px;
+  border-collapse: collapse;
+  border-spacing: 0;
+  border-bottom: 2px solid #dde2e8;
+}
+
+.table-condensed > tbody > tr > td {
+  padding: 5px 7px;
+  text-align: center;
+  border-top: 3px solid #dde2e8;
+  border-bottom: 2px solid #dde2e8;
+  background-color: #f5f5f5;
+}
+
+.row {
+  margin-left: -10px;
+  margin-right: -10px;
+}
+
+.has-feedback {
+  display: flex;
+  flex-direction: column;
+  min-height: 1px;
+  padding-right: 10px;
+  padding-left: 10px;
+  width: 50%;
+}
+
+.w90 {
+  width: 90%;
+}
