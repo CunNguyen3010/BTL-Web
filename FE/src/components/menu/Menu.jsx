@@ -24,11 +24,18 @@ import { IoCreate } from "react-icons/io5";
 import { GiConfirmed } from "react-icons/gi";
 import { ImStatsBars } from "react-icons/im";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import { MdManageAccounts } from "react-icons/md";
+
 //TransactionStaff
 import CreateOrder from "../functions/transactionStaff/CreateOrder";
 import ShippingOrder from "../functions/transactionStaff/ShippingOrder";
 import Confirm from "../functions/transactionStaff/Confirm";
 import Statistics from "../functions/transactionStaff/Statistics";
+
+//Admin
+import AccountManagement from "../functions/admin/AccountManagement";
+import CreateAccount from "../functions/admin/CreateAccount";
+import StatisticsAdmin from "../functions/admin/StatisticsAdmin";
 
 //TransactionAdmin
 import CreateAccountTranAdmin from "../functions/transactionAdmin/CreateAccountTranAdmin";
@@ -108,7 +115,11 @@ export default function Menu() {
     { name: "Tạo tài khoản", Icon: IoCreate },
     { name: "Thống kê", Icon: ImStatsBars },
   ];
-  const adminMenu = [];
+  const adminMenu = [
+    { name: "Quản lí tài khoản", Icon: MdManageAccounts },
+    { name: "Tạo tài khoản", Icon: IoCreate },
+    { name: "Thống kê", Icon: ImStatsBars },
+  ];
 
   const functions =
     role === "transactionStaff"
@@ -160,7 +171,7 @@ export default function Menu() {
                 fontWeight: "bold",
                 background: "#fdfdfd",
                 color: "#003e29",
-                marginRight: "10px",
+                marginLeft: "20px",
               }}
             >
               <AccountCircleIcon />
@@ -250,6 +261,13 @@ export default function Menu() {
             {tab === 1 ? <ShippingOrder /> : null}
             {tab === 2 ? <Confirm /> : null}
             {tab === 3 ? <Statistics /> : null}
+          </>
+        )}
+        {role === "admin" && (
+          <>
+            {tab === 0 ? <AccountManagement /> : null}
+            {tab === 1 ? <CreateAccount /> : null}
+            {tab === 2 ? <StatisticsAdmin /> : null}
           </>
         )}
         {role === "transactionAdmin" && (

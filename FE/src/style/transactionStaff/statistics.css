@@ -8,6 +8,9 @@
 
 .stats-card {
     margin: 20px;
+    border: 2px solid;
+    border-radius: 2px;
+    border-color: #2b2bff;
     min-width: 250px;
 }
 
