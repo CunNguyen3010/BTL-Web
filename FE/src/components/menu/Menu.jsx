@@ -32,11 +32,7 @@ import ShippingOrder from "../functions/transactionStaff/ShippingOrder";
 import Confirm from "../functions/transactionStaff/Confirm";
 import Statistics from "../functions/transactionStaff/Statistics";
 
-<<<<<<< HEAD
 //admin
-=======
-//Admin
->>>>>>> b0e8fa6b18fda5678b0ad8172a9d9ad5b9138b61
 import AccountManagement from "../functions/admin/AccountManagement";
 import CreateAccount from "../functions/admin/CreateAccount";
 import StatisticsAdmin from "../functions/admin/StatisticsAdmin";
@@ -117,16 +113,8 @@ export default function Menu() {
     { name: "Tạo tài khoản", Icon: IoCreate },
     { name: "Thống kê", Icon: ImStatsBars },
   ];
-<<<<<<< HEAD
   const gatheringStaffMenu = [{ name: "xác nhận đơn hàng", Icon: ImStatsBars }];
   const gatheringAdminMenu = [];
-=======
-  const gatheringStaffMenu = [];
-  const gatheringAdminMenu = [
-    { name: "Tạo tài khoản", Icon: IoCreate },
-    { name: "Thống kê", Icon: ImStatsBars },
-  ];
->>>>>>> b0e8fa6b18fda5678b0ad8172a9d9ad5b9138b61
   const adminMenu = [
     { name: "Quản lí tài khoản", Icon: MdManageAccounts },
     { name: "Tạo tài khoản", Icon: IoCreate },
