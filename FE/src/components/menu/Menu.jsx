@@ -267,6 +267,7 @@ export default function Menu() {
           <>
             {tab === 0 ? <AccountManagement /> : null}
             {tab === 1 ? <CreateAccount /> : null}
+<<<<<<< HEAD
             {tab === 2 ? <StatisticsAdmin /> : null}
           </>
         )}
@@ -280,6 +281,8 @@ export default function Menu() {
           <>
             {tab === 0 ? <CreateAccountGatheringAdmin /> : null}
             {tab === 1 ? <StatisticsTranAdmin /> : null}
+=======
+>>>>>>> 997e7c0048b449adbd90a09c0b00ad830415d8e8
           </>
         )}
       </Main>

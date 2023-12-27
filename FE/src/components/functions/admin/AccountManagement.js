@@ -104,7 +104,7 @@ export default function AccountManagement() {
             <input
               type="text"
               id="id_workplace"
-              value={name}
+              value={id_workplace}
               onChange={(e) => {
                 setID_workplace(e.target.value);
               }}
