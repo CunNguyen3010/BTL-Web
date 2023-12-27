@@ -1,4 +1,4 @@
-let url = "https://provinces.open-api.vn/api/?depth=2";
+let url = "https://provinces.open-api.vn/api/?depth=3";
 async function loadProvince(url) {
   const response = await fetch(url);
   const names = await response.json();
