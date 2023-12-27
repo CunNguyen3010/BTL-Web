@@ -259,6 +259,9 @@ export default function CreateOrder() {
                     </select>
                   </div>
                 </div>
+              </div>
+
+              <div className="box">
                 <div className="has-feedback">
                   <div className="name">
                     <label className="control-label"> XÃ/PHƯỜNG</label>
@@ -272,6 +275,25 @@ export default function CreateOrder() {
                       <option value="">Chọn Xã/Phường</option>
                       {renderData(ward)}
                     </select>
+                  </div>
+                </div>
+              </div>
+
+              <div className="box">
+                <div className="has-feedback w100">
+                  <div className="name">
+                    <label className="control-label"> ĐỊA CHỈ CỤ THỂ</label>
+                  </div>
+                  <div className="input-group">
+                    <input
+                      type="text"
+                      // id="senderInformation"
+                      // name="senderInformation"
+                      // value=""
+                      class="form-control has-feedback-left"
+                      placeholder="Số nhà, xóm, thôn"
+                      // onChange={(e) => setSenderInformation(e.target.value)}
+                    />
                   </div>
                 </div>
               </div>
@@ -389,6 +411,9 @@ export default function CreateOrder() {
                     </select>
                   </div>
                 </div>
+              </div>
+
+              <div className="box">
                 <div className="has-feedback">
                   <div className="name">
                     <label className="control-label"> XÃ/PHƯỜNG</label>
@@ -402,6 +427,25 @@ export default function CreateOrder() {
                       <option value="">Chọn Xã/Phường</option>
                       {renderData(ward)}
                     </select>
+                  </div>
+                </div>
+              </div>
+
+              <div className="box">
+                <div className="has-feedback w100">
+                  <div className="name">
+                    <label className="control-label"> ĐỊA CHỈ CỤ THỂ</label>
+                  </div>
+                  <div className="input-group">
+                    <input
+                      type="text"
+                      // id="senderInformation"
+                      // name="senderInformation"
+                      // value=""
+                      class="form-control has-feedback-left"
+                      placeholder="Số nhà, xóm, thôn"
+                      // onChange={(e) => setSenderInformation(e.target.value)}
+                    />
                   </div>
                 </div>
               </div>
@@ -671,9 +715,7 @@ export default function CreateOrder() {
             </div>
           </div>
         </div>
-      </div>
 
-      <div className="main-create">
         <div className="pannel-create">
           <div className="title">
             <h2>

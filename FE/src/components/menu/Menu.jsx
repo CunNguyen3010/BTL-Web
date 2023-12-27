@@ -32,10 +32,13 @@ import ShippingOrder from "../functions/transactionStaff/ShippingOrder";
 import Confirm from "../functions/transactionStaff/Confirm";
 import Statistics from "../functions/transactionStaff/Statistics";
 
-//Admin
+//admin
 import AccountManagement from "../functions/admin/AccountManagement";
 import CreateAccount from "../functions/admin/CreateAccount";
 import StatisticsAdmin from "../functions/admin/StatisticsAdmin";
+
+//gatheringStaff
+import ConfirmGathering from "../functions/gatheringStaff/ConfirmGathering";
 
 //TransactionAdmin
 import CreateAccountTranAdmin from "../functions/transactionAdmin/CreateAccountTranAdmin";
@@ -110,11 +113,8 @@ export default function Menu() {
     { name: "Tạo tài khoản", Icon: IoCreate },
     { name: "Thống kê", Icon: ImStatsBars },
   ];
-  const gatheringStaffMenu = [];
-  const gatheringAdminMenu = [
-    { name: "Tạo tài khoản", Icon: IoCreate },
-    { name: "Thống kê", Icon: ImStatsBars },
-  ];
+  const gatheringStaffMenu = [{ name: "xác nhận đơn hàng", Icon: ImStatsBars }];
+  const gatheringAdminMenu = [];
   const adminMenu = [
     { name: "Quản lí tài khoản", Icon: MdManageAccounts },
     { name: "Tạo tài khoản", Icon: IoCreate },
@@ -281,6 +281,9 @@ export default function Menu() {
             {tab === 0 ? <CreateAccountGatheringAdmin /> : null}
             {tab === 1 ? <StatisticsTranAdmin /> : null}
           </>
+        )}
+        {role === "gartheringStaff" && (
+          <>{tab === 0 ? <ConfirmGathering /> : null}</>
         )}
       </Main>
     </Box>

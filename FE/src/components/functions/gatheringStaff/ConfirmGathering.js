@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import "../../../style/transactionStaff/Confirm.css";
+import "../../../style/gatheringStaff/ConfirmGathering.css";
 
-export default function Confirm() {
+export default function ConfirmGathering() {
   const [orderCode, setOrderCode] = useState("");
   const [orderCodeError, setOrderCodeError] = useState("");
   const [employeeCode, setEmployeeCode] = useState("");
@@ -10,6 +10,17 @@ export default function Confirm() {
   const [dateError, setDateError] = useState("");
   const [position, setPosition] = useState("");
   const [positionError, setPositionError] = useState("");
+  //thêm
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(15);
+  const [selectedItem, setSelectedItem] = useState(null);
+  const [successMessage, setSuccessMessage] = useState("");
+
+  //thêm
+  const data = [
+    // Dữ liệu của bạn
+  ];
+  //thêm
 
   const handleSearch = (event) => {
     event.preventDefault();
@@ -42,6 +53,22 @@ export default function Confirm() {
       // setShowTable(true);
     }
   };
+
+  //thêm
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
+  const handleConfirm = (item) => {
+    setSelectedItem(item);
+    setSuccessMessage(`Đã xác nhận dòng dữ liệu với ID ${item.id}`);
+  };
+
+  //thêm
 
   return (
     <div className="registration-form-container">
@@ -103,7 +130,7 @@ export default function Confirm() {
           </div>
           <div className="form-group has-feedback">
             <label htmlFor="position">
-              <span className="required-field">*</span> Trạng thái:
+              <span className="required-field">*</span> Điểm gửi đến:
             </label>
             <select
               id="position"
@@ -114,8 +141,8 @@ export default function Confirm() {
               }}
               className={positionError ? "error-input" : ""}
             >
-              <option value="Trưởng điểm giao dịch">Đã giao</option>
-              <option value="Trưởng điểm tập kết">Chưa giao</option>
+              <option value="Trưởng điểm giao dịch">Điểm giao dịch</option>
+              <option value="Trưởng điểm tập kết">Điểm tập kết</option>
             </select>
             {positionError && <p className="error-message">{positionError}</p>}
           </div>
@@ -126,7 +153,7 @@ export default function Confirm() {
         </button>
       </form>
 
-      <div class="row">
+      {/* <div class="row">
         <div class="x_panel no-pd">
           <div class="x_content no-pd no-mg">
             <div class="col-md-12 col-sm-12 col-xs-12">
@@ -138,7 +165,6 @@ export default function Confirm() {
                       <th>
                         <i class="fa fa-barcode"></i> Mã đơn hàng
                       </th>
-                      <th>Trạng thái</th>
                       <th>Nơi gửi</th>
                       <th>Nơi nhận</th>
                       <th>Sản phẩm</th>
@@ -161,7 +187,77 @@ export default function Confirm() {
             </div>
           </div>
         </div>
+      </div> */}
+
+      <div className="row">
+        <div className="x_panel no-pd">
+          <div className="x_content no-pd no-mg">
+            <div className="col-md-12 col-sm-12 col-xs-12">
+              <div className="x_content">
+                <div className="table-responsive">
+                  <table className="table table-hover table-condensed table-striped text-info table-width-auto">
+                    <thead>
+                      <tr>
+                        <th>STT</th>
+                        <th>Mã đơn hàng</th>
+                        <th>Nơi gửi</th>
+                        <th>Nơi nhận</th>
+                        <th>Sản phẩm</th>
+                        <th>Phí</th>
+                        <th>Tiền thu hộ</th>
+                        <th>Xác nhận</th>
+
+                        {/* Thêm các đề mục cột khác */}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {currentItems.map((item, index) => (
+                        <tr key={index}>
+                          {/* Hiển thị dữ liệu của từng dòng */}
+                          <td>{item.column1}</td>
+                          <td>{item.column2}</td>
+                          <td>{item.column3}</td>
+                          {/* Hiển thị các cột dữ liệu khác */}
+                          <td>
+                            <button
+                              onClick={() => handleConfirm(item)}
+                              className="btn btn-success"
+                            >
+                              Xác nhận
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+                <div className="pagination">
+                  {data.length > itemsPerPage && (
+                    <ul className="pagination-list">
+                      {Array.from(
+                        { length: Math.ceil(data.length / itemsPerPage) },
+                        (_, index) => (
+                          <li
+                            key={index}
+                            className={`pagination-item ${
+                              index + 1 === currentPage ? "active" : ""
+                            }`}
+                            onClick={() => handlePageChange(index + 1)}
+                          >
+                            {index + 1}
+                          </li>
+                        )
+                      )}
+                    </ul>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
+
+      {selectedItem && <div className="success-message">{successMessage}</div>}
     </div>
   );
 }

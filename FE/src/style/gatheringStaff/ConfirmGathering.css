@@ -36,7 +36,7 @@ input,
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 4px;
-  /* margin-top: 4px; */
+  margin-top: 4px;
   font-size: 16px;
 }
 
@@ -88,6 +88,7 @@ input,
   margin-bottom: 20px;
   border-collapse: collapse;
   border-spacing: 0;
+  border-bottom: 2px solid #dde2e8;
 }
 
 .table-condensed > tbody > tr > td {
