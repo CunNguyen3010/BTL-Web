@@ -56,7 +56,7 @@ export default function Login() {
           if (
             signIn({
               token: result.data.token,
-              expiresIn: 480,
+              expiresIn: 300,
               tokenType: "Bearer",
               authState: {
                 data: result.data.user,
@@ -75,32 +75,7 @@ export default function Login() {
       });
     console.log(username, password);
   };
-  // const handleSubmit = (e) => {
-  //   let url = "http://localhost:3001/auth/login";
-  //   const data = new FormData(e.currentTarget);
-  //   const body = {
-  //     username: data.get("email"),
-  //     password: data.get("password"),
-  //   };
-  //   fetch(url, {
-  //     method: "POST",
-  //     body: body,
-  //   })
-  //     .then((response) => {
-  //       if (!response.ok) {
-  //         throw new Error("Network response was not ok");
-  //       }
-  //       return response.json();
-  //     })
-  //     .then((data) => {
-  //       console.log(data);
-  //       return "OKOK";
-  //     })
-  //     .catch((error) => {
-  //       console.error("Fetch error:", error);
-  //       return "abcd";
-  //     });
-  // };
+
   return (
     <ThemeProvider theme={defaultTheme}>
       <Grid container component="main" sx={{ height: "100vh" }}>

@@ -24,7 +24,7 @@ import { IoCreate } from "react-icons/io5";
 import { GiConfirmed } from "react-icons/gi";
 import { ImStatsBars } from "react-icons/im";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-
+//TransactionStaff
 import CreateOrder from "../functions/transactionStaff/CreateOrder";
 import ShippingOrder from "../functions/transactionStaff/ShippingOrder";
 import Confirm from "../functions/transactionStaff/Confirm";
@@ -32,6 +32,9 @@ import Statistics from "../functions/transactionStaff/Statistics";
 import AccountManagement from "../functions/admin/AccountManagement";
 import CreateAccount from "../functions/admin/CreateAccount";
 
+//TransactionAdmin
+import CreateAccountTranAdmin from "../functions/transactionAdmin/CreateAccountTranAdmin";
+import StatisticsTranAdmin from "../functions/transactionAdmin/StatisticsTranAdmin";
 const drawerWidth = 240;
 
 const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
@@ -95,7 +98,10 @@ export default function Menu() {
     { name: "Xác nhận", Icon: GiConfirmed },
     { name: "Thống kê", Icon: ImStatsBars },
   ];
-  const transactionAdminMenu = [];
+  const transactionAdminMenu = [
+    { name: "Tạo tài khoản", Icon: IoCreate },
+    { name: "Thống kê", Icon: ImStatsBars },
+  ];
   const gatheringStaffMenu = [];
   const gatheringAdminMenu = [];
   const adminMenu = [
@@ -129,31 +135,13 @@ export default function Menu() {
   const handleToggle = (e, index) => {
     e.persist();
     setTab(index);
-    // if (role === "transactionStaff") {
-    //   if (index === 0) {
-    //     navigate("/menu/transactionStaff/createOrder");
-    //   }
-    //   if (index === 1) {
-    //     navigate("/menu/transactionStaff/shippingOrder");
-    //   }
-    //   if (index === 2) {
-    //     navigate("/menu/transactionStaff/confirm");
-    //   }
-    //   if (index === 3) {
-    //     navigate("/menu/transactionStaff/statistic");
-    //   }
-    // }
   };
-  //   if (role === "transactionAdmin") {
-  //     if (index === "0") {
-  //     }
-  //   }
-  // };
+
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
       <AppBar position="fixed" open={open}>
-        <Toolbar>
+        <Toolbar sx={{ justifyContent: "space-between" }}>
           <IconButton
             color="inherit"
             aria-label="open drawer"
@@ -164,13 +152,14 @@ export default function Menu() {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6">{title}</Typography>
-          <div>
+          <div className="appbar div">
             <Button
               variant="contained"
-              style={{
+              sx={{
                 fontWeight: "bold",
                 background: "#fdfdfd",
                 color: "#003e29",
+                marginRight: "10px",
               }}
             >
               <AccountCircleIcon />
@@ -262,10 +251,17 @@ export default function Menu() {
             {tab === 3 ? <Statistics /> : null}
           </>
         )}
+<<<<<<< HEAD
         {role === "admin" && (
           <>
             {tab === 0 ? <AccountManagement /> : null}
             {tab === 1 ? <CreateAccount /> : null}
+=======
+        {role === "transactionAdmin" && (
+          <>
+            {tab === 0 ? <CreateAccountTranAdmin /> : null}
+            {tab === 1 ? <StatisticsTranAdmin /> : null}
+>>>>>>> 8ce3c946707f2b9a3b9f1eb3ee0c8d711f26d9f7
           </>
         )}
       </Main>
