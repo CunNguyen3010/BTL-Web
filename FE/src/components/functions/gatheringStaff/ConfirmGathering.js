@@ -44,35 +44,55 @@ export default function ConfirmGathering() {
   ];
   //thêm
 
-  const handleSearch = (event) => {
+  const handleSearch = async (event) => {
     event.preventDefault();
 
     // Kiểm tra các trường bắt buộc
     if (!orderCode) {
       setOrderCodeError("Vui lòng nhập mã đơn hàng!");
     }
-    if (!employeeCode) {
-      setEmployeeCodeError("Vui lòng nhập mã nhân viên!");
-    }
-    if (!date) {
-      setDateError("Vui lòng chọn ngày!");
-    }
 
     // Xử lý logic khi người dùng tìm kiếm nếu không có lỗi
-    if (orderCode && employeeCode && date) {
+    if (orderCode) {
       console.log("Search data:", {
         orderCode,
-        employeeCode,
-        date,
         sendAddress,
       });
 
-      // Reset form sau khi tìm kiếm thành công
-      setOrderCode("");
-      setEmployeeCode("");
-      setDate("");
-      setSendAddress("");
-      // setShowTable(true);
+      try {
+        // Gửi dữ liệu tìm kiếm lên backend
+        const response = await fetch(
+          "https://localhost:3001/confirmGathering",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              orderCode,
+              sendAddress,
+            }),
+          }
+        );
+
+        if (response.ok) {
+          // Xử lý response nếu yêu cầu thành công
+          const data = await response.json();
+          console.log("Response data:", data);
+
+          // Reset form sau khi tìm kiếm thành công
+          setOrderCode("");
+          setSendAddress("");
+          setSuccessMessage("Dữ liệu đã được gửi thành công!");
+        } else {
+          // Xử lý response nếu yêu cầu thất bại
+          throw new Error("Lỗi khi gửi yêu cầu!");
+        }
+      } catch (error) {
+        // Xử lý lỗi khi fetch gặp vấn đề
+        console.error(error);
+        setSuccessMessage("Đã xảy ra lỗi khi gửi yêu cầu!");
+      }
     }
   };
 
@@ -114,41 +134,6 @@ export default function ConfirmGathering() {
               <p className="error-message">{orderCodeError}</p>
             )}
           </div>
-          {/* <div className="form-group has-feedback">
-            <label htmlFor="employeeCode">
-              <span className="required-field">*</span> Mã nhân viên:
-            </label>
-            <input
-              type="text"
-              id="employeeCode"
-              value={employeeCode}
-              onChange={(e) => {
-                setEmployeeCode(e.target.value);
-                setEmployeeCodeError("");
-              }}
-              className={employeeCodeError ? "error-input" : ""}
-            />
-            {employeeCodeError && (
-              <p className="error-message">{employeeCodeError}</p>
-            )}
-          </div> */}
-
-          {/* <div className="form-group has-feedback">
-            <label htmlFor="date">
-              <span className="required-field">*</span> Ngày:
-            </label>
-            <input
-              type="date"
-              id="date"
-              value={date}
-              onChange={(e) => {
-                setDate(e.target.value);
-                setDateError("");
-              }}
-              className={dateError ? "error-input" : ""}
-            />
-            {dateError && <p className="error-message">{dateError}</p>}
-          </div> */}
           <div className="form-group has-feedback">
             <label htmlFor="sendAddress">
               <span className="required-field">*</span> Điểm gửi đến:

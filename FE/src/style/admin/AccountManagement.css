@@ -114,3 +114,7 @@ input,
 .registration-form.w100 {
   width: 100%;
 }
+
+.registration-form.w100.h270 {
+  height: 270px;
+}
