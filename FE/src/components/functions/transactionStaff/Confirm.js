@@ -8,8 +8,8 @@ export default function Confirm() {
   const [employeeCodeError, setEmployeeCodeError] = useState("");
   const [date, setDate] = useState("");
   const [dateError, setDateError] = useState("");
-  const [position, setPosition] = useState("");
-  const [positionError, setPositionError] = useState("");
+  const [status, setStatus] = useState("");
+  const [statusError, setStatusError] = useState("");
 
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10);
@@ -72,14 +72,14 @@ export default function Confirm() {
         orderCode,
         employeeCode,
         date,
-        position,
+        status,
       });
 
       // Reset form sau khi tìm kiếm thành công
       setOrderCode("");
       setEmployeeCode("");
       setDate("");
-      setPosition("");
+      setStatus("");
       // setShowTable(true);
     }
   };
@@ -142,22 +142,22 @@ export default function Confirm() {
             {dateError && <p className="error-message">{dateError}</p>}
           </div>
           <div className="form-group has-feedback">
-            <label htmlFor="position">
+            <label htmlFor="status">
               <span className="required-field">*</span> Trạng thái:
             </label>
             <select
-              id="position"
-              value={position}
+              id="status"
+              value={status}
               onChange={(e) => {
-                setPosition(e.target.value);
-                setPositionError("");
+                setStatus(e.target.value);
+                setStatusError("");
               }}
-              className={positionError ? "error-input" : ""}
+              className={statusError ? "error-input" : ""}
             >
               <option value="Trưởng điểm giao dịch">Đã giao</option>
               <option value="Trưởng điểm tập kết">Chưa giao</option>
             </select>
-            {positionError && <p className="error-message">{positionError}</p>}
+            {statusError && <p className="error-message">{statusError}</p>}
           </div>
         </div>
 

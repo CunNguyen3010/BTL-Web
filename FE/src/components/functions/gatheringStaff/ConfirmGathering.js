@@ -8,8 +8,8 @@ export default function ConfirmGathering() {
   const [employeeCodeError, setEmployeeCodeError] = useState("");
   const [date, setDate] = useState("");
   const [dateError, setDateError] = useState("");
-  const [position, setPosition] = useState("");
-  const [positionError, setPositionError] = useState("");
+  const [sendAddress, setSendAddress] = useState("");
+  const [sendAddressError, setSendAddressError] = useState("");
   //thêm
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10);
@@ -64,14 +64,14 @@ export default function ConfirmGathering() {
         orderCode,
         employeeCode,
         date,
-        position,
+        sendAddress,
       });
 
       // Reset form sau khi tìm kiếm thành công
       setOrderCode("");
       setEmployeeCode("");
       setDate("");
-      setPosition("");
+      setSendAddress("");
       // setShowTable(true);
     }
   };
@@ -114,7 +114,7 @@ export default function ConfirmGathering() {
               <p className="error-message">{orderCodeError}</p>
             )}
           </div>
-          <div className="form-group has-feedback">
+          {/* <div className="form-group has-feedback">
             <label htmlFor="employeeCode">
               <span className="required-field">*</span> Mã nhân viên:
             </label>
@@ -131,9 +131,9 @@ export default function ConfirmGathering() {
             {employeeCodeError && (
               <p className="error-message">{employeeCodeError}</p>
             )}
-          </div>
+          </div> */}
 
-          <div className="form-group has-feedback">
+          {/* <div className="form-group has-feedback">
             <label htmlFor="date">
               <span className="required-field">*</span> Ngày:
             </label>
@@ -148,24 +148,26 @@ export default function ConfirmGathering() {
               className={dateError ? "error-input" : ""}
             />
             {dateError && <p className="error-message">{dateError}</p>}
-          </div>
+          </div> */}
           <div className="form-group has-feedback">
-            <label htmlFor="position">
+            <label htmlFor="sendAddress">
               <span className="required-field">*</span> Điểm gửi đến:
             </label>
             <select
-              id="position"
-              value={position}
+              id="sendAddress"
+              value={sendAddress}
               onChange={(e) => {
-                setPosition(e.target.value);
-                setPositionError("");
+                setSendAddress(e.target.value);
+                setSendAddressError("");
               }}
-              className={positionError ? "error-input" : ""}
+              className={sendAddressError ? "error-input" : ""}
             >
               <option value="Trưởng điểm giao dịch">Điểm giao dịch</option>
               <option value="Trưởng điểm tập kết">Điểm tập kết</option>
             </select>
-            {positionError && <p className="error-message">{positionError}</p>}
+            {sendAddressError && (
+              <p className="error-message">{sendAddressError}</p>
+            )}
           </div>
         </div>
 

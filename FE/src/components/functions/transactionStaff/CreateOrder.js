@@ -589,7 +589,7 @@ export default function CreateOrder() {
                     <div className="input-group pr10 pl10">
                       <input
                         type="number"
-                        // id="code"
+                        id="width"
                         name="code"
                         // value=""
                         className="form-control has-feedback-left"
@@ -600,7 +600,7 @@ export default function CreateOrder() {
                     <div className="input-group pl10">
                       <input
                         type="number"
-                        // id="code"
+                        id="height"
                         name="code"
                         // value=""
                         className="form-control has-feedback-left"
@@ -624,8 +624,8 @@ export default function CreateOrder() {
                     <div className="input-group f1">
                       <input
                         type="checkbox"
-                        id="checkbox-input"
-                        // name="code"
+                        id="highValue"
+                        // name="heightValue"
                         value="HGC"
                         className="mat-checkbox-input"
                         tabIndex={0}
@@ -638,7 +638,7 @@ export default function CreateOrder() {
                     <div className="input-group f1">
                       <input
                         type="checkbox"
-                        // id="checkbox-input"
+                        id="fragile"
                         // name="code"
                         value="HGC"
                         className="mat-checkbox-input"
@@ -654,7 +654,7 @@ export default function CreateOrder() {
                     <div className="input-group f1">
                       <input
                         type="checkbox"
-                        // id="checkbox-input"
+                        id="entireBlock"
                         // name="code"
                         value="HGC"
                         className="mat-checkbox-input"
@@ -668,7 +668,7 @@ export default function CreateOrder() {
                     <div className="input-group f1">
                       <input
                         type="checkbox"
-                        // id="checkbox-input"
+                        id="bulky"
                         // name="code"
                         value="HGC"
                         className="mat-checkbox-input"
@@ -684,7 +684,7 @@ export default function CreateOrder() {
                     <div className="input-group f1">
                       <input
                         type="checkbox"
-                        // id="checkbox-input"
+                        id="liquid"
                         // name="code"
                         value="HGC"
                         className="mat-checkbox-input"
@@ -698,7 +698,7 @@ export default function CreateOrder() {
                     <div className="input-group f1">
                       <input
                         type="checkbox"
-                        // id="checkbox-input"
+                        id="coldGoods"
                         // name="code"
                         value="HGC"
                         className="mat-checkbox-input"
@@ -747,7 +747,7 @@ export default function CreateOrder() {
                   <div className="input-group">
                     <input
                       type="number"
-                      id="cod"
+                      // id="cod"
                       maxLength={11}
                       // formcontrolname="cod"
                       className="form-control has-feedback-left"
@@ -796,14 +796,6 @@ export default function CreateOrder() {
                     <label className="control-label"> Ghi chú</label>
                   </div>
                   <div className="input-group ">
-                    {/* <input
-                      type="text"
-                      id="code"
-                      name="code"
-                      value=""
-                      className="form-control has-feedback-left h100"
-                      placeholder=""
-                    /> */}
                     <textarea
                       className="form-control "
                       placeholder="Nhập ghi chú"
