@@ -110,3 +110,12 @@ input,
   padding-left: 10px;
   width: 50%;
 }
+
+#status {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  /* margin-top: 4px; */
+  font-size: 16px;
+}
