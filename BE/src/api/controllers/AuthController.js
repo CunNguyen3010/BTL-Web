@@ -2,8 +2,6 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
 
-
-
 // Định nghĩa schema cho user
 const userSchema = new mongoose.Schema({
   username: String,
@@ -26,12 +24,15 @@ export const login = async (req, res) => {
 
     if (!user) {
       console.log(`User not found for username: ${req.body.username}`);
-      return res.status(404).json({ err: 'User not found' });
+      return res.status(404).json({ err: "User not found" });
     }
 
-    const checkPassword = await bcrypt.compare(req.body.password, user.password);
+    const checkPassword = await bcrypt.compare(
+      req.body.password,
+      user.password
+    );
     if (!checkPassword) {
-      return res.status(400).json({ err: 'Incorrect password' });
+      return res.status(400).json({ err: "Incorrect password" });
     }
 
     // Generate and send a JWT token
@@ -39,20 +40,20 @@ export const login = async (req, res) => {
     return res.status(200).json({ user, token });
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ err: 'Internal server error' });
+    return res.status(500).json({ err: "Internal server error" });
   }
 };
 
 export const register = async (req, res) => {
   try {
     if (!req.body.username || !req.body.password) {
-      return res.status(400).json({ err: 'Missing username or password' });
+      return res.status(400).json({ err: "Missing username or password" });
     }
 
     const existingUser = await User.findOne({ username: req.body.username });
 
     if (existingUser) {
-      return res.status(400).json({ err: 'Username already exists' });
+      return res.status(400).json({ err: "Username already exists" });
     }
 
     // Sử dụng mô hình User mới để tạo người dùng
@@ -71,19 +72,25 @@ export const register = async (req, res) => {
 
     await newUser.save();
 
-    jwt.sign({ username: req.body.username }, process.env.JWT_SECRET, { expiresIn: "7d" }, (err, token) => {
-      if (err) {
-        return res.status(500).json({ err: "Internal server error" });
+    jwt.sign(
+      { username: req.body.username },
+      process.env.JWT_SECRET,
+      { expiresIn: "7d" },
+      (err, token) => {
+        if (err) {
+          return res.status(500).json({ err: "Internal server error" });
+        }
+        const responseData = {
+          username: req.body.username,
+          password: req.body.password,
+        };
+        return res.status(200).json(responseData);
       }
-      const responseData = {
-        username: req.body.username,
-        password: req.body.password,
-      };
-      return res.status(200).json(responseData);
-    });
+      
+    );
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ err: 'Internal server error' });
+    return res.status(500).json({ err: "Internal server error" });
   }
 };
 

@@ -1,16 +1,19 @@
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import User from "../../../assets/icon/user-solid.svg";
 import Phone from "../../../assets/icon/phone-solid.svg";
-import "../../../style/CreateOrder.css";
+import "../../../style/transactionStaff/CreateOrder.css";
+// import "../../../style/transactionStaff/CreateOrder2.css";
 
-function CreateOrder() {
+import axios from "axios";
+export default function CreateOrder() {
   // Người gửi
   const [senderInformation, setSenderInformation] = useState("");
   const [senderName, setSenderName] = useState("");
   const [senderPhone, setSenderPhone] = useState("");
   const [senderProvince, setSenderProvince] = useState("");
   const [senderDistrict, setSenderDistrict] = useState("");
+  const [senderWard, setSenderWard] = useState("");
   const [senderAddress, setSenderAddress] = useState("");
 
   // Người nhận
@@ -19,7 +22,13 @@ function CreateOrder() {
   const [receiverPhone, setReceiverPhone] = useState("");
   const [receiverProvince, setReceiverProvince] = useState("");
   const [receiverDistrict, setReceiverDistrict] = useState("");
+  const [receiverWard, setReceiverWard] = useState("");
   const [receiverAddress, setReceiverAddress] = useState("");
+
+  // const [showSuccess, setShowSuccess] = useState(false);
+  const [province, setProvince] = useState([]);
+  const [district, setDistrict] = useState([]);
+  const [ward, setWard] = useState([]);
 
   const handleCreatePostalItems = async () => {
     try {
@@ -36,6 +45,7 @@ function CreateOrder() {
             phone: senderPhone,
             province: senderProvince,
             district: senderDistrict,
+            ward: senderWard,
             address: senderAddress,
           },
           receiver: {
@@ -44,6 +54,7 @@ function CreateOrder() {
             phone: receiverPhone,
             province: receiverProvince,
             district: receiverDistrict,
+            ward: receiverWard,
             address: receiverAddress,
           },
         }),
@@ -57,6 +68,82 @@ function CreateOrder() {
     } catch (error) {
       console.error("Lỗi khi gửi yêu cầu:", error);
     }
+
+    // Hiển thị thông báo thành công
+    // setShowSuccess(true);
+  };
+
+  // const api = "https://provinces.open-api.vn/api/";
+  let callAPI = async (api) => {
+    return axios.get(api).then((response) => {
+      renderData(response.data, "province");
+      renderData(response.data, "provinces");
+    });
+  };
+  callAPI("https://provinces.open-api.vn/api/?depth=1");
+
+  let renderData = (array, select) => {
+    let row = ' <option disable value="">Chọn</option>';
+    array.forEach((element) => {
+      row += `<option data-id="${element.code}" value="${element.name}">${element.name}</option>`;
+    });
+    // document.querySelector("#" + select).innerHTML = row;
+    const selectElement = document.querySelector("." + select);
+    if (selectElement) {
+      selectElement.innerHTML = row;
+    } else {
+      console.error("Element with id '" + select + "' not found.");
+    }
+  };
+
+  const handleProvinceChange = async (e, className) => {
+    const selectedProvinceName = e.target.value;
+    let api = "https://provinces.open-api.vn/api/?depth=2";
+    const callApiDistrict = async (api) => {
+      let data = await axios.get(api).then((response) => {
+        return response.data;
+      });
+      return data;
+    };
+    let responses = await callApiDistrict(api);
+    let i = 0;
+    for (; i < responses.length; i++) {
+      if (responses[i].name === selectedProvinceName) {
+        break;
+      }
+    }
+    renderData(responses[i].districts, className);
+  };
+
+  const handleDistrictChange = async (e, className) => {
+    const selectedDistrictName = e.target.value;
+    let api = "https://provinces.open-api.vn/api/?depth=3";
+    // Gọi API để lấy dữ liệu quận/huyện dựa trên mã tỉnh/thành phố
+    const callApiWard = async (api) => {
+      let data = await axios.get(api).then((response) => {
+        return response.data;
+      });
+      return data;
+    };
+    let responses = await callApiWard(api);
+    let i = 0,
+      j = 0;
+    for (; i < responses.length; i++) {
+      let flag = true;
+      let k = 0;
+      for (; k < responses[i].districts.length; k++) {
+        if (responses[i].districts[k].name === selectedDistrictName) {
+          flag = false;
+          j = k;
+          break;
+        }
+      }
+      if (flag === false) {
+        break;
+      }
+    }
+    // console.log(responses[i].districts[j]);
+    renderData(responses[i].districts[j].wards, className);
   };
 
   return (
@@ -83,10 +170,10 @@ function CreateOrder() {
                   <div className="input-group">
                     <input
                       type="text"
-                      id="code"
-                      name="code"
-                      value=""
-                      class="form-control has-feedback-left"
+                      id="senderInformation"
+                      name="senderInformation"
+                      // value=""
+                      className="form-control has-feedback-left"
                       placeholder="Tên thông tin (nếu có)"
                       onChange={(e) => setSenderInformation(e.target.value)}
                     />
@@ -105,10 +192,10 @@ function CreateOrder() {
                     </div>
                     <input
                       type="text"
-                      id="code"
-                      name="code"
-                      value=""
-                      class="form-control has-feedback-left"
+                      id="senderName"
+                      name="senderName"
+                      // value=""
+                      className="form-control has-feedback-left"
                       placeholder="Tên người gửi"
                       onChange={(e) => setSenderName(e.target.value)}
                     />
@@ -125,10 +212,9 @@ function CreateOrder() {
                     </div>
                     <input
                       type="text"
-                      id="code"
-                      name="code"
-                      value=""
-                      class="form-control has-feedback-left"
+                      id="senderPhone"
+                      name="senderPhone"
+                      className="form-control has-feedback-left"
                       placeholder="SĐT người gửi"
                       onChange={(e) => setSenderPhone(e.target.value)}
                     />
@@ -139,33 +225,73 @@ function CreateOrder() {
               <div className="box">
                 <div className="has-feedback">
                   <div className="name">
-                    <label className="control-label"> TỈNH/THÀNH PHỐ</label>
+                    <label className="control-label">TỈNH/THÀNH PHỐ</label>
                   </div>
                   <div className="input-group">
-                    <input
-                      type="text"
-                      id="code"
-                      name="code"
-                      value=""
-                      class="form-control has-feedback-left"
-                      placeholder="Tỉnh/Thành phố"
-                      onChange={(e) => setSenderProvince(e.target.value)}
-                    />
+                    <select
+                      id="province"
+                      name="province"
+                      className="form-control has-feedback-left province"
+                      value={senderProvince}
+                      onChange={(event) => {
+                        handleProvinceChange(event, "district");
+                      }}
+                    >
+                      <option value="">Chọn Tỉnh/Thành phố</option>
+                      {/* {renderData(province, "province")} */}
+                    </select>
                   </div>
                 </div>
                 <div className="has-feedback">
                   <div className="name">
-                    <label className="control-label"> HUYỆN/QUẬN</label>
+                    <label className="control-label">HUYỆN/QUẬN</label>
+                  </div>
+                  <div className="input-group">
+                    <select
+                      id="district"
+                      name="district"
+                      className="form-control has-feedback-left district"
+                      onChange={(event) => handleDistrictChange(event, "ward")}
+                    >
+                      <option value="">Chọn Huyện/Quận</option>
+                      {/* {renderData(district, "district")} */}
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div className="box">
+                <div className="has-feedback">
+                  <div className="name">
+                    <label className="control-label">XÃ/PHƯỜNG</label>
+                  </div>
+                  <div className="input-group">
+                    <select
+                      id="ward"
+                      name="ward"
+                      className="form-control has-feedback-left ward"
+                    >
+                      <option value="">Chọn Xã/Phường</option>
+                      {/* {renderData(ward, "ward")} */}
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div className="box">
+                <div className="has-feedback w100">
+                  <div className="name">
+                    <label className="control-label"> ĐỊA CHỈ CỤ THỂ</label>
                   </div>
                   <div className="input-group">
                     <input
                       type="text"
-                      id="code"
-                      name="code"
-                      value=""
-                      class="form-control has-feedback-left"
-                      placeholder="Huyện/Quận"
-                      onChange={(e) => setSenderDistrict(e.target.value)}
+                      // id="senderInformation"
+                      // name="senderInformation"
+                      // value=""
+                      className="form-control has-feedback-left"
+                      placeholder="Số nhà, xóm, thôn"
+                      // onChange={(e) => setSenderInformation(e.target.value)}
                     />
                   </div>
                 </div>
@@ -173,7 +299,7 @@ function CreateOrder() {
             </div>
           </div>
         </div>
-
+        {/* Người NHẬN */}
         <div className="pannel-create">
           <div className="title">
             <h2>
@@ -188,17 +314,16 @@ function CreateOrder() {
                 <div className="has-feedback w100">
                   <div className="name">
                     <label className="control-label">
-                      {" "}
                       THÔNG TIN NGƯỜI NHẬN
                     </label>
                   </div>
                   <div className="input-group">
                     <input
                       type="text"
-                      id="code"
-                      name="code"
-                      value=""
-                      class="form-control has-feedback-left"
+                      id="receiverInformation"
+                      name="receiverInformation"
+                      // value=""
+                      className="form-control has-feedback-left"
                       placeholder="Tên thông tin (nếu có)"
                       onChange={(e) => setReceiverInformation(e.target.value)}
                     />
@@ -217,10 +342,10 @@ function CreateOrder() {
                     </div>
                     <input
                       type="text"
-                      id="code"
-                      name="code"
-                      value=""
-                      class="form-control has-feedback-left"
+                      id="receiverName"
+                      name="receiverName"
+                      // value=""
+                      className="form-control has-feedback-left"
                       placeholder="Tên người nhận"
                       onChange={(e) => setReceiverName(e.target.value)}
                     />
@@ -236,11 +361,11 @@ function CreateOrder() {
                       <img src={Phone} alt="" />
                     </div>
                     <input
-                      type="text"
-                      id="code"
-                      name="code"
-                      value=""
-                      class="form-control has-feedback-left"
+                      type="number"
+                      id="receiverPhone"
+                      name="receiverPhone"
+                      // value=""
+                      className="form-control has-feedback-left"
                       placeholder="SĐT người nhận"
                       onChange={(e) => setReceiverPhone(e.target.value)}
                     />
@@ -251,33 +376,74 @@ function CreateOrder() {
               <div className="box">
                 <div className="has-feedback">
                   <div className="name">
-                    <label className="control-label"> TỈNH/THÀNH PHỐ</label>
+                    <label className="control-label">TỈNH/THÀNH PHỐ</label>
                   </div>
                   <div className="input-group">
-                    <input
-                      type="text"
-                      id="code"
-                      name="code"
-                      value=""
-                      class="form-control has-feedback-left"
-                      placeholder="Tỉnh/Thành phố"
-                      onChange={(e) => setReceiverProvince(e.target.value)}
-                    />
+                    <select
+                      id="provinces"
+                      name="provinces"
+                      className="form-control has-feedback-left provinces"
+                      onChange={(event) => {
+                        handleProvinceChange(event, "districts");
+                        // setSenderProvince(event.target.value);
+                      }}
+                    >
+                      <option value="">Chọn Tỉnh/Thành phố</option>
+                      {/* {renderData(province, "provinces")} */}
+                    </select>
                   </div>
                 </div>
+
                 <div className="has-feedback">
                   <div className="name">
-                    <label className="control-label"> HUYỆN/QUẬN</label>
+                    <label className="control-label">HUYỆN/QUẬN</label>
+                  </div>
+                  <div className="input-group">
+                    <select
+                      id="districts"
+                      name="districts"
+                      className="form-control has-feedback-left districts"
+                      onChange={(event) => handleDistrictChange(event, "wards")}
+                    >
+                      <option value="">Chọn Huyện/Quận</option>
+                      {/* {renderData(district, "districts")} */}
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div className="box">
+                <div className="has-feedback">
+                  <div className="name">
+                    <label className="control-label">XÃ/PHƯỜNG</label>
+                  </div>
+                  <div className="input-group">
+                    <select
+                      id="wards"
+                      name="wards"
+                      className="form-control has-feedback-left wards"
+                    >
+                      <option value="">Chọn Xã/Phường</option>
+                      {/* {renderData(ward, "wards")} */}
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div className="box">
+                <div className="has-feedback w100">
+                  <div className="name">
+                    <label className="control-label"> ĐỊA CHỈ CỤ THỂ</label>
                   </div>
                   <div className="input-group">
                     <input
                       type="text"
-                      id="code"
-                      name="code"
-                      value=""
-                      class="form-control has-feedback-left"
-                      placeholder="Huyện/Quận"
-                      onChange={(e) => setReceiverDistrict(e.target.value)}
+                      // id="senderInformation"
+                      // name="senderInformation"
+                      // value=""
+                      className="form-control has-feedback-left"
+                      placeholder="Số nhà, xóm, thôn"
+                      // onChange={(e) => setSenderInformation(e.target.value)}
                     />
                   </div>
                 </div>
@@ -307,10 +473,10 @@ function CreateOrder() {
                     <div className="input-group">
                       <input
                         type="radio"
-                        id="code"
+                        id="document"
                         name="code"
-                        value=""
-                        class="custom-control-input"
+                        // value=""
+                        className="custom-control-input"
                         placeholder=""
                       />
                       <label className="custom-control-lable">Tài liệu</label>
@@ -319,10 +485,10 @@ function CreateOrder() {
                     <div className="input-group ">
                       <input
                         type="radio"
-                        id="code"
+                        id="type"
                         name="code"
-                        value=""
-                        class="custom-control-input"
+                        // value=""
+                        className="custom-control-input"
                         placeholder=""
                       />
                       <label className="custom-control-lable">Hàng hoá</label>
@@ -339,10 +505,10 @@ function CreateOrder() {
                   <div className="input-group">
                     <input
                       type="text"
-                      id="code"
+                      id="productName"
                       name="code"
-                      value=""
-                      class="form-control has-feedback-left"
+                      // value=""
+                      className="form-control has-feedback-left"
                       placeholder="Tên sản phẩm "
                     />
                   </div>
@@ -356,11 +522,11 @@ function CreateOrder() {
                   </div>
                   <div className="input-group">
                     <input
-                      type="text"
-                      id="code"
+                      type="number"
+                      id="value"
                       name="code"
-                      value=""
-                      class="form-control has-feedback-left"
+                      // value=""
+                      className="form-control has-feedback-left"
                       placeholder="vnd "
                     />
                   </div>
@@ -372,11 +538,11 @@ function CreateOrder() {
                   </div>
                   <div className="input-group">
                     <input
-                      type="text"
-                      id="code"
+                      type="number"
+                      id="weight"
                       name="code"
-                      value=""
-                      class="form-control has-feedback-left"
+                      // value=""
+                      className="form-control has-feedback-left"
                       placeholder="gam"
                     />
                   </div>
@@ -388,11 +554,11 @@ function CreateOrder() {
                   </div>
                   <div className="input-group">
                     <input
-                      type="text"
-                      id="code"
+                      type="number"
+                      id="quantity"
                       name="code"
-                      value=""
-                      class="form-control has-feedback-left"
+                      // value=""
+                      className="form-control has-feedback-left"
                       placeholder=""
                     />
                   </div>
@@ -411,33 +577,33 @@ function CreateOrder() {
                   <div className="one-row">
                     <div className="input-group pr10">
                       <input
-                        type="text"
-                        id="code"
+                        type="number"
+                        id="length"
                         name="code"
-                        value=""
-                        class="form-control has-feedback-left"
+                        // value=""
+                        className="form-control has-feedback-left"
                         placeholder="Dài (cm)"
                       />
                     </div>
 
                     <div className="input-group pr10 pl10">
                       <input
-                        type="text"
-                        id="code"
+                        type="number"
+                        // id="code"
                         name="code"
-                        value=""
-                        class="form-control has-feedback-left"
+                        // value=""
+                        className="form-control has-feedback-left"
                         placeholder="Rộng (cm)"
                       />
                     </div>
 
                     <div className="input-group pl10">
                       <input
-                        type="text"
-                        id="code"
+                        type="number"
+                        // id="code"
                         name="code"
-                        value=""
-                        class="form-control has-feedback-left"
+                        // value=""
+                        className="form-control has-feedback-left"
                         placeholder="Cao (cm)"
                       />
                     </div>
@@ -461,7 +627,7 @@ function CreateOrder() {
                         id="checkbox-input"
                         // name="code"
                         value="HGC"
-                        class="mat-checkbox-input"
+                        className="mat-checkbox-input"
                         tabIndex={0}
                         aria-checked="false"
                       />
@@ -472,10 +638,10 @@ function CreateOrder() {
                     <div className="input-group f1">
                       <input
                         type="checkbox"
-                        id="checkbox-input"
+                        // id="checkbox-input"
                         // name="code"
                         value="HGC"
-                        class="mat-checkbox-input"
+                        className="mat-checkbox-input"
                         tabIndex={0}
                         aria-checked="false"
                       />
@@ -488,10 +654,10 @@ function CreateOrder() {
                     <div className="input-group f1">
                       <input
                         type="checkbox"
-                        id="checkbox-input"
+                        // id="checkbox-input"
                         // name="code"
                         value="HGC"
-                        class="mat-checkbox-input"
+                        className="mat-checkbox-input"
                         tabIndex={0}
                         aria-checked="false"
                       />
@@ -502,10 +668,10 @@ function CreateOrder() {
                     <div className="input-group f1">
                       <input
                         type="checkbox"
-                        id="checkbox-input"
+                        // id="checkbox-input"
                         // name="code"
                         value="HGC"
-                        class="mat-checkbox-input"
+                        className="mat-checkbox-input"
                         tabIndex={0}
                         aria-checked="false"
                       />
@@ -518,10 +684,10 @@ function CreateOrder() {
                     <div className="input-group f1">
                       <input
                         type="checkbox"
-                        id="checkbox-input"
+                        // id="checkbox-input"
                         // name="code"
                         value="HGC"
-                        class="mat-checkbox-input"
+                        className="mat-checkbox-input"
                         tabIndex={0}
                         aria-checked="false"
                       />
@@ -532,10 +698,10 @@ function CreateOrder() {
                     <div className="input-group f1">
                       <input
                         type="checkbox"
-                        id="checkbox-input"
+                        // id="checkbox-input"
                         // name="code"
                         value="HGC"
-                        class="mat-checkbox-input"
+                        className="mat-checkbox-input"
                         tabIndex={0}
                         aria-checked="false"
                       />
@@ -548,9 +714,7 @@ function CreateOrder() {
             </div>
           </div>
         </div>
-      </div>
 
-      <div className="main-create">
         <div className="pannel-create">
           <div className="title">
             <h2>
@@ -568,10 +732,10 @@ function CreateOrder() {
                   <div className="input-group">
                     <input
                       type="checkbox"
-                      id="checkbox-input"
+                      // id="checkbox-input"
                       // name="code"
                       value="HGC"
-                      class="mat-checkbox-input"
+                      className="mat-checkbox-input"
                       tabIndex={0}
                       aria-checked="false"
                     />
@@ -586,7 +750,7 @@ function CreateOrder() {
                       id="cod"
                       maxLength={11}
                       // formcontrolname="cod"
-                      class="form-control has-feedback-left"
+                      className="form-control has-feedback-left"
                       placeholder="0đ"
                     />
                   </div>
@@ -602,10 +766,10 @@ function CreateOrder() {
                     <div className="input-group">
                       <input
                         type="radio"
-                        id="code"
+                        // id="code"
                         name="code"
                         value=""
-                        class="custom-control-input"
+                        className="custom-control-input"
                         placeholder=""
                       />
                       <label className="custom-control-lable">Người gửi</label>
@@ -614,10 +778,10 @@ function CreateOrder() {
                     <div className="input-group ">
                       <input
                         type="radio"
-                        id="code"
+                        // id="code"
                         name="code"
                         value=""
-                        class="custom-control-input"
+                        className="custom-control-input"
                         placeholder=""
                       />
                       <label className="custom-control-lable">Người nhận</label>
@@ -637,7 +801,7 @@ function CreateOrder() {
                       id="code"
                       name="code"
                       value=""
-                      class="form-control has-feedback-left h100"
+                      className="form-control has-feedback-left h100"
                       placeholder=""
                     /> */}
                     <textarea
@@ -657,10 +821,10 @@ function CreateOrder() {
                     <div className="input-group">
                       <input
                         type="radio"
-                        id="code"
+                        // id="code"
                         name="code"
                         value=""
-                        class="custom-control-input"
+                        className="custom-control-input"
                         placeholder=""
                       />
                       <label className="custom-control-lable">
@@ -671,10 +835,10 @@ function CreateOrder() {
                     <div className="input-group ">
                       <input
                         type="radio"
-                        id="code"
+                        // id="code"
                         name="code"
                         value=""
-                        class="custom-control-input"
+                        className="custom-control-input"
                         placeholder=""
                       />
                       <label className="custom-control-lable">
@@ -690,10 +854,10 @@ function CreateOrder() {
                   <div className="input-group">
                     <input
                       type="checkbox"
-                      id="checkbox-input"
+                      // id="checkbox-input"
                       // name="code"
                       value="HGC"
-                      class="mat-checkbox-input"
+                      className="mat-checkbox-input"
                       tabIndex={0}
                       aria-checked="false"
                     />
@@ -705,15 +869,19 @@ function CreateOrder() {
                 </div>
               </div>
 
+              {/* {showSuccess && (
+                <div className="success-message" style={{ color: "green" }}>
+                  Đã tạo đơn hàng thành công!
+                </div>
+              )} */}
               <div className="text-center">
                 <div className="btn-search">
                   <button
                     type="submit"
-                    class="btn"
+                    className="btn"
                     onClick={handleCreatePostalItems}
                   >
-                    <i class="fa fa-search"></i>
-                    <p>TẠO BƯU GỬI</p>
+                    TẠO BƯU GỬI
                   </button>
                 </div>
               </div>
@@ -724,5 +892,3 @@ function CreateOrder() {
     </div>
   );
 }
-
-export default CreateOrder;
