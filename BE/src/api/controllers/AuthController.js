@@ -7,7 +7,7 @@ const userSchema = new mongoose.Schema({
   username: String,
   password: String,
   name: String,
-  age: Number,
+  birth: Number,
   email: String,
   sđt: String,
   address: String,
@@ -62,7 +62,7 @@ export const register = async (req, res) => {
       password: await bcrypt.hash(req.body.password, 10),
       // Thêm các trường dữ liệu khác nếu cần
       name: req.body.name,
-      age: req.body.age,
+      birth: req.body.birth,
       email: req.body.email,
       sđt: req.body.sđt,
       address: req.body.address,
@@ -99,6 +99,6 @@ export const getAllAccounts = async (req, res) => {
     const users = await User.find();
     res.json(users).status(200);
   } catch (error) {
-    res.json({ message: error.message }).status(500);
+    res.json({ messbirth: error.messbirth }).status(500);
   }
 };

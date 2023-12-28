@@ -19,6 +19,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 //import Logo from "../../assets/images/logo.png";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
+import Cookies from 'js-cookie';
 
 function Copyright(props) {
   return (
@@ -53,6 +54,7 @@ export default function Login() {
       .then((result) => {
         // console.log(result);
         if (result.status === 200) {
+          Cookies.set('userData', JSON.stringify(result.data), { expires: 500 });
           if (
             signIn({
               token: result.data.token,
