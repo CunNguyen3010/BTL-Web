@@ -1,19 +1,8 @@
-import React, { useState } from "react";
-import {
-  Button,
-  TextField,
-  Box,
-  Typography,
-  Select,
-  MenuItem,
-} from "@mui/material";
+import React, { useState, useEffect } from "react";
+import { Button, TextField, Box, Typography } from "@mui/material";
 import axios from "axios";
-
+import "../../../style/transactionStaff/ShippingOrder.css";
 export default function ShippingOrder() {
-  // const [idOrder, setIdOrder] = useState("");
-  // const [idOrder,setIdOrder] = useState("")
-  // const [idOrder,setIdOrder] = useState("")
-
   const [values, setValues] = useState({
     idOrder: "",
     gatherPlace: "",
@@ -25,10 +14,11 @@ export default function ShippingOrder() {
   };
 
   // let gatherPlace = {};
+
   function renderGatherPlace(array, select) {
-    let row = ' <MenuItem disable value="">Chọn</MenuItem>';
+    let row = '<option value="">Chọn điểm tập kết</option>';
     array.forEach((element) => {
-      row += `<MenuItem >${element.id_workplace}</MenuItem>`;
+      row += `<option value="${element.id_workplace}">${element.id_workplace}</option>`;
     });
     const selectElement = document.querySelector("#" + select);
     if (selectElement) {
@@ -37,6 +27,7 @@ export default function ShippingOrder() {
       console.error("Element with id '" + select + "' not found.");
     }
   }
+
   async function getGatherPlace() {
     try {
       let data = await axios.get("http://localhost:3001/auth");
@@ -46,13 +37,29 @@ export default function ShippingOrder() {
       console.log(e);
     }
   }
-  getGatherPlace();
-
+  useEffect(() => {
+    getGatherPlace();
+  }, []);
   const handleSubmit = (event) => {
     event.preventDefault();
     // handle form submission logic here
   };
 
+  // const handleSubmitOrder = async () => {
+  //   try {
+  //     const respone = await fetch("http://localhost:3001/information/", {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({
+
+  //       }),
+
+  //   }) catch (error) {
+  //     console.log(error);
+  //   }
+  // }}
   return (
     <Box
       sx={{
@@ -96,26 +103,21 @@ export default function ShippingOrder() {
                 width="50%"
                 required
                 label="Mã bưu gửi"
-                value={values.idOrder}
                 onChange={handleChange("idOrder")}
                 margin="normal"
               />
 
-              <Select
+              <select
                 id="gatherPlace"
                 width="50%"
                 label="Điểm tập kết"
-                // value={values.gatherPlace}
                 onChange={handleChange("gatherPlace")}
                 margin="normal"
-              >
-                <MenuItem value="">Chọn Điểm tập kết</MenuItem>
-              </Select>
+              ></select>
               <TextField
                 id="note"
                 width="50%"
                 label="Ghi chú"
-                value={values.note}
                 onChange={handleChange("note")}
                 margin="normal"
               />

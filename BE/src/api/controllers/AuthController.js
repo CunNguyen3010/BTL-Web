@@ -7,7 +7,7 @@ const userSchema = new mongoose.Schema({
   username: String,
   password: String,
   name: String,
-  age: Number,
+  birth: Number,
   email: String,
   sđt: String,
   address: String,
@@ -36,12 +36,8 @@ export const login = async (req, res) => {
     }
 
     // Generate and send a JWT token
-    const token = jwt.sign(
-      { username: user.username },
-      process.env.JWT_SECRET,
-      { expiresIn: "7d" }
-    );
-    return res.status(200).json({ user: user, token });
+    const token = jwt.sign({ username: user.username }, process.env.JWT_SECRET, { expiresIn: '7d' });
+    return res.status(200).json({ user, token });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ err: "Internal server error" });
@@ -66,7 +62,7 @@ export const register = async (req, res) => {
       password: await bcrypt.hash(req.body.password, 10),
       // Thêm các trường dữ liệu khác nếu cần
       name: req.body.name,
-      age: req.body.age,
+      birth: req.body.birth,
       email: req.body.email,
       sđt: req.body.sđt,
       address: req.body.address,
@@ -86,10 +82,11 @@ export const register = async (req, res) => {
         }
         const responseData = {
           username: req.body.username,
-          token: token,
+          password: req.body.password,
         };
         return res.status(200).json(responseData);
       }
+      
     );
   } catch (error) {
     console.error(error);
@@ -102,6 +99,6 @@ export const getAllAccounts = async (req, res) => {
     const users = await User.find();
     res.json(users).status(200);
   } catch (error) {
-    res.json({ message: error.message }).status(500);
+    res.json({ messbirth: error.messbirth }).status(500);
   }
 };

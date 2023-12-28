@@ -1,4 +1,3 @@
-import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import User from "../../../assets/icon/user-solid.svg";
 import Phone from "../../../assets/icon/phone-solid.svg";
@@ -14,7 +13,6 @@ export default function CreateOrder() {
   const [senderDistrict, setSenderDistrict] = useState("");
   const [senderWard, setSenderWard] = useState("");
   const [senderAddress, setSenderAddress] = useState("");
-
   // Người nhận
   const [receiverInformation, setReceiverInformation] = useState("");
   const [receiverName, setReceiverName] = useState("");
@@ -58,11 +56,30 @@ export default function CreateOrder() {
       const data = await response.json();
       console.log("Response từ backend:", data);
 
+      let btn = document.getElementById("noti");
+      let p = document.createElement("p");
+      let notification = document.createTextNode("Tạo đơn thành công");
+      p.appendChild(notification);
+      p.style.backgroundColor = "#1565C0";
+      p.style.padding = "10px";
+      p.style.color = "white";
+      btn.appendChild(p);
       // Thực hiện các hành động khác sau khi gửi thành công
     } catch (error) {
       console.error("Lỗi khi gửi yêu cầu:", error);
     }
   };
+
+  // const api = "https://provinces.open-api.vn/api/";
+  let callAPI = async (api) => {
+    return axios.get(api).then((response) => {
+      renderData(response.data, "province");
+      renderData(response.data, "provinces");
+    });
+  };
+  useEffect(() => {
+    callAPI("https://provinces.open-api.vn/api/?depth=1");
+  }, []);
 
   let renderData = (array, select) => {
     let row = ' <option disable value="">Chọn</option>';
@@ -77,13 +94,6 @@ export default function CreateOrder() {
       console.error("Element with id '" + select + "' not found.");
     }
   };
-  let callAPI = async (api) => {
-    return axios.get(api).then((response) => {
-      renderData(response.data, "province");
-      renderData(response.data, "provinces");
-    });
-  };
-  callAPI("https://provinces.open-api.vn/api/?depth=1");
 
   const handleProvinceChange = async (e, className) => {
     const selectedProvinceName = e.target.value;
@@ -220,11 +230,13 @@ export default function CreateOrder() {
                       id="province"
                       name="province"
                       className="form-control has-feedback-left province"
+                      // value={senderProvince}
                       onChange={(event) => {
+                        setSenderProvince(event.target.value);
                         handleProvinceChange(event, "district");
                       }}
                     >
-                      <option value="">Chọn Tỉnh/Thành phố</option>
+                      <option value="abc">Chọn Tỉnh/Thành phố</option>
                     </select>
                   </div>
                 </div>
@@ -237,10 +249,12 @@ export default function CreateOrder() {
                       id="district"
                       name="district"
                       className="form-control has-feedback-left district"
-                      onChange={(event) => handleDistrictChange(event, "ward")}
+                      onChange={(event) => {
+                        setSenderDistrict(event.target.value);
+                        handleDistrictChange(event, "ward");
+                      }}
                     >
                       <option value="">Chọn Huyện/Quận</option>
-                      {/* {renderData(district, "district")} */}
                     </select>
                   </div>
                 </div>
@@ -256,9 +270,9 @@ export default function CreateOrder() {
                       id="ward"
                       name="ward"
                       className="form-control has-feedback-left ward"
+                      onchange={(event) => setSenderWard(event.target.value)}
                     >
                       <option value="">Chọn Xã/Phường</option>
-                      {/* {renderData(ward, "ward")} */}
                     </select>
                   </div>
                 </div>
@@ -272,7 +286,7 @@ export default function CreateOrder() {
                   <div className="input-group">
                     <input
                       type="text"
-                      // id="senderInformation"
+                      id="senderAddress"
                       // name="senderInformation"
                       // value=""
                       className="form-control has-feedback-left"
@@ -370,11 +384,11 @@ export default function CreateOrder() {
                       name="provinces"
                       className="form-control has-feedback-left provinces"
                       onChange={(event) => {
+                        setReceiverProvince(event.target.value);
                         handleProvinceChange(event, "districts");
                       }}
                     >
                       <option value="">Chọn Tỉnh/Thành phố</option>
-                      {/* {renderData(province, "provinces")} */}
                     </select>
                   </div>
                 </div>
@@ -388,10 +402,12 @@ export default function CreateOrder() {
                       id="districts"
                       name="districts"
                       className="form-control has-feedback-left districts"
-                      onChange={(event) => handleDistrictChange(event, "wards")}
+                      onChange={(event) => {
+                        setReceiverDistrict(event.target.value);
+                        handleDistrictChange(event, "wards");
+                      }}
                     >
                       <option value="">Chọn Huyện/Quận</option>
-                      {/* {renderData(district, "districts")} */}
                     </select>
                   </div>
                 </div>
@@ -407,9 +423,9 @@ export default function CreateOrder() {
                       id="wards"
                       name="wards"
                       className="form-control has-feedback-left wards"
+                      onChange={(event) => setReceiverWard(event.target.value)}
                     >
                       <option value="">Chọn Xã/Phường</option>
-                      {/* {renderData(ward, "wards")} */}
                     </select>
                   </div>
                 </div>
@@ -423,12 +439,10 @@ export default function CreateOrder() {
                   <div className="input-group">
                     <input
                       type="text"
-                      // id="senderInformation"
-                      // name="senderInformation"
-                      // value=""
+                      id="receiverAddress"
                       className="form-control has-feedback-left"
                       placeholder="Số nhà, xóm, thôn"
-                      // onChange={(e) => setSenderInformation(e.target.value)}
+                      onChange={(e) => setReceiverAddress(e.target.value)}
                     />
                   </div>
                 </div>
@@ -574,7 +588,7 @@ export default function CreateOrder() {
                     <div className="input-group pr10 pl10">
                       <input
                         type="number"
-                        // id="code"
+                        id="width"
                         name="code"
                         // value=""
                         className="form-control has-feedback-left"
@@ -585,7 +599,7 @@ export default function CreateOrder() {
                     <div className="input-group pl10">
                       <input
                         type="number"
-                        // id="code"
+                        id="height"
                         name="code"
                         // value=""
                         className="form-control has-feedback-left"
@@ -609,8 +623,8 @@ export default function CreateOrder() {
                     <div className="input-group f1">
                       <input
                         type="checkbox"
-                        id="checkbox-input"
-                        // name="code"
+                        id="highValue"
+                        // name="heightValue"
                         value="HGC"
                         className="mat-checkbox-input"
                         tabIndex={0}
@@ -623,7 +637,7 @@ export default function CreateOrder() {
                     <div className="input-group f1">
                       <input
                         type="checkbox"
-                        // id="checkbox-input"
+                        id="fragile"
                         // name="code"
                         value="HGC"
                         className="mat-checkbox-input"
@@ -639,7 +653,7 @@ export default function CreateOrder() {
                     <div className="input-group f1">
                       <input
                         type="checkbox"
-                        // id="checkbox-input"
+                        id="entireBlock"
                         // name="code"
                         value="HGC"
                         className="mat-checkbox-input"
@@ -653,7 +667,7 @@ export default function CreateOrder() {
                     <div className="input-group f1">
                       <input
                         type="checkbox"
-                        // id="checkbox-input"
+                        id="bulky"
                         // name="code"
                         value="HGC"
                         className="mat-checkbox-input"
@@ -669,7 +683,7 @@ export default function CreateOrder() {
                     <div className="input-group f1">
                       <input
                         type="checkbox"
-                        // id="checkbox-input"
+                        id="liquid"
                         // name="code"
                         value="HGC"
                         className="mat-checkbox-input"
@@ -683,7 +697,7 @@ export default function CreateOrder() {
                     <div className="input-group f1">
                       <input
                         type="checkbox"
-                        // id="checkbox-input"
+                        id="coldGoods"
                         // name="code"
                         value="HGC"
                         className="mat-checkbox-input"
@@ -732,7 +746,7 @@ export default function CreateOrder() {
                   <div className="input-group">
                     <input
                       type="number"
-                      id="cod"
+                      // id="cod"
                       maxLength={11}
                       // formcontrolname="cod"
                       className="form-control has-feedback-left"
@@ -781,14 +795,6 @@ export default function CreateOrder() {
                     <label className="control-label"> Ghi chú</label>
                   </div>
                   <div className="input-group ">
-                    {/* <input
-                      type="text"
-                      id="code"
-                      name="code"
-                      value=""
-                      className="form-control has-feedback-left h100"
-                      placeholder=""
-                    /> */}
                     <textarea
                       className="form-control "
                       placeholder="Nhập ghi chú"
@@ -873,6 +879,7 @@ export default function CreateOrder() {
             </div>
           </div>
         </div>
+        <div id="noti"></div>
       </div>
     </div>
   );

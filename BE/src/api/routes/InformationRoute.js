@@ -11,17 +11,14 @@ import {
 const informationRoute = Router();
 
 // CRUD
-informationRoute.get("/", getAllInformations);
-informationRoute.get("/search", searchInformation);
+informationRoute.get("/", getAllInformations); // lấy toàn bộ đơn hàng
+informationRoute.get("/search", searchInformation); // lấy theo bộ lọc
 
-// GET_READ
-// informationRoute.get("/:id", getInformation);
-// informationRoute.get("/user/:name", checkToken, getUserInformation);
 // POST_CREATE
-informationRoute.post("/", createInformation);
+informationRoute.post("/", createInformation); // tạo đơn hàng
 // PUT_UPDATE
-informationRoute.put("/:id", updateInformation);
+informationRoute.put("/", updateInformation); // update đơn hàng
 // DELETE_DELETE
-informationRoute.delete("/:id", deleteInformation);
+informationRoute.delete("/", deleteInformation); // xóa đơn hàng
 
 export default informationRoute;
