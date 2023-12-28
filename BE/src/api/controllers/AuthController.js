@@ -36,7 +36,7 @@ export const login = async (req, res) => {
 
     // Generate and send a JWT token
     const token = jwt.sign({ username: user.username }, process.env.JWT_SECRET, { expiresIn: '7d' });
-    return res.status(200).json({ username: user.username, token });
+    return res.status(200).json({ user, token });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ err: 'Internal server error' });
@@ -77,7 +77,7 @@ export const register = async (req, res) => {
       }
       const responseData = {
         username: req.body.username,
-        token: token,
+        password: req.body.password,
       };
       return res.status(200).json(responseData);
     });
