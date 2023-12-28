@@ -6,21 +6,21 @@ export default function AccountManagement() {
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
+  const [position, setPosition] = useState("");
   const [id_workplace, setID_workplace] = useState("");
-  const [address, setAddress] = useState("");
 
   const handleSearch = (event) => {
     event.preventDefault();
 
     // Xử lý logic khi người dùng tìm kiếm nếu không có lỗi
-    if (useName && password && name && phone && id_workplace && address) {
+    if (useName && password && name && phone && id_workplace && position) {
       console.log("Search data:", {
         useName,
         password,
         name,
         phone,
         id_workplace,
-        address,
+        position,
       });
 
       // Reset form sau khi tìm kiếm thành công
@@ -29,13 +29,13 @@ export default function AccountManagement() {
       setName("");
       setPhone("");
       setID_workplace("");
-      setAddress("");
+      setPosition("");
     }
   };
 
   return (
     <div className="registration-form-container">
-      <form onSubmit={handleSearch} className="registration-form w100">
+      <form onSubmit={handleSearch} className="registration-form w100 h270">
         <div className="one-row box">
           <div className="form-group has-feedback">
             <label htmlFor="name">Họ và tên:</label>
@@ -85,12 +85,12 @@ export default function AccountManagement() {
             />
           </div>
           <div className="form-group has-feedback">
-            <label htmlFor="id_workplace">Chức vụ:</label>
+            <label htmlFor="position">Chức vụ:</label>
             <select
               id="position"
-              value={id_workplace}
+              value={position}
               onChange={(e) => {
-                setID_workplace(e.target.value);
+                setPosition(e.target.value);
               }}
             >
               <option value="Trưởng điểm giao dịch">

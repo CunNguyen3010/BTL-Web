@@ -16,30 +16,7 @@ export default function Confirm() {
   const [selectedItem, setSelectedItem] = useState(null);
   const [successMessage, setSuccessMessage] = useState("");
 
-  const data = [
-    // Dữ liệu của bạn
-    // {
-    //   column1: 1,
-    //   column2: "ABC123",
-    //   column3: "Nơi gửi 1",
-    //   column4: "Nơi nhận 1",
-    //   column5: "Túi",
-    //   column6: "10.000",
-    //   column7: "2.000.000",
-    //   // Các trường dữ liệu khác
-    // },
-    // {
-    //   column1: 2,
-    //   column2: "XYZ456",
-    //   column3: "Nơi gửi 2",
-    //   column4: "Nơi nhận 2",
-    //   column5: "Balo",
-    //   column6: "10.000",
-    //   column7: "20.000",
-    //   // Các trường dữ liệu khác
-    // },
-    // Thêm các đối tượng dữ liệu khác
-  ];
+  const data = [];
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
@@ -52,6 +29,7 @@ export default function Confirm() {
     setSelectedItem(item);
     setSuccessMessage(`Đã xác nhận đơn hàng ${item.column2}`);
   };
+
   const handleSearch = (event) => {
     event.preventDefault();
 
@@ -59,26 +37,16 @@ export default function Confirm() {
     if (!orderCode) {
       setOrderCodeError("Vui lòng nhập mã đơn hàng!");
     }
-    if (!employeeCode) {
-      setEmployeeCodeError("Vui lòng nhập mã nhân viên!");
-    }
-    if (!date) {
-      setDateError("Vui lòng chọn ngày!");
-    }
 
     // Xử lý logic khi người dùng tìm kiếm nếu không có lỗi
-    if (orderCode && employeeCode && date) {
+    if (orderCode) {
       console.log("Search data:", {
         orderCode,
-        employeeCode,
-        date,
         status,
       });
 
       // Reset form sau khi tìm kiếm thành công
       setOrderCode("");
-      setEmployeeCode("");
-      setDate("");
       setStatus("");
       // setShowTable(true);
     }
@@ -106,41 +74,7 @@ export default function Confirm() {
               <p className="error-message">{orderCodeError}</p>
             )}
           </div>
-          <div className="form-group has-feedback">
-            <label htmlFor="employeeCode">
-              <span className="required-field">*</span> Mã nhân viên:
-            </label>
-            <input
-              type="text"
-              id="employeeCode"
-              value={employeeCode}
-              onChange={(e) => {
-                setEmployeeCode(e.target.value);
-                setEmployeeCodeError("");
-              }}
-              className={employeeCodeError ? "error-input" : ""}
-            />
-            {employeeCodeError && (
-              <p className="error-message">{employeeCodeError}</p>
-            )}
-          </div>
 
-          <div className="form-group has-feedback">
-            <label htmlFor="date">
-              <span className="required-field">*</span> Ngày:
-            </label>
-            <input
-              type="date"
-              id="date"
-              value={date}
-              onChange={(e) => {
-                setDate(e.target.value);
-                setDateError("");
-              }}
-              className={dateError ? "error-input" : ""}
-            />
-            {dateError && <p className="error-message">{dateError}</p>}
-          </div>
           <div className="form-group has-feedback">
             <label htmlFor="status">
               <span className="required-field">*</span> Trạng thái:
@@ -199,6 +133,8 @@ export default function Confirm() {
                           <td>{item.column5}</td>
                           <td>{item.column6}</td>
                           <td>{item.column7}</td>
+                          <td>{item.column8}</td>
+                          <td>{item.column9}</td>
                           {/* Hiển thị các cột dữ liệu khác */}
                           <td>
                             <button
@@ -238,42 +174,6 @@ export default function Confirm() {
           </div>
         </div>
       </div>
-      {/* <div class="row">
-        <div class="x_panel no-pd">
-          <div class="x_content no-pd no-mg">
-            <div class="col-md-12 col-sm-12 col-xs-12">
-              <div class="x_content">
-                <table class="table table-hover table-condensed table-striped text-info">
-                  <thead>
-                    <tr>
-                      <th>STT</th>
-                      <th>
-                        <i class="fa fa-barcode"></i> Mã đơn hàng
-                      </th>
-                      <th>Trạng thái</th>
-                      <th>Nơi gửi</th>
-                      <th>Nơi nhận</th>
-                      <th>Sản phẩm</th>
-                      <th>Phí</th>
-                      <th>Tiền thu hộ</th>
-                      <th></th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td colspan="30" class="text-center">
-                        Không có dữ liệu
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-                <div class="clearfix"></div>
-                <div class="pull-right"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div> */}
     </div>
   );
 }
