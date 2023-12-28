@@ -113,7 +113,7 @@ export default function Menu() {
     { name: "Tạo tài khoản", Icon: IoCreate },
     { name: "Thống kê", Icon: ImStatsBars },
   ];
-  const gatheringStaffMenu = [{ name: "xác nhận đơn hàng", Icon: ImStatsBars }];
+  const gatheringStaffMenu = [{ name: "xác nhận đơn hàng", Icon: GiConfirmed }];
   const gatheringAdminMenu = [];
   const adminMenu = [
     { name: "Quản lí tài khoản", Icon: MdManageAccounts },
