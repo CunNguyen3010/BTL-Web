@@ -1,15 +1,60 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Box, Button, Container, TextField, Typography } from "@mui/material";
+import Cookies from 'js-cookie';
 
 export default function CreateAccountGatheringAdmin() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
+  const [email, setEmail] = useState(""); // Thêm state cho email
   const [phone, setPhone] = useState("");
   const [birth, setBirth] = useState("");
-  const handleSubmit = (e) => {
+  const [address, setAddress] = useState(""); // Thêm state cho address
+  const [id_workplace, setIDWorkplace] = useState(""); // Thêm state cho id_workplace
+
+  useEffect(() => {
+    // Lấy giá trị từ cookie khi component được mount
+    const userDataFromCookie = Cookies.get('userData');
+    if (userDataFromCookie) {
+      const userData = JSON.parse(userDataFromCookie);
+      // console.log(userData)
+      setIDWorkplace(userData.user.id_workplace || ""); // Sử dụng giá trị mặc định hoặc giá trị từ userData
+    }
+  }, []); // Chạy chỉ một lần khi component mount
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Grant account to teller", username);
+
+    try {
+      const response = await fetch("http://localhost:3001/auth/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username,
+          password,
+          name,
+          email,
+          phone,
+          birth,
+          address,
+          role: "gatheringStaff", // Đặt giá trị mặc định cho role
+          id_workplace,
+        }),
+      });
+
+      if (response.ok) {
+        console.log(response);
+        alert("Tạo thành công")
+        // Thêm logic xử lý khi đăng ký thành công
+      } else {
+        console.error("Failed to grant account to teller");
+        alert("Tạo thất bại")
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
 
   return (
@@ -57,6 +102,14 @@ export default function CreateAccountGatheringAdmin() {
           fullWidth
           required
           margin="normal"
+          label="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <TextField
+          fullWidth
+          required
+          margin="normal"
           label="Số điện thoại"
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
@@ -69,6 +122,16 @@ export default function CreateAccountGatheringAdmin() {
           value={birth}
           onChange={(e) => setBirth(e.target.value)}
         />
+        <TextField
+          fullWidth
+          required
+          margin="normal"
+          label="Địa chỉ"
+          value={address}
+          onChange={(e) => setAddress(e.target.value)}
+        />
+        
+
         <Button
           type="submit"
           fullWidth
@@ -78,6 +141,7 @@ export default function CreateAccountGatheringAdmin() {
         >
           Tạo tài khoản
         </Button>
+        
       </Box>
     </Container>
   );

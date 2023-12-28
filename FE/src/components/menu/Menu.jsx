@@ -46,6 +46,7 @@ import StatisticsTranAdmin from "../functions/transactionAdmin/StatisticsTranAdm
 
 //GatheringAdmin
 import CreateAccountGatheringAdmin from "../functions/gatheringAdmin/CreateAccountGatheringAdmin";
+import StatisticsGatheringAdmin from "../functions/gatheringAdmin/StatisticsGatheringAdmin";
 const drawerWidth = 240;
 
 const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
@@ -114,7 +115,10 @@ export default function Menu() {
     { name: "Thống kê", Icon: ImStatsBars },
   ];
   const gatheringStaffMenu = [{ name: "xác nhận đơn hàng", Icon: ImStatsBars }];
-  const gatheringAdminMenu = [];
+  const gatheringAdminMenu = [
+    { name: "Tạo tài khoản", Icon: IoCreate },
+    { name: "Thống kê", Icon: IoCreate },
+  ];
   const adminMenu = [
     { name: "Quản lí tài khoản", Icon: MdManageAccounts },
     { name: "Tạo tài khoản", Icon: IoCreate },
@@ -126,9 +130,9 @@ export default function Menu() {
       ? transactionStaffMenu
       : role === "transactionAdmin"
       ? transactionAdminMenu
-      : role === "gartheringStaff"
+      : role === "gatheringStaff"
       ? gatheringStaffMenu
-      : role === "gartheringAdmin"
+      : role === "gatheringAdmin"
       ? gatheringAdminMenu
       : role === "admin"
       ? adminMenu
@@ -276,13 +280,13 @@ export default function Menu() {
             {tab === 1 ? <StatisticsTranAdmin /> : null}
           </>
         )}
-        {role === "gartheringAdmin" && (
+        {role === "gatheringAdmin" && (
           <>
             {tab === 0 ? <CreateAccountGatheringAdmin /> : null}
-            {tab === 1 ? <StatisticsTranAdmin /> : null}
+            {tab === 1 ? <StatisticsGatheringAdmin /> : null}
           </>
         )}
-        {role === "gartheringStaff" && (
+        {role === "gatheringStaff" && (
           <>{tab === 0 ? <ConfirmGathering /> : null}</>
         )}
       </Main>
