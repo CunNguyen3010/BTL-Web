@@ -102,13 +102,13 @@ export const createInformation = async (req, res) => {
 };
 
 export const updateInformation = async (req, res) => {
-  const { id, sender, receiver, postalInformation } = req.body;
+  const { _id, sender, receiver, postalInformation } = req.body;
 
-  if (!id) return res.json({ message: "ID is required" }).status(400);
+  if (!_id) return res.json({ message: "ID is required" }).status(400);
 
   try {
     const updatedInformation = await Information.findByIdAndUpdate(
-      id,
+      _id,
       { sender, receiver, postalInformation },
       { new: true }
     );
