@@ -80,7 +80,10 @@ export default function CreateOrder() {
       renderData(response.data, "provinces");
     });
   };
-  callAPI("https://provinces.open-api.vn/api/?depth=1");
+  useEffect(() => {
+    callAPI("https://provinces.open-api.vn/api/?depth=1");
+  },[])
+  
 
   let renderData = (array, select) => {
     let row = ' <option disable value="">Chọn</option>';
@@ -232,13 +235,15 @@ export default function CreateOrder() {
                       id="province"
                       name="province"
                       className="form-control has-feedback-left province"
-                      value={senderProvince}
+                      // value={senderProvince}
                       onChange={(event) => {
+                        alert(event.target.value);
+                        // alert(senderProvince)
+                        setSenderProvince(event.target.value);               
                         handleProvinceChange(event, "district");
                       }}
                     >
-                      <option value="">Chọn Tỉnh/Thành phố</option>
-                      {/* {renderData(province, "province")} */}
+                      <option value="abc">Chọn Tỉnh/Thành phố</option>
                     </select>
                   </div>
                 </div>
@@ -384,7 +389,7 @@ export default function CreateOrder() {
                       name="provinces"
                       className="form-control has-feedback-left provinces"
                       onChange={(event) => {
-                        handleProvinceChange(event, "districts");
+                        // handleProvinceChange(event, "districts");
                         // setSenderProvince(event.target.value);
                       }}
                     >
