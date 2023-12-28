@@ -1,17 +1,52 @@
 import React, { useState } from "react";
-import { Button, TextField, Box, Typography } from "@mui/material";
+import {
+  Button,
+  TextField,
+  Box,
+  Typography,
+  Select,
+  MenuItem,
+} from "@mui/material";
+import axios from "axios";
 
 export default function ShippingOrder() {
-  const [values, setValues] = useState({
-    employeeId: "",
-    cashBonus: "",
-    endOfYearBonus: "",
-    transactionComment: "",
-  });
+  // const [idOrder, setIdOrder] = useState("");
+  // const [idOrder,setIdOrder] = useState("")
+  // const [idOrder,setIdOrder] = useState("")
 
+  const [values, setValues] = useState({
+    idOrder: "",
+    gatherPlace: "",
+    note: "",
+  });
+  console.log(values);
   const handleChange = (prop) => (event) => {
     setValues({ ...values, [prop]: event.target.value });
   };
+
+  // let gatherPlace = {};
+  function renderGatherPlace(array, select) {
+    let row = ' <MenuItem disable value="">Chọn</MenuItem>';
+    array.forEach((element) => {
+      row += `<MenuItem >${element.id_workplace}</MenuItem>`;
+    });
+    const selectElement = document.querySelector("#" + select);
+    if (selectElement) {
+      selectElement.innerHTML = row;
+    } else {
+      console.error("Element with id '" + select + "' not found.");
+    }
+  }
+  async function getGatherPlace() {
+    try {
+      let data = await axios.get("http://localhost:3001/auth");
+      let gatherPlace = data.data;
+      renderGatherPlace(gatherPlace, "gatherPlace");
+    } catch (e) {
+      console.log(e);
+    }
+  }
+  getGatherPlace();
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -57,34 +92,31 @@ export default function ShippingOrder() {
               }}
             >
               <TextField
-                width="50%"
-                required
-                label="Mã nhân viên"
-                value={values.employeeId}
-                onChange={handleChange("employeeId")}
-                margin="normal"
-              />
-              <TextField
+                id="idOrder"
                 width="50%"
                 required
                 label="Mã bưu gửi"
-                value={values.cashBonus}
-                onChange={handleChange("cashBonus")}
+                value={values.idOrder}
+                onChange={handleChange("idOrder")}
                 margin="normal"
               />
-              <TextField
+
+              <Select
+                id="gatherPlace"
                 width="50%"
-                required
                 label="Điểm tập kết"
-                value={values.endOfYearBonus}
-                onChange={handleChange("endOfYearBonus")}
+                // value={values.gatherPlace}
+                onChange={handleChange("gatherPlace")}
                 margin="normal"
-              />
+              >
+                <MenuItem value="">Chọn Điểm tập kết</MenuItem>
+              </Select>
               <TextField
+                id="note"
                 width="50%"
                 label="Ghi chú"
-                value={values.transactionComment}
-                onChange={handleChange("transactionComment")}
+                value={values.note}
+                onChange={handleChange("note")}
                 margin="normal"
               />
             </Box>

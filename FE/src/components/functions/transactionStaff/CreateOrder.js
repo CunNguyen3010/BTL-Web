@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import User from "../../../assets/icon/user-solid.svg";
 import Phone from "../../../assets/icon/phone-solid.svg";
 import "../../../style/transactionStaff/CreateOrder.css";
-// import "../../../style/transactionStaff/CreateOrder2.css";
 
 import axios from "axios";
 export default function CreateOrder() {
@@ -26,9 +25,6 @@ export default function CreateOrder() {
   const [receiverAddress, setReceiverAddress] = useState("");
 
   // const [showSuccess, setShowSuccess] = useState(false);
-  const [province, setProvince] = useState([]);
-  const [district, setDistrict] = useState([]);
-  const [ward, setWard] = useState([]);
 
   const handleCreatePostalItems = async () => {
     try {
@@ -59,8 +55,6 @@ export default function CreateOrder() {
           },
         }),
       });
-
-      // Xử lý response từ backend (nếu cần)
       const data = await response.json();
       console.log("Response từ backend:", data);
 
@@ -68,19 +62,7 @@ export default function CreateOrder() {
     } catch (error) {
       console.error("Lỗi khi gửi yêu cầu:", error);
     }
-
-    // Hiển thị thông báo thành công
-    // setShowSuccess(true);
   };
-
-  // const api = "https://provinces.open-api.vn/api/";
-  let callAPI = async (api) => {
-    return axios.get(api).then((response) => {
-      renderData(response.data, "province");
-      renderData(response.data, "provinces");
-    });
-  };
-  callAPI("https://provinces.open-api.vn/api/?depth=1");
 
   let renderData = (array, select) => {
     let row = ' <option disable value="">Chọn</option>';
@@ -95,9 +77,17 @@ export default function CreateOrder() {
       console.error("Element with id '" + select + "' not found.");
     }
   };
+  let callAPI = async (api) => {
+    return axios.get(api).then((response) => {
+      renderData(response.data, "province");
+      renderData(response.data, "provinces");
+    });
+  };
+  callAPI("https://provinces.open-api.vn/api/?depth=1");
 
   const handleProvinceChange = async (e, className) => {
     const selectedProvinceName = e.target.value;
+
     let api = "https://provinces.open-api.vn/api/?depth=2";
     const callApiDistrict = async (api) => {
       let data = await axios.get(api).then((response) => {
@@ -118,7 +108,6 @@ export default function CreateOrder() {
   const handleDistrictChange = async (e, className) => {
     const selectedDistrictName = e.target.value;
     let api = "https://provinces.open-api.vn/api/?depth=3";
-    // Gọi API để lấy dữ liệu quận/huyện dựa trên mã tỉnh/thành phố
     const callApiWard = async (api) => {
       let data = await axios.get(api).then((response) => {
         return response.data;
@@ -142,7 +131,6 @@ export default function CreateOrder() {
         break;
       }
     }
-    // console.log(responses[i].districts[j]);
     renderData(responses[i].districts[j].wards, className);
   };
 
@@ -232,13 +220,11 @@ export default function CreateOrder() {
                       id="province"
                       name="province"
                       className="form-control has-feedback-left province"
-                      value={senderProvince}
                       onChange={(event) => {
                         handleProvinceChange(event, "district");
                       }}
                     >
                       <option value="">Chọn Tỉnh/Thành phố</option>
-                      {/* {renderData(province, "province")} */}
                     </select>
                   </div>
                 </div>
@@ -291,7 +277,7 @@ export default function CreateOrder() {
                       // value=""
                       className="form-control has-feedback-left"
                       placeholder="Số nhà, xóm, thôn"
-                      // onChange={(e) => setSenderInformation(e.target.value)}
+                      onChange={(e) => setSenderAddress(e.target.value)}
                     />
                   </div>
                 </div>
@@ -385,7 +371,6 @@ export default function CreateOrder() {
                       className="form-control has-feedback-left provinces"
                       onChange={(event) => {
                         handleProvinceChange(event, "districts");
-                        // setSenderProvince(event.target.value);
                       }}
                     >
                       <option value="">Chọn Tỉnh/Thành phố</option>
