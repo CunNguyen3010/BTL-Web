@@ -83,7 +83,7 @@ export default function CreateAccount() {
           <input
             type="text"
             id="useName"
-            value={name}
+            value={useName}
             onChange={(e) => {
               setUseName(e.target.value);
               setUseNameError("");
@@ -99,7 +99,7 @@ export default function CreateAccount() {
           <input
             type="text"
             id="password"
-            value={name}
+            value={password}
             onChange={(e) => {
               setPassword(e.target.value);
               setPasswordError("");
