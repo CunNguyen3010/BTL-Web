@@ -15,46 +15,56 @@ export default function AccountManagement() {
 
   const handleSearch = async (event) => {
     event.preventDefault();
-  
+
     // Xử lý logic khi người dùng tìm kiếm nếu không có lỗi
     try {
       const searchParams = new URLSearchParams();
-  
+
       // Thêm các tham số tìm kiếm nếu có giá trị
       if (useName) searchParams.append("useName", useName);
       if (password) searchParams.append("password", password);
       if (name) searchParams.append("name", name);
       if (phone) searchParams.append("phone", phone);
       if (id_workplace) searchParams.append("id_workplace", id_workplace);
-  
+
       // Kiểm tra giá trị của role
       if (role === "all" || role === "") {
         // Nếu role là "all", thì thêm cả hai vai trò
         const transactionAdminURL = `http://localhost:3001/auth/search?${searchParams.toString()}&role=transactionAdmin`;
         const gatheringAdminURL = `http://localhost:3001/auth/search?${searchParams.toString()}&role=gatheringAdmin`;
-  
-        console.log(transactionAdminURL)
+
+        console.log(transactionAdminURL);
         // Gửi yêu cầu tìm kiếm sử dụng axios hoặc fetch cho cả hai vai trò
-        const [transactionAdminResponse, gatheringAdminResponse] = await Promise.all([
-          axios.get(transactionAdminURL),
-          axios.get(gatheringAdminURL),
-        ]);
-        console.log("transactionAdminResponse.data.result:", transactionAdminResponse.data.result);
-        console.log("gatheringAdminResponse.data.result:", gatheringAdminResponse.data.result);
+        const [transactionAdminResponse, gatheringAdminResponse] =
+          await Promise.all([
+            axios.get(transactionAdminURL),
+            axios.get(gatheringAdminURL),
+          ]);
+        console.log(
+          "transactionAdminResponse.data.result:",
+          transactionAdminResponse.data.result
+        );
+        console.log(
+          "gatheringAdminResponse.data.result:",
+          gatheringAdminResponse.data.result
+        );
         // Xử lý kết quả, có thể nối hoặc thực hiện các thao tác khác với kết quả của cả hai
-        const mergedResults = [...transactionAdminResponse.data.result, ...gatheringAdminResponse.data.result];
+        const mergedResults = [
+          ...transactionAdminResponse.data.result,
+          ...gatheringAdminResponse.data.result,
+        ];
         console.log("Search data:", mergedResults);
         setUserData(mergedResults);
       } else {
         // Nếu role không phải là "all", thì thêm giá trị role vào tham số tìm kiếm
         searchParams.append("role", role);
-  
+
         // Xây dựng URL với các tham số tìm kiếm
         const searchURL = `http://localhost:3001/auth/search?${searchParams.toString()}`;
-        console.log("searchURL:", searchURL)
+        console.log("searchURL:", searchURL);
         // Gửi yêu cầu tìm kiếm sử dụng axios hoặc fetch cho một vai trò
         const response = await axios.get(searchURL);
-  
+
         // Xử lý kết quả
         console.log("Search data:", response.data.result);
         setUserData(response.data.result);

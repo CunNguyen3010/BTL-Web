@@ -1,8 +1,16 @@
 import React, { useState, useEffect } from "react";
 import "../../../style/admin/CreateAccount.css";
-import { Box, Button, Container, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Container,
+  TextField,
+  Typography,
+  FormControl,
+  Select,
+  MenuItem,
+} from "@mui/material";
 import axios from "axios";
-
 
 export default function CreateAccount() {
   const [username, setUsername] = useState("");
@@ -12,10 +20,9 @@ export default function CreateAccount() {
   const [phone, setPhone] = useState("");
   const [birth, setBirth] = useState("");
   const [address, setAddress] = useState(""); // Thêm state cho address
-  const [role, setRole] = useState(""); 
+  const [role, setRole] = useState("");
   const [workplace, setWorkplace] = useState(""); // Thêm state cho workplace
-  const [id_workplace, setIDWorkplace] = useState(""); 
-
+  const [id_workplace, setIDWorkplace] = useState("");
 
   let callAPI = async (api) => {
     return axios.get(api).then((response) => {
@@ -24,10 +31,10 @@ export default function CreateAccount() {
   };
   useEffect(() => {
     callAPI("https://provinces.open-api.vn/api/?depth=1");
-  },[])
+  }, []);
 
   let renderData = (array, select) => {
-    let row = ' <option disable value="">Chọn</option>';
+    let row = ' <option disable value="">Chọn nơi làm việc</option>';
     array.forEach((element) => {
       row += `<option data-id="${element.code}" value="${element.name}">${element.name}</option>`;
     });
@@ -40,23 +47,29 @@ export default function CreateAccount() {
     }
   };
 
-
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     // Check if required fields are not empty
-    if (!username || !password || !role || !workplace || role==="" || workplace==="") {
+    if (
+      !username ||
+      !password ||
+      !role ||
+      !workplace ||
+      role === "" ||
+      workplace === ""
+    ) {
       alert("Vui lòng nhập đầy đủ thông tin");
       return;
     }
-  
+
     try {
       const response = await fetch("http://localhost:3001/auth/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
+
         body: JSON.stringify({
           username,
           password,
@@ -67,10 +80,10 @@ export default function CreateAccount() {
           address,
           role,
           workplace,
-          id_workplace
+          id_workplace,
         }),
       });
-  
+
       if (response.ok) {
         console.log(response);
         alert("Tạo thành công");
@@ -83,7 +96,6 @@ export default function CreateAccount() {
       console.error("Error:", error);
     }
   };
-  
 
   return (
     <Container maxWidth="sm">
@@ -118,23 +130,25 @@ export default function CreateAccount() {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <div className="form-group has-feedback">
-          <label htmlFor="role">Chức vụ:</label>
+        <div className="form-group has-feedback p0">
+          {/* <label htmlFor="role">Chức vụ:</label> */}
           <select
             id="role"
             value={role}
             onChange={(e) => {
               setRole(e.target.value);
             }}
+            style={{ height: "52px" }}
           >
-            <option value="">-Chọn-</option>
+            <option value="">-Chọn chức vụ-</option>
             <option value="transactionAdmin">Trưởng điểm giao dịch</option>
             <option value="gatheringAdmin">Trưởng điểm tập kết</option>
           </select>
         </div>
-        <div className="has-feedback">
+
+        <div className="has-feedback p0">
           <div className="name">
-            <label className="control-label">TỈNH/THÀNH PHỐ</label>
+            {/* <label className="control-label">TỈNH/THÀNH PHỐ</label> */}
           </div>
           <div className="input-group">
             <select
@@ -142,7 +156,7 @@ export default function CreateAccount() {
               name="workplace"
               className="form-control has-feedback-left workplace"
               onChange={(event) => {
-                setWorkplace(event.target.value);               
+                setWorkplace(event.target.value);
               }}
             >
               <option value="">Chọn Tỉnh/Thành phố</option>
@@ -197,8 +211,6 @@ export default function CreateAccount() {
           value={address}
           onChange={(e) => setAddress(e.target.value)}
         />
-        
-        
 
         <Button
           type="submit"
@@ -209,7 +221,6 @@ export default function CreateAccount() {
         >
           Tạo tài khoản
         </Button>
-        
       </Box>
     </Container>
   );

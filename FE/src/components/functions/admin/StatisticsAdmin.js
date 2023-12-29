@@ -13,15 +13,12 @@ import {
 import "../../../style/transactionStaff/statistics.css";
 import axios from "axios";
 
-
 export default function StatisticsAdmin() {
   // Assuming these are fetched from the server
-  
-  
+
   const [id_workplace, setIDWorkplace] = React.useState("");
   const [totalOrders, setTotalOrders] = React.useState("");
   const [totalSuccessfulOrders, setTotalSuccessfulOrders] = React.useState("");
-
 
   function renderGatherPlace(array, select) {
     let row = '<option value="">Chọn điểm tập kết</option>';
@@ -44,7 +41,7 @@ export default function StatisticsAdmin() {
     try {
       let data = await axios.get("http://localhost:3001/auth");
       let gatherPlace = data.data;
-      
+
       renderGatherPlace(gatherPlace, "gatherPlace");
     } catch (e) {
       console.log(e);
@@ -54,10 +51,6 @@ export default function StatisticsAdmin() {
     getGatherPlace();
   }, []);
 
-
-
-
-
   // const handleSubmit = async (e) => {
   //   e.preventDefault();
   //   console.log("abcxalsdgjk");
@@ -65,7 +58,7 @@ export default function StatisticsAdmin() {
   //     // Tạo URL cho request đầu tiên với tham số postalInformation=true
   //     const urlWithParam = new URL("http://localhost:3001/information/search");
   //     urlWithParam.searchParams.append("postalInformation", "true");
-  
+
   //     // Gửi request đầu tiên
   //     const responseWithParam = await fetch(urlWithParam, {
   //       method: "GET",
@@ -73,7 +66,7 @@ export default function StatisticsAdmin() {
   //         "Content-Type": "application/json",
   //       },
   //     });
-  
+
   //     if (responseWithParam.ok) {
   //       // console.log(responseWithParam.data);
   //       setTotalSuccessfulOrders(responseWithParam.data.result);
@@ -81,7 +74,7 @@ export default function StatisticsAdmin() {
   //     } else {
   //       console.error("Failed to grant account to teller");
   //     }
-  
+
   //     // Gửi request thứ hai
   //     const responseWithoutParam = await fetch("http://localhost:3001/information", {
   //       method: "GET",
@@ -89,7 +82,7 @@ export default function StatisticsAdmin() {
   //         "Content-Type": "application/json",
   //       },
   //     });
-  
+
   //     if (responseWithoutParam.ok) {
   //       console.log(responseWithoutParam);
   //       setTotalOrders(responseWithoutParam.data.result);
@@ -104,38 +97,29 @@ export default function StatisticsAdmin() {
   async function handleSubmit() {
     const baseUrl = "http://localhost:3001/information/search";
     const params = {
-      'postalInformation.status': "Đang Giao",
-      'postalInformation.source': id_workplace,
+      "postalInformation.status": "Đang Giao",
+      "postalInformation.source": id_workplace,
     };
-    axios
-      .get(baseUrl, { params })
-      .then((response) => {
-        setTotalSuccessfulOrders(response.data.result);
-        console.log("total", totalSuccessfulOrders)
-        // console.log("param", params)
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
 
+    try {
+      const response1 = await axios.get(baseUrl, { params });
+      setTotalSuccessfulOrders(response1.data.result);
+      console.log("total", totalSuccessfulOrders);
 
+      // Gửi request dưới chỉ khi request trên đã hoàn thành
+      const baseUrltotal = "http://localhost:3001/information/search";
+      const paramstotal = {
+        "postalInformation.status": "Đang Ở",
+        "postalInformation.source": id_workplace,
+      };
 
-    const baseUrltotal = "http://localhost:3001/information/search";
-    const paramstotal = {
-      'postalInformation.status': "Đang Ở",
-      'postalInformation.source': id_workplace,
-    };
-    axios
-      .get(baseUrltotal, { paramstotal })
-      .then((response) => {
-        setTotalOrders(response.data.result);
-        console.log(totalOrders)
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
+      const response2 = await axios.get(baseUrltotal, { params: paramstotal });
+      setTotalOrders(response2.data.result);
+      console.log(totalOrders);
+    } catch (error) {
+      console.error("Error:", error);
+    }
   }
-
 
   return (
     <div className="stats-container">
@@ -144,7 +128,9 @@ export default function StatisticsAdmin() {
           id="gatherPlace"
           width="50%"
           label="Điểm tập kết"
-          onChange={(e) => {setIDWorkplace(e.target.value);}}
+          onChange={(e) => {
+            setIDWorkplace(e.target.value);
+          }}
           margin="normal"
         ></select>
       </div>
@@ -152,20 +138,20 @@ export default function StatisticsAdmin() {
         <button onClick={handleSubmit}>Thống Kê</button>
       </div>
       <div className="card">
-        <Card className="stats-card">
+        <Card className="stats-card" style={{ height: "100px" }}>
           <CardContent>
             <Typography className="stats-title" color="text.secondary">
-              Tổng số đến
+              Tổng số đơn đến
             </Typography>
             <Typography className="stats-value" variant="h4">
               {totalOrders.length}
             </Typography>
           </CardContent>
         </Card>
-        <Card className="stats-card">
+        <Card className="stats-card" style={{ height: "100px" }}>
           <CardContent>
             <Typography className="stats-title" color="text.secondary">
-              Tổng số đi
+              Tổng số đơn đi
             </Typography>
             <Typography className="stats-value" variant="h4">
               {totalSuccessfulOrders.length}

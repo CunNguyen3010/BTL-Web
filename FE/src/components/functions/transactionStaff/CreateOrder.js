@@ -15,7 +15,6 @@ export default function CreateOrder() {
   const [senderWard, setSenderWard] = useState("");
   const [senderAddress, setSenderAddress] = useState("");
   const [senderAddressError, setSenderAddressError] = useState("");
-
   // Người nhận
   const [receiverInformation, setReceiverInformation] = useState("");
   const [receiverName, setReceiverName] = useState("");
@@ -562,7 +561,7 @@ export default function CreateOrder() {
                   <div className="name">
                     <label className="control-label"> LOẠI HÀNG GỬI</label>
                   </div>
-                  <div className="one-row">
+                  <div className="">
                     <div className="input-group">
                       <input
                         type="radio"
@@ -829,6 +828,20 @@ export default function CreateOrder() {
                   <div className="name">
                     <label className="control-label"> TIỀN THU HỘ</label>
                   </div>
+                  {/* <div className="input-group">
+                    <input
+                      type="checkbox"
+                      // id="checkbox-input"
+                      // name="code"
+                      value="HGC"
+                      className="mat-checkbox-input"
+                      tabIndex={0}
+                      aria-checked="false"
+                    />
+                    <label className="mat-checkbox-label">
+                      Thu hộ bằng tiền hàng
+                    </label>
+                  </div> */}
 
                   <div className="input-group">
                     <input
@@ -848,7 +861,7 @@ export default function CreateOrder() {
                   <div className="name">
                     <label className="control-label"> NGƯỜI TRẢ CƯỚC</label>
                   </div>
-                  <div className="one-row">
+                  <div className="">
                     <div className="input-group">
                       <input
                         type="radio"
@@ -896,7 +909,7 @@ export default function CreateOrder() {
                   <div className="name">
                     <label className="control-label"> YÊU CẦU LẤY HÀNG</label>
                   </div>
-                  <div className="one-row">
+                  <div className="two-row">
                     <div className="input-group">
                       <input
                         type="radio"
@@ -928,7 +941,7 @@ export default function CreateOrder() {
                 </div>
               </div>
 
-              <div className="box">
+              {/* <div className="box">
                 <div className="has-feedback w100">
                   <div className="input-group">
                     <input
@@ -946,7 +959,7 @@ export default function CreateOrder() {
                     </label>
                   </div>
                 </div>
-              </div>
+              </div> */}
 
               {/* {showSuccess && (
                 <div className="success-message" style={{ color: "green" }}>
