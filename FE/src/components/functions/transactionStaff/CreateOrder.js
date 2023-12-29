@@ -1,8 +1,14 @@
+<<<<<<< HEAD
+import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import React, { useEffect, useState, useRef } from "react";
+=======
 import React, { useEffect, useState } from "react";
+>>>>>>> 2170d2ee061f2ff2bc7338b3c16520652f199fc2
 import User from "../../../assets/icon/user-solid.svg";
 import Phone from "../../../assets/icon/phone-solid.svg";
 import "../../../style/transactionStaff/CreateOrder.css";
-
+import Alert from "@mui/material/Alert";
+import Stack from "@mui/material/Stack";
 import axios from "axios";
 export default function CreateOrder() {
   // Người gửi
@@ -55,6 +61,7 @@ export default function CreateOrder() {
     if (!receiverPhone) {
       setReceiverAddressError("Vui lòng nhập địa chỉ cụ thể người nhận!");
     }
+
     try {
       // Gửi dữ liệu đến backend
       const response = await fetch("http://localhost:3001/information/", {
@@ -86,14 +93,40 @@ export default function CreateOrder() {
       const data = await response.json();
       console.log("Response từ backend:", data);
 
+      let idcode = data.newInformation._id;
+      // console.log(idcode);
+
       let btn = document.getElementById("noti");
-      let p = document.createElement("p");
-      let notification = document.createTextNode("Tạo đơn thành công");
-      p.appendChild(notification);
-      p.style.backgroundColor = "#1565C0";
-      p.style.padding = "10px";
-      p.style.color = "white";
-      btn.appendChild(p);
+      let stack = document.getElementById("stack");
+      btn.appendChild(stack);
+      // let p = document.createElement("p");
+      // let p2 = document.createElement("p");
+      // let notification = document.createTextNode("Tạo đơn thành công");
+      // let notification2 = document.createTextNode("Mã đơn hàng là: ");
+      // let spanIdCode = document.createElement("span"); // Tạo một phần tử span mới
+      // let idCodeText = document.createTextNode(idcode);
+      // spanIdCode.appendChild(idCodeText);
+      // p.appendChild(notification);
+      // p.style.backgroundColor = "#1565C0";
+      // p.style.padding = "10px";
+      // p.style.color = "white";
+      // p2.appendChild(notification2);
+      // p2.style.backgroundColor = "#1565C0";
+      // p2.style.padding = "10px";
+      // p2.style.color = "white";
+      // p2.appendChild(spanIdCode);
+      // btn.appendChild(p);
+      // btn.appendChild(p2);
+      <div id="stack">
+        <Stack sx={{ width: "100%" }} spacing={2}>
+          <Alert onClose={() => {}} severity="success">
+            Tạo đơn thành công
+          </Alert>
+          <Alert onClose={() => {}} severity="info">
+            Mã đơn hàng là:{" "}
+          </Alert>
+        </Stack>
+      </div>;
       // Thực hiện các hành động khác sau khi gửi thành công
     } catch (error) {
       console.error("Lỗi khi gửi yêu cầu:", error);
@@ -310,7 +343,7 @@ export default function CreateOrder() {
                       id="ward"
                       name="ward"
                       className="form-control has-feedback-left ward"
-                      onchange={(event) => setSenderWard(event.target.value)}
+                      onChange={(event) => setSenderWard(event.target.value)}
                     >
                       <option value="">Chọn Xã/Phường</option>
                     </select>
@@ -393,7 +426,7 @@ export default function CreateOrder() {
                       placeholder="Tên người nhận"
                       onChange={(e) => {
                         setReceiverName(e.target.value);
-                        setReceiverAddressError("");
+                        setReceiverNameError("");
                       }}
                       className={receiverNameError ? "error-input" : ""}
                     />

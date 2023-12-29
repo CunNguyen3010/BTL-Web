@@ -5,11 +5,8 @@ import axios from "axios";
 export default function Confirm() {
   const [orderCode, setOrderCode] = useState("");
   const [orderCodeError, setOrderCodeError] = useState("");
-  const [employeeCode, setEmployeeCode] = useState("");
-  const [employeeCodeError, setEmployeeCodeError] = useState("");
-  const [date, setDate] = useState("");
-  const [dateError, setDateError] = useState("");
-  const [status, setStatus] = useState("");
+
+  const [status1, setStatus1] = useState("");
   const [statusError, setStatusError] = useState("");
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -31,102 +28,58 @@ export default function Confirm() {
     setSuccessMessage(`Đã xác nhận đơn hàng ${item.column2}`);
   };
 
-  const handleSearch = async (event) => {
+  const handleSearch = (event) => {
     event.preventDefault();
     // Kiểm tra các trường bắt buộc
     if (!orderCode) {
       setOrderCodeError("Vui lòng nhập mã đơn hàng!");
     }
-    // Xử lý logic khi người dùng tìm kiếm nếu không có lỗi
-    if (orderCode) {
-      console.log("Search data:", {
-        orderCode,
-        status,
-      });
-
-      try {
-        // Gửi dữ liệu tìm kiếm lên backend
-        const response = await fetch("https://localhost:3001/confirm", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            orderCode,
-            status,
-          }),
-        });
-
-        if (response.ok) {
-          // Xử lý response nếu yêu cầu thành công
-          const data = await response.json();
-          console.log("Response data:", data);
-
-          // Reset form sau khi tìm kiếm thành công
-          setOrderCode("");
-          setStatus("");
-          setSuccessMessage("Dữ liệu đã được gửi thành công!");
-        } else {
-          // Xử lý response nếu yêu cầu thất bại
-          throw new Error("Lỗi khi gửi yêu cầu!");
-        }
-      } catch (error) {
-        // Xử lý lỗi khi fetch gặp vấn đề
-        console.error(error);
-        setSuccessMessage("Đã xảy ra lỗi khi gửi yêu cầu!");
-      }
-    }
   };
-  // console.log(orderCode);
-  const [order, setOrder] = useState({});
+  const [order, setOrder] = useState([]);
 
-  async function handleGetOrder() {
-    const baseUrl = "http://localhost:3001/information/search";
-    const params = {
-      id: orderCode,
-    };
-
-    axios
-      .get(baseUrl, { params })
-      .then((response) => {
-        setOrder(response.data.result);
-        renderOrder();
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
-  }
-  // // console.log(order);
   useEffect(() => {
+    function renderOrder() {
+      let element = `<tr>
+         <th>STT</th>
+         <th>Mã đơn hàng</th>
+         <th>Trạng thái</th>
+         <th>Nơi gửi</th>
+         <th>Nơi nhận</th>
+         <th>Sản phẩm</th>
+         <th>Phí</th>
+         <th>Tiền thu hộ</th>
+         <th>Xác nhận</th>
+         </tr>`;
+      order.forEach((item, index) => {
+        element += `<tr>
+           <td>${index + 1}</td>
+           <td>${item._id}</td>
+           <td>${item.postalInformation?.status}</td>
+           <td>${item.postalInformation?.source}</td>
+           <td>${item.postalInformation?.destination}</td>
+           <td>${item.postalInformation?.name}</td>
+           <td>${item.postalInformation?.price}</td>
+           <td>${item.postalInformation?.price}</td>
+           <td><button>Xác nhận</button></td>
+           </tr>`;
+      });
+      document.getElementById("tabledata").innerHTML = element;
+    }
+    async function handleGetOrder() {
+      const baseUrl = "http://localhost:3001/information/";
+      axios
+        .get(baseUrl)
+        .then((response) => {
+          setOrder(response.data);
+          renderOrder();
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
+    }
     handleGetOrder();
-  }, []);
-  const [index, setIndex] = useState(0);
-  function renderOrder() {
-    let element = `<tr>
-    <th>STT</th>
-    <th>Mã đơn hàng</th>
-    <th>Trạng thái</th>
-    <th>Nơi gửi</th>
-    <th>Nơi nhận</th>
-    <th>Sản phẩm</th>
-    <th>Phí</th>
-    <th>Tiền thu hộ</th>
-    <th>Xác nhận</th>
-  </tr>`;
-    element += `<tr>
-          <td>${index}</td>
-          <td>${order._id}</td>
-          <td>${order.postalInformation.status}</td>
-          <td>${order.postalInformation.source}</td>
-          <td>${order.postalInformation.destination}</td>
-          <td>${order.postalInformation.name}</td>
-          <td>${order.postalInformation.price}</td>
-          <td>${order.postalInformation.price}</td>
-          <td><button>Xác nhận</button></td>
-      </tr>`;
-    document.getElementById("tabledata").innerHTML = element;
-    setIndex(index + 1);
-  }
+  }, [order]);
+
   return (
     <div className="registration-form-container">
       <form onSubmit={handleSearch} className="registration-form w100">
@@ -155,9 +108,8 @@ export default function Confirm() {
             </label>
             <select
               id="status"
-              value={status}
               onChange={(e) => {
-                setStatus(e.target.value);
+                // setStatus1(e.target.value);
                 setStatusError("");
               }}
               className={statusError ? "error-input" : ""}
@@ -183,22 +135,7 @@ export default function Confirm() {
                   <table
                     id="tabledata"
                     className="table table-hover table-condensed table-striped text-info table-width-auto"
-                  >
-                    {/* <thead>
-                      <tr>
-                        <th>STT</th>
-                        <th>Mã đơn hàng</th>
-                        <th>Trạng thái</th>
-                        <th>Nơi gửi</th>
-                        <th>Nơi nhận</th>
-                        <th>Sản phẩm</th>
-                        <th>Phí</th>
-                        <th>Tiền thu hộ</th>
-                        <th>Xác nhận</th>
-                      </tr>
-                    </thead>
-                    <tbody id="tablebody"></tbody> */}
-                  </table>
+                  ></table>
                 </div>
                 <div className="pagination">
                   {data.length > itemsPerPage && (

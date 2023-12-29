@@ -12,7 +12,7 @@ export default function Statistics() {
       <Card className="stats-card">
         <CardContent>
           <Typography className="stats-title" color="text.secondary">
-            Successful Orders
+            Tổng số đơn thành công
           </Typography>
           <Typography className="stats-value" variant="h4">
             {totalSuccessfulOrders}
@@ -22,7 +22,7 @@ export default function Statistics() {
       <Card className="stats-card">
         <CardContent>
           <Typography className="stats-title" color="text.secondary">
-            Unsuccessful Orders
+            Tổng số đơn chưa thành công
           </Typography>
           <Typography className="stats-value" variant="h4">
             {totalUnsuccessfulOrders}
