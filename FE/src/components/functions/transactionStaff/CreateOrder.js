@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import User from "../../../assets/icon/user-solid.svg";
 import Phone from "../../../assets/icon/phone-solid.svg";
 import "../../../style/transactionStaff/CreateOrder.css";
-
+import Alert from "@mui/material/Alert";
+import Stack from "@mui/material/Stack";
 import axios from "axios";
 export default function CreateOrder() {
   // Người gửi
@@ -15,11 +16,8 @@ export default function CreateOrder() {
   const [senderDistrict, setSenderDistrict] = useState("");
   const [senderWard, setSenderWard] = useState("");
   const [senderAddress, setSenderAddress] = useState("");
-<<<<<<< HEAD
-=======
   const [senderAddressError, setSenderAddressError] = useState("");
 
->>>>>>> 6d26b41aaffcc7aba20380ffc3307ff2428a4728
   // Người nhận
   const [receiverInformation, setReceiverInformation] = useState("");
   const [receiverName, setReceiverName] = useState("");
@@ -89,14 +87,40 @@ export default function CreateOrder() {
       const data = await response.json();
       console.log("Response từ backend:", data);
 
+      let idcode = data.newInformation._id;
+      // console.log(idcode);
+
       let btn = document.getElementById("noti");
-      let p = document.createElement("p");
-      let notification = document.createTextNode("Tạo đơn thành công");
-      p.appendChild(notification);
-      p.style.backgroundColor = "#1565C0";
-      p.style.padding = "10px";
-      p.style.color = "white";
-      btn.appendChild(p);
+      let stack = document.getElementById("stack");
+      btn.appendChild(stack);
+      // let p = document.createElement("p");
+      // let p2 = document.createElement("p");
+      // let notification = document.createTextNode("Tạo đơn thành công");
+      // let notification2 = document.createTextNode("Mã đơn hàng là: ");
+      // let spanIdCode = document.createElement("span"); // Tạo một phần tử span mới
+      // let idCodeText = document.createTextNode(idcode);
+      // spanIdCode.appendChild(idCodeText);
+      // p.appendChild(notification);
+      // p.style.backgroundColor = "#1565C0";
+      // p.style.padding = "10px";
+      // p.style.color = "white";
+      // p2.appendChild(notification2);
+      // p2.style.backgroundColor = "#1565C0";
+      // p2.style.padding = "10px";
+      // p2.style.color = "white";
+      // p2.appendChild(spanIdCode);
+      // btn.appendChild(p);
+      // btn.appendChild(p2);
+      <div id="stack">
+        <Stack sx={{ width: "100%" }} spacing={2}>
+          <Alert onClose={() => {}} severity="success">
+            Tạo đơn thành công
+          </Alert>
+          <Alert onClose={() => {}} severity="info">
+            Mã đơn hàng là:{" "}
+          </Alert>
+        </Stack>
+      </div>;
       // Thực hiện các hành động khác sau khi gửi thành công
     } catch (error) {
       console.error("Lỗi khi gửi yêu cầu:", error);
@@ -273,11 +297,8 @@ export default function CreateOrder() {
                       className="form-control has-feedback-left province"
                       // value={senderProvince}
                       onChange={(event) => {
-<<<<<<< HEAD
-=======
                         // alert(event.target.value);
                         // alert(senderProvince)
->>>>>>> 6d26b41aaffcc7aba20380ffc3307ff2428a4728
                         setSenderProvince(event.target.value);
                         handleProvinceChange(event, "district");
                       }}
@@ -316,7 +337,7 @@ export default function CreateOrder() {
                       id="ward"
                       name="ward"
                       className="form-control has-feedback-left ward"
-                      onchange={(event) => setSenderWard(event.target.value)}
+                      onChange={(event) => setSenderWard(event.target.value)}
                     >
                       <option value="">Chọn Xã/Phường</option>
                     </select>
@@ -337,15 +358,11 @@ export default function CreateOrder() {
                       value={senderAddress}
                       // className="form-control has-feedback-left"
                       placeholder="Số nhà, xóm, thôn"
-<<<<<<< HEAD
-                      onChange={(e) => setSenderAddress(e.target.value)}
-=======
                       onChange={(e) => {
                         setSenderAddress(e.target.value);
                         setSenderAddressError("");
                       }}
                       className={senderAddressError ? "error-input" : ""}
->>>>>>> 6d26b41aaffcc7aba20380ffc3307ff2428a4728
                     />
                   </div>
                 </div>
@@ -403,7 +420,7 @@ export default function CreateOrder() {
                       placeholder="Tên người nhận"
                       onChange={(e) => {
                         setReceiverName(e.target.value);
-                        setReceiverAddressError("");
+                        setReceiverNameError("");
                       }}
                       className={receiverNameError ? "error-input" : ""}
                     />
@@ -502,11 +519,6 @@ export default function CreateOrder() {
                     <input
                       type="text"
                       id="receiverAddress"
-<<<<<<< HEAD
-                      className="form-control has-feedback-left"
-                      placeholder="Số nhà, xóm, thôn"
-                      onChange={(e) => setReceiverAddress(e.target.value)}
-=======
                       // name="senderInformation"
                       // value=""
                       // className="form-control has-feedback-left"
@@ -516,7 +528,6 @@ export default function CreateOrder() {
                         setReceiverAddressError("");
                       }}
                       className={receiverAddressError ? "error-input" : ""}
->>>>>>> 6d26b41aaffcc7aba20380ffc3307ff2428a4728
                     />
                   </div>
                 </div>

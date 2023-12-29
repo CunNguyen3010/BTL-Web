@@ -12,7 +12,7 @@ export default function ShippingOrder() {
   const handleChange = (prop) => (event) => {
     setValues({ ...values, [prop]: event.target.value });
   };
-
+  //Hàm render vào Select
   function renderGatherPlace(array, select) {
     let row = '<option value="">Chọn điểm tập kết</option>';
     array.forEach((element) => {
@@ -25,6 +25,7 @@ export default function ShippingOrder() {
       console.error("Element with id '" + select + "' not found.");
     }
   }
+  // Hàm xử lý submit
   const handleSubmit = () => {
     // handle form submission logic here
     let btn = document.getElementById("noti");
@@ -36,64 +37,62 @@ export default function ShippingOrder() {
     p.style.marginTop = "10vh";
     p.style.color = "white";
     btn.appendChild(p);
-    handlePutOrder();
   };
 
-  async function getGatherPlace() {
-    try {
-      let data = await axios.get("http://localhost:3001/auth");
-      let gatherPlace = data.data;
-      renderGatherPlace(gatherPlace, "gatherPlace");
-    } catch (e) {
-      console.log(e);
-    }
-  }
   useEffect(() => {
+    async function getGatherPlace() {
+      try {
+        let data = await axios.get("http://localhost:3001/auth");
+        let gatherPlace = data.data;
+        renderGatherPlace(gatherPlace, "gatherPlace");
+      } catch (e) {
+        console.log(e);
+      }
+    }
     getGatherPlace();
   }, []);
 
   const [putdata, setPutdata] = useState({});
 
-  async function handleGetOrder() {
-    const baseUrl = "http://localhost:3001/information/search";
-    const params = {
-      id: values.idOrder,
-    };
-    axios
-      .get(baseUrl, { params })
-      .then((response) => {
-        setPutdata(response.data.result);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
-  }
-
   useEffect(() => {
-    handleGetOrder();
-  }, []);
-  // console.log(putdata);
-  async function handlePutOrder() {
-    if (putdata.postalInformation) {
-      putdata.postalInformation.status = "Đang giao";
-      putdata.postalInformation.destination = values.gatherPlace;
-
-      try {
-        const response = await axios.put(
-          "http://localhost:3001/information/",
-          putdata
-        );
-        console.log(putdata, response);
-      } catch (error) {
-        console.log(putdata, error);
-      }
-    } else {
-      console.error("Postal information is undefined in putdata");
+    async function handleGetOrder() {
+      const baseUrl = "http://localhost:3001/information/search";
+      const params = {
+        id: values.idOrder,
+      };
+      axios
+        .get(baseUrl, { params })
+        .then((response) => {
+          setPutdata(response.data.result);
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
     }
-  }
+    handleGetOrder();
+  }, [values.idOrder]);
+  console.log(putdata);
   useEffect(() => {
+    async function handlePutOrder() {
+      if (putdata.postalInformation) {
+        putdata.postalInformation.status = "Đang giao";
+        putdata.postalInformation.destination = values.gatherPlace;
+
+        try {
+          const response = await axios.put(
+            "http://localhost:3001/information/",
+            putdata
+          );
+          console.log(response);
+        } catch (error) {
+          console.log(error);
+        }
+      } else {
+        console.error("Postal information is undefined in putdata");
+      }
+    }
     handlePutOrder();
-  }, []);
+  }, [putdata, values.gatherPlace]);
 
   return (
     <Box
