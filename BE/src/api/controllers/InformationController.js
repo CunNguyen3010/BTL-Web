@@ -30,6 +30,7 @@ const informationSchema = new mongoose.Schema({
     source: String, // đơn hàng đang được rời đi từ đâu
     status: String, // đang giao or đang ở source
     destination: String, // đơn hàng chuẩn bị đến đâu (= null khi status = đang ở source)
+    complete: String,
   },
 });
 

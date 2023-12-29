@@ -13,12 +13,13 @@ export default function CreateAccount() {
   const [birth, setBirth] = useState("");
   const [address, setAddress] = useState(""); // Thêm state cho address
   const [role, setRole] = useState(""); 
-  const [id_workplace, setIDWorkplace] = useState(""); // Thêm state cho id_workplace
+  const [workplace, setWorkplace] = useState(""); // Thêm state cho workplace
+  const [id_workplace, setIDWorkplace] = useState(""); 
 
 
   let callAPI = async (api) => {
     return axios.get(api).then((response) => {
-      renderData(response.data, "id_workplace");
+      renderData(response.data, "workplace");
     });
   };
   useEffect(() => {
@@ -45,7 +46,7 @@ export default function CreateAccount() {
     e.preventDefault();
   
     // Check if required fields are not empty
-    if (!username || !password || !role || !id_workplace || role==="" || id_workplace==="") {
+    if (!username || !password || !role || !workplace || role==="" || workplace==="") {
       alert("Vui lòng nhập đầy đủ thông tin");
       return;
     }
@@ -65,7 +66,8 @@ export default function CreateAccount() {
           birth,
           address,
           role,
-          id_workplace,
+          workplace,
+          id_workplace
         }),
       });
   
@@ -136,17 +138,25 @@ export default function CreateAccount() {
           </div>
           <div className="input-group">
             <select
-              id="id_workplace"
-              name="id_workplace"
-              className="form-control has-feedback-left id_workplace"
+              id="workplace"
+              name="workplace"
+              className="form-control has-feedback-left workplace"
               onChange={(event) => {
-                setIDWorkplace(event.target.value);               
+                setWorkplace(event.target.value);               
               }}
             >
               <option value="">Chọn Tỉnh/Thành phố</option>
             </select>
           </div>
         </div>
+        <TextField
+          fullWidth
+          required
+          margin="normal"
+          label="ID nơi làm việc"
+          value={id_workplace}
+          onChange={(e) => setIDWorkplace(e.target.value)}
+        />
         <TextField
           fullWidth
           required
