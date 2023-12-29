@@ -18,11 +18,6 @@ npm install
 
 ## Development
 
-### Simultaneously run both backend and frontend
-
-```bash
-npm run dev
-```
 
 ### Or separating run manually
 
@@ -31,7 +26,7 @@ npm run dev
 Open a new terminal then run
 
 ```bash
-cd backend && dotnet watch run
+cd BE && npm run dev
 ```
 
 #### Frontend
@@ -39,5 +34,33 @@ cd backend && dotnet watch run
 Open a new separate terminal then run
 
 ```bash
-cd frontend && npm run dev
+cd FE && npm start
 ```
+
+- Một số tài khoản thầy có thể đăng nhập:
+  + Nhân viên điểm giao dịch:
+    Tên đăng nhập: tranStaff1
+    Mật khẩu: tranStaff1
+
+  +Trưởng điểm giao dịch:
+    Tên đăng nhập: tranAdmin1
+    Mật khẩu: tranAdmin1
+
+  + Nhân viên điểm tập kết:
+    Tên đăng nhập: gatStaff1
+    Mật khẩu: gatStaff1
+
+  + Trưởng điểm tập kết:
+    Tên đăng nhập: gatAdmin1
+    Mật khẩu: gatStaff1
+
+  +Trưởng điểm giao dịch:
+    Tên đăng nhập: tranAdmin1
+    Mật khẩu: tranAdmin1
+
+  +Lãnh đạo công ty:
+    Tên đăng nhập: admin1
+    Mật khẩu: admin1
+
+  Cảm ơn thầy đã đồng hành cùng bọn em trong môn học này 🫠 Hẹn gặp lại thầy trong các môn học tiếp theo 🥰
+
