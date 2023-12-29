@@ -1,13 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../../../style/gatheringStaff/ConfirmGathering.css";
-
+import axios from "axios";
 export default function ConfirmGathering() {
   const [orderCode, setOrderCode] = useState("");
   const [orderCodeError, setOrderCodeError] = useState("");
-  const [employeeCode, setEmployeeCode] = useState("");
-  const [employeeCodeError, setEmployeeCodeError] = useState("");
-  const [date, setDate] = useState("");
-  const [dateError, setDateError] = useState("");
+
   const [sendAddress, setSendAddress] = useState("");
   const [sendAddressError, setSendAddressError] = useState("");
   //thêm
@@ -15,88 +12,23 @@ export default function ConfirmGathering() {
   const [itemsPerPage] = useState(10);
   const [selectedItem, setSelectedItem] = useState(null);
   const [successMessage, setSuccessMessage] = useState("");
-
   //thêm
-  const data = [
-    // Dữ liệu của bạn
-    {
-      column1: 1,
-      column2: "ABC123",
-      column3: "Nơi gửi 1",
-      column4: "Nơi nhận 1",
-      column5: "Túi",
-      column6: "10.000",
-      column7: "2.000.000",
-
-      // Các trường dữ liệu khác
-    },
-    {
-      column1: 2,
-      column2: "XYZ456",
-      column3: "Nơi gửi 2",
-      column4: "Nơi nhận 2",
-      column5: "Balo",
-      column6: "10.000",
-      column7: "20.000",
-      // Các trường dữ liệu khác
-    },
-    // Thêm các đối tượng dữ liệu khác
-  ];
-  //thêm
-
   const handleSearch = async (event) => {
     event.preventDefault();
-
     // Kiểm tra các trường bắt buộc
     if (!orderCode) {
       setOrderCodeError("Vui lòng nhập mã đơn hàng!");
     }
-
     // Xử lý logic khi người dùng tìm kiếm nếu không có lỗi
     if (orderCode) {
       console.log("Search data:", {
         orderCode,
         sendAddress,
       });
-
-      try {
-        // Gửi dữ liệu tìm kiếm lên backend
-        const response = await fetch(
-          "https://localhost:3001/confirmGathering",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              orderCode,
-              sendAddress,
-            }),
-          }
-        );
-
-        if (response.ok) {
-          // Xử lý response nếu yêu cầu thành công
-          const data = await response.json();
-          console.log("Response data:", data);
-
-          // Reset form sau khi tìm kiếm thành công
-          setOrderCode("");
-          setSendAddress("");
-          setSuccessMessage("Dữ liệu đã được gửi thành công!");
-        } else {
-          // Xử lý response nếu yêu cầu thất bại
-          throw new Error("Lỗi khi gửi yêu cầu!");
-        }
-      } catch (error) {
-        // Xử lý lỗi khi fetch gặp vấn đề
-        console.error(error);
-        setSuccessMessage("Đã xảy ra lỗi khi gửi yêu cầu!");
-      }
     }
   };
-
   //thêm
+  let data = [];
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
@@ -104,13 +36,56 @@ export default function ConfirmGathering() {
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
-
   const handleConfirm = (item) => {
     setSelectedItem(item);
     setSuccessMessage(`Đã xác nhận đơn hàng ${item.column2}`);
   };
 
   //thêm
+  const [order, setOrder] = useState([]);
+
+  useEffect(() => {
+    function renderOrder() {
+      let element = `<tr>
+         <th>STT</th>
+         <th>Mã đơn hàng</th>
+         <th>Trạng thái</th>
+         <th>Nơi gửi</th>
+         <th>Nơi nhận</th>
+         <th>Sản phẩm</th>
+         <th>Phí</th>
+         <th>Tiền thu hộ</th>
+         <th>Xác nhận</th>
+         </tr>`;
+      order.forEach((item, index) => {
+        element += `<tr>
+           <td>${index + 1}</td>
+           <td>${item._id}</td>
+           <td>${item.postalInformation?.status}</td>
+           <td>${item.postalInformation?.source}</td>
+           <td>${item.postalInformation?.destination}</td>
+           <td>${item.postalInformation?.name}</td>
+           <td>${item.postalInformation?.price}</td>
+           <td>${item.postalInformation?.price}</td>
+           <td><button>Xác nhận</button></td>
+           </tr>`;
+      });
+      document.getElementById("tabledata").innerHTML = element;
+    }
+    async function handleGetOrder() {
+      const baseUrl = "http://localhost:3001/information/";
+      axios
+        .get(baseUrl)
+        .then((response) => {
+          setOrder(response.data);
+          renderOrder();
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
+    }
+    handleGetOrder();
+  }, [order]);
 
   return (
     <div className="registration-form-container">
@@ -167,45 +142,10 @@ export default function ConfirmGathering() {
             <div className="col-md-12 col-sm-12 col-xs-12">
               <div className="x_content">
                 <div className="table-responsive">
-                  <table className="table table-hover table-condensed table-striped text-info table-width-auto">
-                    <thead>
-                      <tr>
-                        <th>STT</th>
-                        <th>Mã đơn hàng</th>
-                        <th>Nơi gửi</th>
-                        <th>Nơi nhận</th>
-                        <th>Sản phẩm</th>
-                        <th>Phí</th>
-                        <th>Tiền thu hộ</th>
-                        <th>Xác nhận</th>
-
-                        {/* Thêm các đề mục cột khác */}
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {currentItems.map((item, index) => (
-                        <tr key={index}>
-                          {/* Hiển thị dữ liệu của từng dòng */}
-                          <td>{item.column1}</td>
-                          <td>{item.column2}</td>
-                          <td>{item.column3}</td>
-                          <td>{item.column4}</td>
-                          <td>{item.column5}</td>
-                          <td>{item.column6}</td>
-                          <td>{item.column7}</td>
-                          {/* Hiển thị các cột dữ liệu khác */}
-                          <td>
-                            <button
-                              onClick={() => handleConfirm(item)}
-                              className="btn btn-success"
-                            >
-                              Xác nhận
-                            </button>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                  <table
+                    id="tabledata"
+                    className="table table-hover table-condensed table-striped text-info table-width-auto"
+                  ></table>
                 </div>
                 <div className="pagination">
                   {data.length > itemsPerPage && (

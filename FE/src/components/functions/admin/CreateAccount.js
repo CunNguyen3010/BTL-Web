@@ -20,12 +20,18 @@ export default function CreateAccount() {
   const [phone, setPhone] = useState("");
   const [birth, setBirth] = useState("");
   const [address, setAddress] = useState(""); // Thêm state cho address
+<<<<<<< HEAD
   const [role, setRole] = useState("");
   const [id_workplace, setIDWorkplace] = useState(""); // Thêm state cho id_workplace
+=======
+  const [role, setRole] = useState(""); 
+  const [workplace, setWorkplace] = useState(""); // Thêm state cho workplace
+  const [id_workplace, setIDWorkplace] = useState(""); 
+>>>>>>> 4291005b14b5317e8009bafab5fd79bad10a5b33
 
   let callAPI = async (api) => {
     return axios.get(api).then((response) => {
-      renderData(response.data, "id_workplace");
+      renderData(response.data, "workplace");
     });
   };
   useEffect(() => {
@@ -50,6 +56,7 @@ export default function CreateAccount() {
     e.preventDefault();
 
     // Check if required fields are not empty
+<<<<<<< HEAD
     if (
       !username ||
       !password ||
@@ -58,6 +65,9 @@ export default function CreateAccount() {
       role === "" ||
       id_workplace === ""
     ) {
+=======
+    if (!username || !password || !role || !workplace || role==="" || workplace==="") {
+>>>>>>> 4291005b14b5317e8009bafab5fd79bad10a5b33
       alert("Vui lòng nhập đầy đủ thông tin");
       return;
     }
@@ -78,7 +88,8 @@ export default function CreateAccount() {
           birth,
           address,
           role,
-          id_workplace,
+          workplace,
+          id_workplace
         }),
       });
 
@@ -149,17 +160,29 @@ export default function CreateAccount() {
           </div>
           <div className="input-group">
             <select
-              id="id_workplace"
-              name="id_workplace"
-              className="form-control has-feedback-left id_workplace"
+              id="workplace"
+              name="workplace"
+              className="form-control has-feedback-left workplace"
               onChange={(event) => {
+<<<<<<< HEAD
                 setIDWorkplace(event.target.value);
+=======
+                setWorkplace(event.target.value);               
+>>>>>>> 4291005b14b5317e8009bafab5fd79bad10a5b33
               }}
             >
               <option value="">Chọn Tỉnh/Thành phố</option>
             </select>
           </div>
         </div>
+        <TextField
+          fullWidth
+          required
+          margin="normal"
+          label="ID nơi làm việc"
+          value={id_workplace}
+          onChange={(e) => setIDWorkplace(e.target.value)}
+        />
         <TextField
           fullWidth
           required

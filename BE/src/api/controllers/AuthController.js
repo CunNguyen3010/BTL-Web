@@ -12,6 +12,7 @@ const userSchema = new mongoose.Schema({
   phone: String,
   address: String,
   role: String,
+  workplace: String,
   id_workplace: String,
 });
 
@@ -67,6 +68,7 @@ export const register = async (req, res) => {
       phone: req.body.phone,
       address: req.body.address,
       role: req.body.role,
+      workplace: req.body.workplace,
       id_workplace: req.body.id_workplace,
     });
 

@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import User from "../../../assets/icon/user-solid.svg";
 import Phone from "../../../assets/icon/phone-solid.svg";
 import "../../../style/transactionStaff/CreateOrder.css";
-
 import axios from "axios";
 export default function CreateOrder() {
   // Người gửi
@@ -16,6 +15,10 @@ export default function CreateOrder() {
   const [senderWard, setSenderWard] = useState("");
   const [senderAddress, setSenderAddress] = useState("");
   const [senderAddressError, setSenderAddressError] = useState("");
+<<<<<<< HEAD
+=======
+
+>>>>>>> 4291005b14b5317e8009bafab5fd79bad10a5b33
   // Người nhận
   const [receiverInformation, setReceiverInformation] = useState("");
   const [receiverName, setReceiverName] = useState("");
@@ -29,6 +32,15 @@ export default function CreateOrder() {
   const [receiverAddressError, setReceiverAddressError] = useState("");
 
   // const [showSuccess, setShowSuccess] = useState(false);
+  //postalInformation
+  const [name, setName] = useState("");
+  const [price, setPrice] = useState(0);
+  const [weight, setWeight] = useState(0);
+  const [number, setNumber] = useState(0);
+  const [length, setLength] = useState(0);
+  const [width, setWidth] = useState(0);
+  const [height, setHeight] = useState(0);
+  const [note, setNote] = useState("");
 
   const handleCreatePostalItems = async () => {
     if (!senderName) {
@@ -81,19 +93,46 @@ export default function CreateOrder() {
             ward: receiverWard,
             address: receiverAddress,
           },
+          postalInformation: {
+            name: name,
+            price: price,
+            weight: weight,
+            number: number,
+            length: length,
+            width: width,
+            height: height,
+            note: note,
+            source: "",
+            status: "",
+            destination: "",
+            complete: false,
+          },
         }),
       });
       const data = await response.json();
       console.log("Response từ backend:", data);
 
+      let idcode = data.newInformation._id;
+
       let btn = document.getElementById("noti");
       let p = document.createElement("p");
+      let p2 = document.createElement("p");
       let notification = document.createTextNode("Tạo đơn thành công");
+      let notification2 = document.createTextNode("Mã đơn hàng là: ");
+      let spanIdCode = document.createElement("span"); // Tạo một phần tử span mới
+      let idCodeText = document.createTextNode(idcode);
+      spanIdCode.appendChild(idCodeText);
       p.appendChild(notification);
       p.style.backgroundColor = "#1565C0";
       p.style.padding = "10px";
       p.style.color = "white";
+      p2.appendChild(notification2);
+      p2.style.backgroundColor = "#1565C0";
+      p2.style.padding = "10px";
+      p2.style.color = "white";
+      p2.appendChild(spanIdCode);
       btn.appendChild(p);
+      btn.appendChild(p2);
       // Thực hiện các hành động khác sau khi gửi thành công
     } catch (error) {
       console.error("Lỗi khi gửi yêu cầu:", error);
@@ -270,6 +309,11 @@ export default function CreateOrder() {
                       className="form-control has-feedback-left province"
                       // value={senderProvince}
                       onChange={(event) => {
+<<<<<<< HEAD
+=======
+                        // alert(event.target.value);
+                        // alert(senderProvince)
+>>>>>>> 4291005b14b5317e8009bafab5fd79bad10a5b33
                         setSenderProvince(event.target.value);
                         handleProvinceChange(event, "district");
                       }}
@@ -308,7 +352,7 @@ export default function CreateOrder() {
                       id="ward"
                       name="ward"
                       className="form-control has-feedback-left ward"
-                      onchange={(event) => setSenderWard(event.target.value)}
+                      onChange={(event) => setSenderWard(event.target.value)}
                     >
                       <option value="">Chọn Xã/Phường</option>
                     </select>
@@ -565,6 +609,7 @@ export default function CreateOrder() {
                       // value=""
                       className="form-control has-feedback-left"
                       placeholder="Tên sản phẩm "
+                      onChange={(event) => setName(event.target.value)}
                     />
                   </div>
                 </div>
@@ -583,6 +628,7 @@ export default function CreateOrder() {
                       // value=""
                       className="form-control has-feedback-left"
                       placeholder="vnd "
+                      onChange={(event) => setPrice(event.target.value)}
                     />
                   </div>
                 </div>
@@ -599,6 +645,7 @@ export default function CreateOrder() {
                       // value=""
                       className="form-control has-feedback-left"
                       placeholder="gam"
+                      onChange={(event) => setWeight(event.target.value)}
                     />
                   </div>
                 </div>
@@ -615,6 +662,7 @@ export default function CreateOrder() {
                       // value=""
                       className="form-control has-feedback-left"
                       placeholder=""
+                      onChange={(event) => setNumber(event.target.value)}
                     />
                   </div>
                 </div>
@@ -638,6 +686,7 @@ export default function CreateOrder() {
                         // value=""
                         className="form-control has-feedback-left"
                         placeholder="Dài (cm)"
+                        onChange={(event) => setLength(event.target.value)}
                       />
                     </div>
 
@@ -649,6 +698,7 @@ export default function CreateOrder() {
                         // value=""
                         className="form-control has-feedback-left"
                         placeholder="Rộng (cm)"
+                        onChange={(event) => setWidth(event.target.value)}
                       />
                     </div>
 
@@ -660,6 +710,7 @@ export default function CreateOrder() {
                         // value=""
                         className="form-control has-feedback-left"
                         placeholder="Cao (cm)"
+                        onChange={(event) => setHeight(event.target.value)}
                       />
                     </div>
                   </div>
@@ -784,6 +835,7 @@ export default function CreateOrder() {
                   <div className="name">
                     <label className="control-label"> TIỀN THU HỘ</label>
                   </div>
+<<<<<<< HEAD
                   {/* <div className="input-group">
                     <input
                       type="checkbox"
@@ -798,6 +850,8 @@ export default function CreateOrder() {
                       Thu hộ bằng tiền hàng
                     </label>
                   </div> */}
+=======
+>>>>>>> 4291005b14b5317e8009bafab5fd79bad10a5b33
 
                   <div className="input-group">
                     <input
@@ -854,6 +908,7 @@ export default function CreateOrder() {
                     <textarea
                       className="form-control "
                       placeholder="Nhập ghi chú"
+                      onChange={(event) => setNote(event.target.value)}
                     ></textarea>
                   </div>
                 </div>
