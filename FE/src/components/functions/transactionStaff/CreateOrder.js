@@ -1,9 +1,12 @@
+<<<<<<< HEAD
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import React, { useEffect, useState, useRef } from "react";
+=======
+import React, { useEffect, useState } from "react";
+>>>>>>> 2170d2ee061f2ff2bc7338b3c16520652f199fc2
 import User from "../../../assets/icon/user-solid.svg";
 import Phone from "../../../assets/icon/phone-solid.svg";
 import "../../../style/transactionStaff/CreateOrder.css";
-// import "../../../style/transactionStaff/CreateOrder2.css";
 
 import axios from "axios";
 export default function CreateOrder() {
@@ -17,8 +20,11 @@ export default function CreateOrder() {
   const [senderDistrict, setSenderDistrict] = useState("");
   const [senderWard, setSenderWard] = useState("");
   const [senderAddress, setSenderAddress] = useState("");
+<<<<<<< HEAD
+=======
   const [senderAddressError, setSenderAddressError] = useState("");
 
+>>>>>>> 6d26b41aaffcc7aba20380ffc3307ff2428a4728
   // Người nhận
   const [receiverInformation, setReceiverInformation] = useState("");
   const [receiverName, setReceiverName] = useState("");
@@ -32,9 +38,6 @@ export default function CreateOrder() {
   const [receiverAddressError, setReceiverAddressError] = useState("");
 
   // const [showSuccess, setShowSuccess] = useState(false);
-  const [province, setProvince] = useState([]);
-  const [district, setDistrict] = useState([]);
-  const [ward, setWard] = useState([]);
 
   const handleCreatePostalItems = async () => {
     if (!senderName) {
@@ -89,18 +92,21 @@ export default function CreateOrder() {
           },
         }),
       });
-
-      // Xử lý response từ backend (nếu cần)
       const data = await response.json();
       console.log("Response từ backend:", data);
 
+      let btn = document.getElementById("noti");
+      let p = document.createElement("p");
+      let notification = document.createTextNode("Tạo đơn thành công");
+      p.appendChild(notification);
+      p.style.backgroundColor = "#1565C0";
+      p.style.padding = "10px";
+      p.style.color = "white";
+      btn.appendChild(p);
       // Thực hiện các hành động khác sau khi gửi thành công
     } catch (error) {
       console.error("Lỗi khi gửi yêu cầu:", error);
     }
-
-    // Hiển thị thông báo thành công
-    // setShowSuccess(true);
   };
 
   // const api = "https://provinces.open-api.vn/api/";
@@ -130,6 +136,7 @@ export default function CreateOrder() {
 
   const handleProvinceChange = async (e, className) => {
     const selectedProvinceName = e.target.value;
+
     let api = "https://provinces.open-api.vn/api/?depth=2";
     const callApiDistrict = async (api) => {
       let data = await axios.get(api).then((response) => {
@@ -150,7 +157,6 @@ export default function CreateOrder() {
   const handleDistrictChange = async (e, className) => {
     const selectedDistrictName = e.target.value;
     let api = "https://provinces.open-api.vn/api/?depth=3";
-    // Gọi API để lấy dữ liệu quận/huyện dựa trên mã tỉnh/thành phố
     const callApiWard = async (api) => {
       let data = await axios.get(api).then((response) => {
         return response.data;
@@ -174,7 +180,6 @@ export default function CreateOrder() {
         break;
       }
     }
-    // console.log(responses[i].districts[j]);
     renderData(responses[i].districts[j].wards, className);
   };
 
@@ -274,8 +279,11 @@ export default function CreateOrder() {
                       className="form-control has-feedback-left province"
                       // value={senderProvince}
                       onChange={(event) => {
+<<<<<<< HEAD
+=======
                         // alert(event.target.value);
                         // alert(senderProvince)
+>>>>>>> 6d26b41aaffcc7aba20380ffc3307ff2428a4728
                         setSenderProvince(event.target.value);
                         handleProvinceChange(event, "district");
                       }}
@@ -293,10 +301,12 @@ export default function CreateOrder() {
                       id="district"
                       name="district"
                       className="form-control has-feedback-left district"
-                      onChange={(event) => handleDistrictChange(event, "ward")}
+                      onChange={(event) => {
+                        setSenderDistrict(event.target.value);
+                        handleDistrictChange(event, "ward");
+                      }}
                     >
                       <option value="">Chọn Huyện/Quận</option>
-                      {/* {renderData(district, "district")} */}
                     </select>
                   </div>
                 </div>
@@ -312,9 +322,9 @@ export default function CreateOrder() {
                       id="ward"
                       name="ward"
                       className="form-control has-feedback-left ward"
+                      onchange={(event) => setSenderWard(event.target.value)}
                     >
                       <option value="">Chọn Xã/Phường</option>
-                      {/* {renderData(ward, "ward")} */}
                     </select>
                   </div>
                 </div>
@@ -333,11 +343,15 @@ export default function CreateOrder() {
                       value={senderAddress}
                       // className="form-control has-feedback-left"
                       placeholder="Số nhà, xóm, thôn"
+<<<<<<< HEAD
+                      onChange={(e) => setSenderAddress(e.target.value)}
+=======
                       onChange={(e) => {
                         setSenderAddress(e.target.value);
                         setSenderAddressError("");
                       }}
                       className={senderAddressError ? "error-input" : ""}
+>>>>>>> 6d26b41aaffcc7aba20380ffc3307ff2428a4728
                     />
                   </div>
                 </div>
@@ -438,12 +452,11 @@ export default function CreateOrder() {
                       name="provinces"
                       className="form-control has-feedback-left provinces"
                       onChange={(event) => {
-                        // handleProvinceChange(event, "districts");
-                        // setSenderProvince(event.target.value);
+                        setReceiverProvince(event.target.value);
+                        handleProvinceChange(event, "districts");
                       }}
                     >
                       <option value="">Chọn Tỉnh/Thành phố</option>
-                      {/* {renderData(province, "provinces")} */}
                     </select>
                   </div>
                 </div>
@@ -457,10 +470,12 @@ export default function CreateOrder() {
                       id="districts"
                       name="districts"
                       className="form-control has-feedback-left districts"
-                      onChange={(event) => handleDistrictChange(event, "wards")}
+                      onChange={(event) => {
+                        setReceiverDistrict(event.target.value);
+                        handleDistrictChange(event, "wards");
+                      }}
                     >
                       <option value="">Chọn Huyện/Quận</option>
-                      {/* {renderData(district, "districts")} */}
                     </select>
                   </div>
                 </div>
@@ -476,9 +491,9 @@ export default function CreateOrder() {
                       id="wards"
                       name="wards"
                       className="form-control has-feedback-left wards"
+                      onChange={(event) => setReceiverWard(event.target.value)}
                     >
                       <option value="">Chọn Xã/Phường</option>
-                      {/* {renderData(ward, "wards")} */}
                     </select>
                   </div>
                 </div>
@@ -493,6 +508,11 @@ export default function CreateOrder() {
                     <input
                       type="text"
                       id="receiverAddress"
+<<<<<<< HEAD
+                      className="form-control has-feedback-left"
+                      placeholder="Số nhà, xóm, thôn"
+                      onChange={(e) => setReceiverAddress(e.target.value)}
+=======
                       // name="senderInformation"
                       // value=""
                       // className="form-control has-feedback-left"
@@ -502,6 +522,7 @@ export default function CreateOrder() {
                         setReceiverAddressError("");
                       }}
                       className={receiverAddressError ? "error-input" : ""}
+>>>>>>> 6d26b41aaffcc7aba20380ffc3307ff2428a4728
                     />
                   </div>
                 </div>
@@ -938,6 +959,7 @@ export default function CreateOrder() {
             </div>
           </div>
         </div>
+        <div id="noti"></div>
       </div>
     </div>
   );

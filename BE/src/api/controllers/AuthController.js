@@ -64,7 +64,7 @@ export const register = async (req, res) => {
       name: req.body.name,
       birth: req.body.birth,
       email: req.body.email,
-      sđt: req.body.sđt,
+      phone: req.body.phone,
       address: req.body.address,
       role: req.body.role,
       id_workplace: req.body.id_workplace,

@@ -1,22 +1,99 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, TextField, Box, Typography } from "@mui/material";
-
+import axios from "axios";
+import "../../../style/transactionStaff/ShippingOrder.css";
 export default function ShippingOrder() {
   const [values, setValues] = useState({
-    employeeId: "",
-    cashBonus: "",
-    endOfYearBonus: "",
-    transactionComment: "",
+    idOrder: "",
+    gatherPlace: "",
+    note: "",
   });
 
   const handleChange = (prop) => (event) => {
     setValues({ ...values, [prop]: event.target.value });
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
+  function renderGatherPlace(array, select) {
+    let row = '<option value="">Chọn điểm tập kết</option>';
+    array.forEach((element) => {
+      row += `<option value="${element.id_workplace}">${element.id_workplace}</option>`;
+    });
+    const selectElement = document.querySelector("#" + select);
+    if (selectElement) {
+      selectElement.innerHTML = row;
+    } else {
+      console.error("Element with id '" + select + "' not found.");
+    }
+  }
+  const handleSubmit = () => {
     // handle form submission logic here
+    let btn = document.getElementById("noti");
+    let p = document.createElement("p");
+    let notification = document.createTextNode("Chuyển hàng thành công");
+    p.appendChild(notification);
+    p.style.backgroundColor = "#1565C0";
+    p.style.padding = "10px";
+    p.style.marginTop = "10vh";
+    p.style.color = "white";
+    btn.appendChild(p);
+    handlePutOrder();
   };
+
+  async function getGatherPlace() {
+    try {
+      let data = await axios.get("http://localhost:3001/auth");
+      let gatherPlace = data.data;
+      renderGatherPlace(gatherPlace, "gatherPlace");
+    } catch (e) {
+      console.log(e);
+    }
+  }
+  useEffect(() => {
+    getGatherPlace();
+  }, []);
+
+  const [putdata, setPutdata] = useState({});
+
+  async function handleGetOrder() {
+    const baseUrl = "http://localhost:3001/information/search";
+    const params = {
+      id: values.idOrder,
+    };
+    axios
+      .get(baseUrl, { params })
+      .then((response) => {
+        setPutdata(response.data.result);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  }
+
+  useEffect(() => {
+    handleGetOrder();
+  }, []);
+  // console.log(putdata);
+  async function handlePutOrder() {
+    if (putdata.postalInformation) {
+      putdata.postalInformation.status = "Đang giao";
+      putdata.postalInformation.destination = values.gatherPlace;
+
+      try {
+        const response = await axios.put(
+          "http://localhost:3001/information/",
+          putdata
+        );
+        console.log(putdata, response);
+      } catch (error) {
+        console.log(putdata, error);
+      }
+    } else {
+      console.error("Postal information is undefined in putdata");
+    }
+  }
+  useEffect(() => {
+    handlePutOrder();
+  }, []);
 
   return (
     <Box
@@ -47,7 +124,7 @@ export default function ShippingOrder() {
             padding: "10px",
           }}
         >
-          <form onSubmit={handleSubmit}>
+          <form>
             <Box
               sx={{
                 display: "flex",
@@ -57,40 +134,32 @@ export default function ShippingOrder() {
               }}
             >
               <TextField
-                width="50%"
-                required
-                label="Mã nhân viên"
-                value={values.employeeId}
-                onChange={handleChange("employeeId")}
-                margin="normal"
-              />
-              <TextField
+                id="idOrder"
                 width="50%"
                 required
                 label="Mã bưu gửi"
-                value={values.cashBonus}
-                onChange={handleChange("cashBonus")}
+                onChange={handleChange("idOrder")}
                 margin="normal"
               />
-              <TextField
+
+              <select
+                id="gatherPlace"
                 width="50%"
-                required
                 label="Điểm tập kết"
-                value={values.endOfYearBonus}
-                onChange={handleChange("endOfYearBonus")}
+                onChange={handleChange("gatherPlace")}
                 margin="normal"
-              />
+              ></select>
               <TextField
+                id="note"
                 width="50%"
                 label="Ghi chú"
-                value={values.transactionComment}
-                onChange={handleChange("transactionComment")}
+                onChange={handleChange("note")}
                 margin="normal"
               />
             </Box>
           </form>
         </Box>
-        <Box sx={{ textAlign: "center" }}>
+        <Box sx={{ textAlign: "center", margin: "auto" }}>
           <Button
             type="submit"
             width="50%"
@@ -98,11 +167,14 @@ export default function ShippingOrder() {
             color="primary"
             style={{
               marginTop: "1rem",
+              marginRight: "35%",
             }}
+            onClick={handleSubmit}
           >
             XÁC NHẬN
           </Button>
         </Box>
+        <div id="noti"></div>
       </Box>
     </Box>
   );

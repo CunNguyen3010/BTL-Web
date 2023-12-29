@@ -28,7 +28,7 @@ export default function AccountManagement() {
       if (id_workplace) searchParams.append("id_workplace", id_workplace);
   
       // Kiểm tra giá trị của role
-      if (role === "all") {
+      if (role === "all" || role === "") {
         // Nếu role là "all", thì thêm cả hai vai trò
         const transactionAdminURL = `http://localhost:3001/auth/search?${searchParams.toString()}&role=transactionAdmin`;
         const gatheringAdminURL = `http://localhost:3001/auth/search?${searchParams.toString()}&role=gatheringAdmin`;
@@ -51,7 +51,7 @@ export default function AccountManagement() {
   
         // Xây dựng URL với các tham số tìm kiếm
         const searchURL = `http://localhost:3001/auth/search?${searchParams.toString()}`;
-  
+        console.log("searchURL:", searchURL)
         // Gửi yêu cầu tìm kiếm sử dụng axios hoặc fetch cho một vai trò
         const response = await axios.get(searchURL);
   
@@ -125,9 +125,7 @@ export default function AccountManagement() {
               }}
             >
               <option value="all">Tất cả</option>
-              <option value="transactionAdmin">
-                Trưởng điểm giao dịch
-              </option>
+              <option value="transactionAdmin">Trưởng điểm giao dịch</option>
               <option value="gatheringAdmin">Trưởng điểm tập kết</option>
             </select>
           </div>

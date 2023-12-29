@@ -1,5 +1,11 @@
 import { Router } from "express";
-import { getAllInformations, searchInformation, createInformation, updateInformation, deleteInformation } from "../controllers/InformationController";
+import {
+  getAllInformations,
+  searchInformation,
+  createInformation,
+  updateInformation,
+  deleteInformation,
+} from "../controllers/InformationController";
 // import { checkToken } from "../middlewares/authMiddleware";
 
 const informationRoute = Router();
@@ -14,6 +20,5 @@ informationRoute.post("/", createInformation); // tạo đơn hàng
 informationRoute.put("/", updateInformation); // update đơn hàng
 // DELETE_DELETE
 informationRoute.delete("/", deleteInformation); // xóa đơn hàng
-
 
 export default informationRoute;

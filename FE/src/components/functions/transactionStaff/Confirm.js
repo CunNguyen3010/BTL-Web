@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../../../style/transactionStaff/Confirm.css";
+import axios from "axios";
 
 export default function Confirm() {
   const [orderCode, setOrderCode] = useState("");
@@ -16,7 +17,7 @@ export default function Confirm() {
   const [selectedItem, setSelectedItem] = useState(null);
   const [successMessage, setSuccessMessage] = useState("");
 
-  const data = [];
+  let data = [];
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
@@ -32,18 +33,22 @@ export default function Confirm() {
 
   const handleSearch = async (event) => {
     event.preventDefault();
-
     // Kiểm tra các trường bắt buộc
     if (!orderCode) {
       setOrderCodeError("Vui lòng nhập mã đơn hàng!");
     }
-
     // Xử lý logic khi người dùng tìm kiếm nếu không có lỗi
     if (orderCode) {
       console.log("Search data:", {
         orderCode,
         status,
       });
+<<<<<<< HEAD
+      // Reset form sau khi tìm kiếm thành công
+      setOrderCode("");
+      setStatus("");
+      // setShowTable(true);
+=======
 
       try {
         // Gửi dữ liệu tìm kiếm lên backend
@@ -76,9 +81,59 @@ export default function Confirm() {
         console.error(error);
         setSuccessMessage("Đã xảy ra lỗi khi gửi yêu cầu!");
       }
+>>>>>>> 6d26b41aaffcc7aba20380ffc3307ff2428a4728
     }
   };
+  // console.log(orderCode);
+  const [order, setOrder] = useState({});
 
+  async function handleGetOrder() {
+    const baseUrl = "http://localhost:3001/information/search";
+    const params = {
+      id: orderCode,
+    };
+
+    axios
+      .get(baseUrl, { params })
+      .then((response) => {
+        setOrder(response.data.result);
+        renderOrder();
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  }
+  // // console.log(order);
+  useEffect(() => {
+    handleGetOrder();
+  }, []);
+  const [index, setIndex] = useState(0);
+  function renderOrder() {
+    let element = `<tr>
+    <th>STT</th>
+    <th>Mã đơn hàng</th>
+    <th>Trạng thái</th>
+    <th>Nơi gửi</th>
+    <th>Nơi nhận</th>
+    <th>Sản phẩm</th>
+    <th>Phí</th>
+    <th>Tiền thu hộ</th>
+    <th>Xác nhận</th>
+  </tr>`;
+    element += `<tr>
+          <td>${index}</td>
+          <td>${order._id}</td>
+          <td>${order.postalInformation.status}</td>
+          <td>${order.postalInformation.source}</td>
+          <td>${order.postalInformation.destination}</td>
+          <td>${order.postalInformation.name}</td>
+          <td>${order.postalInformation.price}</td>
+          <td>${order.postalInformation.price}</td>
+          <td><button>Xác nhận</button></td>
+      </tr>`;
+    document.getElementById("tabledata").innerHTML = element;
+    setIndex(index + 1);
+  }
   return (
     <div className="registration-form-container">
       <form onSubmit={handleSearch} className="registration-form w100">
@@ -90,7 +145,6 @@ export default function Confirm() {
             <input
               type="text"
               id="orderCode"
-              value={orderCode}
               onChange={(e) => {
                 setOrderCode(e.target.value);
                 setOrderCodeError("");
@@ -133,8 +187,11 @@ export default function Confirm() {
             <div className="col-md-12 col-sm-12 col-xs-12">
               <div className="x_content">
                 <div className="table-responsive">
-                  <table className="table table-hover table-condensed table-striped text-info table-width-auto">
-                    <thead>
+                  <table
+                    id="tabledata"
+                    className="table table-hover table-condensed table-striped text-info table-width-auto"
+                  >
+                    {/* <thead>
                       <tr>
                         <th>STT</th>
                         <th>Mã đơn hàng</th>
@@ -145,35 +202,9 @@ export default function Confirm() {
                         <th>Phí</th>
                         <th>Tiền thu hộ</th>
                         <th>Xác nhận</th>
-
-                        {/* Thêm các đề mục cột khác */}
                       </tr>
                     </thead>
-                    <tbody>
-                      {currentItems.map((item, index) => (
-                        <tr key={index}>
-                          {/* Hiển thị dữ liệu của từng dòng */}
-                          <td>{item.column1}</td>
-                          <td>{item.column2}</td>
-                          <td>{item.column3}</td>
-                          <td>{item.column4}</td>
-                          <td>{item.column5}</td>
-                          <td>{item.column6}</td>
-                          <td>{item.column7}</td>
-                          <td>{item.column8}</td>
-                          <td>{item.column9}</td>
-                          {/* Hiển thị các cột dữ liệu khác */}
-                          <td>
-                            <button
-                              onClick={() => handleConfirm(item)}
-                              className="btn btn-success"
-                            >
-                              Xác nhận
-                            </button>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
+                    <tbody id="tablebody"></tbody> */}
                   </table>
                 </div>
                 <div className="pagination">
