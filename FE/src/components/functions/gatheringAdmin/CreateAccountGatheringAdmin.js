@@ -10,7 +10,8 @@ export default function CreateAccountGatheringAdmin() {
   const [phone, setPhone] = useState("");
   const [birth, setBirth] = useState("");
   const [address, setAddress] = useState(""); // Thêm state cho address
-  const [id_workplace, setIDWorkplace] = useState(""); // Thêm state cho id_workplace
+  const [workplace, setWorkplace] = useState(""); // Thêm state cho workplace
+  const [id_workplace, setIDWorkplace] = useState(""); 
 
   useEffect(() => {
     // Lấy giá trị từ cookie khi component được mount
@@ -18,6 +19,7 @@ export default function CreateAccountGatheringAdmin() {
     if (userDataFromCookie) {
       const userData = JSON.parse(userDataFromCookie);
       // console.log(userData)
+      setWorkplace(userData.user.workplace || ""); // Sử dụng giá trị mặc định hoặc giá trị từ userData
       setIDWorkplace(userData.user.id_workplace || ""); // Sử dụng giá trị mặc định hoặc giá trị từ userData
     }
   }, []); // Chạy chỉ một lần khi component mount
@@ -40,7 +42,8 @@ export default function CreateAccountGatheringAdmin() {
           birth,
           address,
           role: "gatheringStaff", // Đặt giá trị mặc định cho role
-          id_workplace,
+          workplace,
+          id_workplace
         }),
       });
 

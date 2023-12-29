@@ -43,12 +43,6 @@ export default function Confirm() {
         orderCode,
         status,
       });
-<<<<<<< HEAD
-      // Reset form sau khi tìm kiếm thành công
-      setOrderCode("");
-      setStatus("");
-      // setShowTable(true);
-=======
 
       try {
         // Gửi dữ liệu tìm kiếm lên backend
@@ -81,7 +75,6 @@ export default function Confirm() {
         console.error(error);
         setSuccessMessage("Đã xảy ra lỗi khi gửi yêu cầu!");
       }
->>>>>>> 6d26b41aaffcc7aba20380ffc3307ff2428a4728
     }
   };
   // console.log(orderCode);

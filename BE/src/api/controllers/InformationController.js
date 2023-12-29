@@ -31,6 +31,7 @@ const informationSchema = new mongoose.Schema({
     source: String, // đơn hàng đang được rời đi từ đâu
     status: String, // đang giao or đang ở source
     destination: String, // đơn hàng chuẩn bị đến đâu (= null khi status = đang ở source)
+    complete: String,
   },
 });
 
@@ -122,12 +123,12 @@ export const updateInformation = async (req, res) => {
 };
 
 export const deleteInformation = async (req, res) => {
-  const { id } = req.body;
+  const { _id } = req.body;
 
-  if (!id) return res.json({ message: "ID is required" }).status(400);
+  if (!_id) return res.json({ message: "ID is required" }).status(400);
 
   try {
-    const deletedInformation = await Information.findByIdAndDelete(id);
+    const deletedInformation = await Information.findByIdAndDelete(_id);
 
     if (!deletedInformation) return res.json({ message: "Information not found" }).status(404);
 

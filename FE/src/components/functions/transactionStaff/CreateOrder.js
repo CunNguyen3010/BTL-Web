@@ -15,11 +15,8 @@ export default function CreateOrder() {
   const [senderDistrict, setSenderDistrict] = useState("");
   const [senderWard, setSenderWard] = useState("");
   const [senderAddress, setSenderAddress] = useState("");
-<<<<<<< HEAD
-=======
   const [senderAddressError, setSenderAddressError] = useState("");
 
->>>>>>> 6d26b41aaffcc7aba20380ffc3307ff2428a4728
   // Người nhận
   const [receiverInformation, setReceiverInformation] = useState("");
   const [receiverName, setReceiverName] = useState("");
@@ -273,11 +270,8 @@ export default function CreateOrder() {
                       className="form-control has-feedback-left province"
                       // value={senderProvince}
                       onChange={(event) => {
-<<<<<<< HEAD
-=======
                         // alert(event.target.value);
                         // alert(senderProvince)
->>>>>>> 6d26b41aaffcc7aba20380ffc3307ff2428a4728
                         setSenderProvince(event.target.value);
                         handleProvinceChange(event, "district");
                       }}
@@ -337,15 +331,11 @@ export default function CreateOrder() {
                       value={senderAddress}
                       // className="form-control has-feedback-left"
                       placeholder="Số nhà, xóm, thôn"
-<<<<<<< HEAD
-                      onChange={(e) => setSenderAddress(e.target.value)}
-=======
                       onChange={(e) => {
                         setSenderAddress(e.target.value);
                         setSenderAddressError("");
                       }}
                       className={senderAddressError ? "error-input" : ""}
->>>>>>> 6d26b41aaffcc7aba20380ffc3307ff2428a4728
                     />
                   </div>
                 </div>
@@ -502,11 +492,6 @@ export default function CreateOrder() {
                     <input
                       type="text"
                       id="receiverAddress"
-<<<<<<< HEAD
-                      className="form-control has-feedback-left"
-                      placeholder="Số nhà, xóm, thôn"
-                      onChange={(e) => setReceiverAddress(e.target.value)}
-=======
                       // name="senderInformation"
                       // value=""
                       // className="form-control has-feedback-left"
@@ -516,7 +501,6 @@ export default function CreateOrder() {
                         setReceiverAddressError("");
                       }}
                       className={receiverAddressError ? "error-input" : ""}
->>>>>>> 6d26b41aaffcc7aba20380ffc3307ff2428a4728
                     />
                   </div>
                 </div>
