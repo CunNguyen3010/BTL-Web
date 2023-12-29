@@ -5,36 +5,18 @@ import axios from "axios";
 export default function Confirm() {
   const [orderCode, setOrderCode] = useState("");
   const [orderCodeError, setOrderCodeError] = useState("");
-
-  const [status1, setStatus1] = useState("");
   const [statusError, setStatusError] = useState("");
-
-  const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(10);
-  const [selectedItem, setSelectedItem] = useState(null);
   const [successMessage, setSuccessMessage] = useState("");
 
-  let data = [];
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
-
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
-
-  const handleConfirm = (item) => {
-    setSelectedItem(item);
-    setSuccessMessage(`Đã xác nhận đơn hàng ${item.column2}`);
-  };
-
-  const handleSearch = (event) => {
+  const handleConfirm = (event) => {
     event.preventDefault();
-    // Kiểm tra các trường bắt buộc
+    setSuccessMessage("Đã xác nhận đơn hàng");
     if (!orderCode) {
       setOrderCodeError("Vui lòng nhập mã đơn hàng!");
     }
+    deleteOrder();
   };
+
   const [order, setOrder] = useState([]);
 
   useEffect(() => {
@@ -48,7 +30,7 @@ export default function Confirm() {
          <th>Sản phẩm</th>
          <th>Phí</th>
          <th>Tiền thu hộ</th>
-         <th>Xác nhận</th>
+       
          </tr>`;
       order.forEach((item, index) => {
         element += `<tr>
@@ -60,7 +42,7 @@ export default function Confirm() {
            <td>${item.postalInformation?.name}</td>
            <td>${item.postalInformation?.price}</td>
            <td>${item.postalInformation?.price}</td>
-           <td><button>Xác nhận</button></td>
+          
            </tr>`;
       });
       document.getElementById("tabledata").innerHTML = element;
@@ -80,9 +62,22 @@ export default function Confirm() {
     handleGetOrder();
   }, [order]);
 
+  async function deleteOrder() {
+    const baseUrl = "http://localhost:3001/information/";
+    axios
+      .delete(baseUrl, { data: { _id: orderCode } })
+      .then((response) => {
+        console.log(response);
+        console.log(`Deleted post with ID ${orderCode}`);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+
   return (
     <div className="registration-form-container">
-      <form onSubmit={handleSearch} className="registration-form w100">
+      <div className="registration-form w100">
         <div className="one-row box">
           <div className="form-group has-feedback">
             <label htmlFor="orderCode">
@@ -101,30 +96,12 @@ export default function Confirm() {
               <p className="error-message">{orderCodeError}</p>
             )}
           </div>
-
-          <div className="form-group has-feedback">
-            <label htmlFor="status">
-              <span className="required-field">*</span> Trạng thái:
-            </label>
-            <select
-              id="status"
-              onChange={(e) => {
-                // setStatus1(e.target.value);
-                setStatusError("");
-              }}
-              className={statusError ? "error-input" : ""}
-            >
-              <option value="Trưởng điểm giao dịch">Đã giao</option>
-              <option value="Trưởng điểm tập kết">Chưa giao</option>
-            </select>
-            {statusError && <p className="error-message">{statusError}</p>}
-          </div>
         </div>
 
-        <button className="btn-search" type="submit">
-          Tìm kiếm
+        <button className="btn-search" onClick={handleConfirm}>
+          Xác nhận
         </button>
-      </form>
+      </div>
 
       <div className="row">
         <div className="x_panel no-pd">
@@ -136,26 +113,6 @@ export default function Confirm() {
                     id="tabledata"
                     className="table table-hover table-condensed table-striped text-info table-width-auto"
                   ></table>
-                </div>
-                <div className="pagination">
-                  {data.length > itemsPerPage && (
-                    <ul className="pagination-list">
-                      {Array.from(
-                        { length: Math.ceil(data.length / itemsPerPage) },
-                        (_, index) => (
-                          <li
-                            key={index}
-                            className={`pagination-item ${
-                              index + 1 === currentPage ? "active" : ""
-                            }`}
-                            onClick={() => handlePageChange(index + 1)}
-                          >
-                            {index + 1}
-                          </li>
-                        )
-                      )}
-                    </ul>
-                  )}
                 </div>
               </div>
             </div>

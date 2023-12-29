@@ -1,9 +1,4 @@
-<<<<<<< HEAD
-import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
-import React, { useEffect, useState, useRef } from "react";
-=======
 import React, { useEffect, useState } from "react";
->>>>>>> 2170d2ee061f2ff2bc7338b3c16520652f199fc2
 import User from "../../../assets/icon/user-solid.svg";
 import Phone from "../../../assets/icon/phone-solid.svg";
 import "../../../style/transactionStaff/CreateOrder.css";
