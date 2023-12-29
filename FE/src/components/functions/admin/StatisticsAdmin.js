@@ -107,33 +107,25 @@ export default function StatisticsAdmin() {
       'postalInformation.status': "Đang Giao",
       'postalInformation.source': id_workplace,
     };
-    axios
-      .get(baseUrl, { params })
-      .then((response) => {
-        setTotalSuccessfulOrders(response.data.result);
-        console.log("total", totalSuccessfulOrders)
-        // console.log("param", params)
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
-
-
-
-    const baseUrltotal = "http://localhost:3001/information/search";
-    const paramstotal = {
-      'postalInformation.status': "Đang Ở",
-      'postalInformation.source': id_workplace,
-    };
-    axios
-      .get(baseUrltotal, { paramstotal })
-      .then((response) => {
-        setTotalOrders(response.data.result);
-        console.log(totalOrders)
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
+  
+    try {
+      const response1 = await axios.get(baseUrl, { params });
+      setTotalSuccessfulOrders(response1.data.result);
+      console.log("total", totalSuccessfulOrders);
+  
+      // Gửi request dưới chỉ khi request trên đã hoàn thành
+      const baseUrltotal = "http://localhost:3001/information/search";
+      const paramstotal = {
+        'postalInformation.status': "Đang Ở",
+        'postalInformation.source': id_workplace,
+      };
+  
+      const response2 = await axios.get(baseUrltotal, { params: paramstotal });
+      setTotalOrders(response2.data.result);
+      console.log(totalOrders);
+    } catch (error) {
+      console.error("Error:", error);
+    }
   }
 
 
