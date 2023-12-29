@@ -82,13 +82,8 @@ export default function CreateAccount() {
           </label>
           <input
             type="text"
-<<<<<<< HEAD
-            id="useName"
-            value={useName}
-=======
             id="userName"
-            value={name}
->>>>>>> c7c7c9f976e111d68bbd508035c055da24817717
+            value={userName}
             onChange={(e) => {
               setUserName(e.target.value);
               setUserNameError("");
