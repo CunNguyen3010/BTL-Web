@@ -49,9 +49,11 @@ export default function CreateAccountTranAdmin() {
 
       if (response.ok) {
         console.log(response);
+        alert("Tạo thành công")
         // Thêm logic xử lý khi đăng ký thành công
       } else {
         console.error("Failed to grant account to teller");
+        alert("Tạo thất bại")
       }
     } catch (error) {
       console.error("Error:", error);

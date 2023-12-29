@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import "../../../style/admin/CreateAccount.css";
 
 export default function CreateAccount() {
-  const [useName, setUseName] = useState("");
-  const [useNameError, setUseNameError] = useState("");
+  const [userName, setUserName] = useState("");
+  const [userNameError, setUserNameError] = useState("");
   const [password, setPassword] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [name, setName] = useState("");
@@ -23,8 +23,8 @@ export default function CreateAccount() {
     event.preventDefault();
 
     // Kiểm tra các trường bắt buộc
-    if (!useName) {
-      setUseName("Vui lòng nhập tên đăng nhập!");
+    if (!userName) {
+      setUserName("Vui lòng nhập tên đăng nhập!");
     }
     if (!password) {
       setPassword("vui lòng nhập mật khẩu!");
@@ -51,7 +51,7 @@ export default function CreateAccount() {
     // Xử lý logic khi người dùng submit form nếu không có lỗi
     if (name && cccd && phone && email && birthdate) {
       console.log("Submitted data:", {
-        useName,
+        userName,
         password,
         name,
         position,
@@ -62,7 +62,7 @@ export default function CreateAccount() {
       });
 
       // Reset form sau khi submit thành công
-      setUseName("");
+      setUserName("");
       setPassword("");
       setName("");
       setPosition("");
@@ -77,20 +77,25 @@ export default function CreateAccount() {
     <div className="registration-form-container">
       <form onSubmit={handleSubmit} className="registration-form">
         <div className="form-group">
-          <label htmlFor="useName">
+          <label htmlFor="userName">
             <span className="required-field">*</span> Tên đăng nhập:
           </label>
           <input
             type="text"
+<<<<<<< HEAD
             id="useName"
             value={useName}
+=======
+            id="userName"
+            value={name}
+>>>>>>> c7c7c9f976e111d68bbd508035c055da24817717
             onChange={(e) => {
-              setUseName(e.target.value);
-              setUseNameError("");
+              setUserName(e.target.value);
+              setUserNameError("");
             }}
-            className={useNameError ? "error-input" : ""}
+            className={userNameError ? "error-input" : ""}
           />
-          {nameError && <p className="error-message">{useNameError}</p>}
+          {nameError && <p className="error-message">{userNameError}</p>}
         </div>
         <div className="form-group">
           <label htmlFor="password">
