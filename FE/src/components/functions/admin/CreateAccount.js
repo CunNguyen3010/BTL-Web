@@ -20,14 +20,9 @@ export default function CreateAccount() {
   const [phone, setPhone] = useState("");
   const [birth, setBirth] = useState("");
   const [address, setAddress] = useState(""); // Thêm state cho address
-<<<<<<< HEAD
   const [role, setRole] = useState("");
-  const [id_workplace, setIDWorkplace] = useState(""); // Thêm state cho id_workplace
-=======
-  const [role, setRole] = useState(""); 
   const [workplace, setWorkplace] = useState(""); // Thêm state cho workplace
-  const [id_workplace, setIDWorkplace] = useState(""); 
->>>>>>> 4291005b14b5317e8009bafab5fd79bad10a5b33
+  const [id_workplace, setIDWorkplace] = useState("");
 
   let callAPI = async (api) => {
     return axios.get(api).then((response) => {
@@ -39,7 +34,7 @@ export default function CreateAccount() {
   }, []);
 
   let renderData = (array, select) => {
-    let row = ' <option disable value="">Chọn</option>';
+    let row = ' <option disable value="">Chọn nơi làm việc</option>';
     array.forEach((element) => {
       row += `<option data-id="${element.code}" value="${element.name}">${element.name}</option>`;
     });
@@ -56,18 +51,14 @@ export default function CreateAccount() {
     e.preventDefault();
 
     // Check if required fields are not empty
-<<<<<<< HEAD
     if (
       !username ||
       !password ||
       !role ||
-      !id_workplace ||
+      !workplace ||
       role === "" ||
-      id_workplace === ""
+      workplace === ""
     ) {
-=======
-    if (!username || !password || !role || !workplace || role==="" || workplace==="") {
->>>>>>> 4291005b14b5317e8009bafab5fd79bad10a5b33
       alert("Vui lòng nhập đầy đủ thông tin");
       return;
     }
@@ -89,7 +80,7 @@ export default function CreateAccount() {
           address,
           role,
           workplace,
-          id_workplace
+          id_workplace,
         }),
       });
 
@@ -139,24 +130,25 @@ export default function CreateAccount() {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <div className="form-group has-feedback">
-          <label htmlFor="role">Chức vụ:</label>
+        <div className="form-group has-feedback p0">
+          {/* <label htmlFor="role">Chức vụ:</label> */}
           <select
             id="role"
             value={role}
             onChange={(e) => {
               setRole(e.target.value);
             }}
+            style={{ height: "52px" }}
           >
-            <option value="">-Chọn-</option>
+            <option value="">-Chọn chức vụ-</option>
             <option value="transactionAdmin">Trưởng điểm giao dịch</option>
             <option value="gatheringAdmin">Trưởng điểm tập kết</option>
           </select>
         </div>
 
-        <div className="has-feedback">
+        <div className="has-feedback p0">
           <div className="name">
-            <label className="control-label">TỈNH/THÀNH PHỐ</label>
+            {/* <label className="control-label">TỈNH/THÀNH PHỐ</label> */}
           </div>
           <div className="input-group">
             <select
@@ -164,11 +156,7 @@ export default function CreateAccount() {
               name="workplace"
               className="form-control has-feedback-left workplace"
               onChange={(event) => {
-<<<<<<< HEAD
-                setIDWorkplace(event.target.value);
-=======
-                setWorkplace(event.target.value);               
->>>>>>> 4291005b14b5317e8009bafab5fd79bad10a5b33
+                setWorkplace(event.target.value);
               }}
             >
               <option value="">Chọn Tỉnh/Thành phố</option>

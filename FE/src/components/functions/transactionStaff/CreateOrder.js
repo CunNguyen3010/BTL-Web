@@ -15,10 +15,6 @@ export default function CreateOrder() {
   const [senderWard, setSenderWard] = useState("");
   const [senderAddress, setSenderAddress] = useState("");
   const [senderAddressError, setSenderAddressError] = useState("");
-<<<<<<< HEAD
-=======
-
->>>>>>> 4291005b14b5317e8009bafab5fd79bad10a5b33
   // Người nhận
   const [receiverInformation, setReceiverInformation] = useState("");
   const [receiverName, setReceiverName] = useState("");
@@ -309,11 +305,8 @@ export default function CreateOrder() {
                       className="form-control has-feedback-left province"
                       // value={senderProvince}
                       onChange={(event) => {
-<<<<<<< HEAD
-=======
                         // alert(event.target.value);
                         // alert(senderProvince)
->>>>>>> 4291005b14b5317e8009bafab5fd79bad10a5b33
                         setSenderProvince(event.target.value);
                         handleProvinceChange(event, "district");
                       }}
@@ -835,7 +828,6 @@ export default function CreateOrder() {
                   <div className="name">
                     <label className="control-label"> TIỀN THU HỘ</label>
                   </div>
-<<<<<<< HEAD
                   {/* <div className="input-group">
                     <input
                       type="checkbox"
@@ -850,8 +842,6 @@ export default function CreateOrder() {
                       Thu hộ bằng tiền hàng
                     </label>
                   </div> */}
-=======
->>>>>>> 4291005b14b5317e8009bafab5fd79bad10a5b33
 
                   <div className="input-group">
                     <input

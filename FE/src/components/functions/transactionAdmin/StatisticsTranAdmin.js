@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Cookies from 'js-cookie';
+import Cookies from "js-cookie";
 import {
   Card,
   CardContent,
@@ -14,19 +14,16 @@ import {
 import "../../../style/transactionStaff/statistics.css";
 import axios from "axios";
 
-
 export default function StatisticsAdmin() {
   // Assuming these are fetched from the server
-  
-  
+
   const [id_workplace, setIDWorkplace] = React.useState("");
   const [totalOrders, setTotalOrders] = React.useState("");
   const [totalSuccessfulOrders, setTotalSuccessfulOrders] = React.useState("");
 
-
   useEffect(() => {
     // Lấy giá trị từ cookie khi component được mount
-    const userDataFromCookie = Cookies.get('userData');
+    const userDataFromCookie = Cookies.get("userData");
     if (userDataFromCookie) {
       const userData = JSON.parse(userDataFromCookie);
       // console.log(userData)
@@ -55,7 +52,7 @@ export default function StatisticsAdmin() {
     try {
       let data = await axios.get("http://localhost:3001/auth");
       let gatherPlace = data.data;
-      
+
       renderGatherPlace(gatherPlace, "gatherPlace");
     } catch (e) {
       console.log(e);
@@ -65,28 +62,25 @@ export default function StatisticsAdmin() {
     getGatherPlace();
   }, []);
 
-
-
-
   async function handleSubmit() {
     const baseUrl = "http://localhost:3001/information/search";
     const params = {
-      'postalInformation.status': "Đang Giao",
-      'postalInformation.source': id_workplace,
+      "postalInformation.status": "Đang Giao",
+      "postalInformation.source": id_workplace,
     };
-  
+
     try {
       const response1 = await axios.get(baseUrl, { params });
       setTotalSuccessfulOrders(response1.data.result);
       console.log("total", totalSuccessfulOrders);
-  
+
       // Gửi request dưới chỉ khi request trên đã hoàn thành
       const baseUrltotal = "http://localhost:3001/information/search";
       const paramstotal = {
-        'postalInformation.status': "Đang Ở",
-        'postalInformation.source': id_workplace,
+        "postalInformation.status": "Đang Ở",
+        "postalInformation.source": id_workplace,
       };
-  
+
       const response2 = await axios.get(baseUrltotal, { params: paramstotal });
       setTotalOrders(response2.data.result);
       console.log(totalOrders);
@@ -95,14 +89,13 @@ export default function StatisticsAdmin() {
     }
   }
 
-
   return (
     <div className="stats-container">
       <div>
         <button onClick={handleSubmit}>Thống Kê</button>
       </div>
       <div className="card">
-        <Card className="stats-card">
+        <Card className="stats-card" style={{ height: "100px" }}>
           <CardContent>
             <Typography className="stats-title" color="text.secondary">
               Tổng số đến
@@ -112,7 +105,7 @@ export default function StatisticsAdmin() {
             </Typography>
           </CardContent>
         </Card>
-        <Card className="stats-card">
+        <Card className="stats-card" style={{ height: "100px" }}>
           <CardContent>
             <Typography className="stats-title" color="text.secondary">
               Tổng số đi
