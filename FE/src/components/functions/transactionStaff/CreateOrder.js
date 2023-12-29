@@ -577,7 +577,7 @@ export default function CreateOrder() {
                     <div className="input-group ">
                       <input
                         type="radio"
-                        id="type"
+                        id="goods"
                         name="code"
                         // value=""
                         className="custom-control-input"
@@ -828,20 +828,6 @@ export default function CreateOrder() {
                   <div className="name">
                     <label className="control-label"> TIỀN THU HỘ</label>
                   </div>
-                  {/* <div className="input-group">
-                    <input
-                      type="checkbox"
-                      // id="checkbox-input"
-                      // name="code"
-                      value="HGC"
-                      className="mat-checkbox-input"
-                      tabIndex={0}
-                      aria-checked="false"
-                    />
-                    <label className="mat-checkbox-label">
-                      Thu hộ bằng tiền hàng
-                    </label>
-                  </div> */}
 
                   <div className="input-group">
                     <input
@@ -865,8 +851,8 @@ export default function CreateOrder() {
                     <div className="input-group">
                       <input
                         type="radio"
-                        // id="code"
-                        name="code"
+                        id="sender"
+                        name="payer"
                         value=""
                         className="custom-control-input"
                         placeholder=""
@@ -877,8 +863,8 @@ export default function CreateOrder() {
                     <div className="input-group ">
                       <input
                         type="radio"
-                        // id="code"
-                        name="code"
+                        id="receiver"
+                        name="payer"
                         value=""
                         className="custom-control-input"
                         placeholder=""
@@ -913,8 +899,8 @@ export default function CreateOrder() {
                     <div className="input-group">
                       <input
                         type="radio"
-                        // id="code"
-                        name="code"
+                        id="post"
+                        name="pickup"
                         value=""
                         className="custom-control-input"
                         placeholder=""
@@ -927,8 +913,8 @@ export default function CreateOrder() {
                     <div className="input-group ">
                       <input
                         type="radio"
-                        // id="code"
-                        name="code"
+                        id="post"
+                        name="pickup"
                         value=""
                         className="custom-control-input"
                         placeholder=""

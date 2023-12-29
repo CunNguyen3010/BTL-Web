@@ -138,6 +138,9 @@ export default function Confirm() {
               <p className="error-message">{orderCodeError}</p>
             )}
           </div>
+          {/* <button className="btn-search" onClick={handleConfirm}>
+            Xác nhận
+          </button> */}
         </div>
 
         <button className="btn-search" onClick={handleConfirm}>
