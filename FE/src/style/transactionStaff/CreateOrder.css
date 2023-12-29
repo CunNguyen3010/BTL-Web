@@ -153,6 +153,7 @@ h2 {
   font-size: 18px;
   padding: 4px;
   color: #fff;
+  padding: 8px;
 }
 
 .text-center .btn:hover {
@@ -229,4 +230,8 @@ label {
   .main-create {
     margin: 10px 0;
   }
+}
+
+.custom-control-input {
+  width: 30px;
 }

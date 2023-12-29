@@ -1,9 +1,4 @@
-<<<<<<< HEAD
-import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
-import React, { useEffect, useState, useRef } from "react";
-=======
 import React, { useEffect, useState } from "react";
->>>>>>> 2170d2ee061f2ff2bc7338b3c16520652f199fc2
 import User from "../../../assets/icon/user-solid.svg";
 import Phone from "../../../assets/icon/phone-solid.svg";
 import "../../../style/transactionStaff/CreateOrder.css";
@@ -20,11 +15,7 @@ export default function CreateOrder() {
   const [senderDistrict, setSenderDistrict] = useState("");
   const [senderWard, setSenderWard] = useState("");
   const [senderAddress, setSenderAddress] = useState("");
-<<<<<<< HEAD
-=======
   const [senderAddressError, setSenderAddressError] = useState("");
-
->>>>>>> 6d26b41aaffcc7aba20380ffc3307ff2428a4728
   // Người nhận
   const [receiverInformation, setReceiverInformation] = useState("");
   const [receiverName, setReceiverName] = useState("");
@@ -279,11 +270,6 @@ export default function CreateOrder() {
                       className="form-control has-feedback-left province"
                       // value={senderProvince}
                       onChange={(event) => {
-<<<<<<< HEAD
-=======
-                        // alert(event.target.value);
-                        // alert(senderProvince)
->>>>>>> 6d26b41aaffcc7aba20380ffc3307ff2428a4728
                         setSenderProvince(event.target.value);
                         handleProvinceChange(event, "district");
                       }}
@@ -343,15 +329,11 @@ export default function CreateOrder() {
                       value={senderAddress}
                       // className="form-control has-feedback-left"
                       placeholder="Số nhà, xóm, thôn"
-<<<<<<< HEAD
-                      onChange={(e) => setSenderAddress(e.target.value)}
-=======
                       onChange={(e) => {
                         setSenderAddress(e.target.value);
                         setSenderAddressError("");
                       }}
                       className={senderAddressError ? "error-input" : ""}
->>>>>>> 6d26b41aaffcc7aba20380ffc3307ff2428a4728
                     />
                   </div>
                 </div>
@@ -508,11 +490,6 @@ export default function CreateOrder() {
                     <input
                       type="text"
                       id="receiverAddress"
-<<<<<<< HEAD
-                      className="form-control has-feedback-left"
-                      placeholder="Số nhà, xóm, thôn"
-                      onChange={(e) => setReceiverAddress(e.target.value)}
-=======
                       // name="senderInformation"
                       // value=""
                       // className="form-control has-feedback-left"
@@ -522,7 +499,6 @@ export default function CreateOrder() {
                         setReceiverAddressError("");
                       }}
                       className={receiverAddressError ? "error-input" : ""}
->>>>>>> 6d26b41aaffcc7aba20380ffc3307ff2428a4728
                     />
                   </div>
                 </div>
@@ -548,7 +524,7 @@ export default function CreateOrder() {
                   <div className="name">
                     <label className="control-label"> LOẠI HÀNG GỬI</label>
                   </div>
-                  <div className="one-row">
+                  <div className="">
                     <div className="input-group">
                       <input
                         type="radio"
@@ -808,7 +784,7 @@ export default function CreateOrder() {
                   <div className="name">
                     <label className="control-label"> TIỀN THU HỘ</label>
                   </div>
-                  <div className="input-group">
+                  {/* <div className="input-group">
                     <input
                       type="checkbox"
                       // id="checkbox-input"
@@ -821,7 +797,7 @@ export default function CreateOrder() {
                     <label className="mat-checkbox-label">
                       Thu hộ bằng tiền hàng
                     </label>
-                  </div>
+                  </div> */}
 
                   <div className="input-group">
                     <input
@@ -841,7 +817,7 @@ export default function CreateOrder() {
                   <div className="name">
                     <label className="control-label"> NGƯỜI TRẢ CƯỚC</label>
                   </div>
-                  <div className="one-row">
+                  <div className="">
                     <div className="input-group">
                       <input
                         type="radio"
@@ -888,7 +864,7 @@ export default function CreateOrder() {
                   <div className="name">
                     <label className="control-label"> YÊU CẦU LẤY HÀNG</label>
                   </div>
-                  <div className="one-row">
+                  <div className="two-row">
                     <div className="input-group">
                       <input
                         type="radio"
@@ -920,7 +896,7 @@ export default function CreateOrder() {
                 </div>
               </div>
 
-              <div className="box">
+              {/* <div className="box">
                 <div className="has-feedback w100">
                   <div className="input-group">
                     <input
@@ -938,7 +914,7 @@ export default function CreateOrder() {
                     </label>
                   </div>
                 </div>
-              </div>
+              </div> */}
 
               {/* {showSuccess && (
                 <div className="success-message" style={{ color: "green" }}>

@@ -1,8 +1,16 @@
 import React, { useState, useEffect } from "react";
 import "../../../style/admin/CreateAccount.css";
-import { Box, Button, Container, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Container,
+  TextField,
+  Typography,
+  FormControl,
+  Select,
+  MenuItem,
+} from "@mui/material";
 import axios from "axios";
-
 
 export default function CreateAccount() {
   const [username, setUsername] = useState("");
@@ -12,9 +20,8 @@ export default function CreateAccount() {
   const [phone, setPhone] = useState("");
   const [birth, setBirth] = useState("");
   const [address, setAddress] = useState(""); // Thêm state cho address
-  const [role, setRole] = useState(""); 
+  const [role, setRole] = useState("");
   const [id_workplace, setIDWorkplace] = useState(""); // Thêm state cho id_workplace
-
 
   let callAPI = async (api) => {
     return axios.get(api).then((response) => {
@@ -23,7 +30,7 @@ export default function CreateAccount() {
   };
   useEffect(() => {
     callAPI("https://provinces.open-api.vn/api/?depth=1");
-  },[])
+  }, []);
 
   let renderData = (array, select) => {
     let row = ' <option disable value="">Chọn</option>';
@@ -39,23 +46,29 @@ export default function CreateAccount() {
     }
   };
 
-
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     // Check if required fields are not empty
-    if (!username || !password || !role || !id_workplace || role==="" || id_workplace==="") {
+    if (
+      !username ||
+      !password ||
+      !role ||
+      !id_workplace ||
+      role === "" ||
+      id_workplace === ""
+    ) {
       alert("Vui lòng nhập đầy đủ thông tin");
       return;
     }
-  
+
     try {
       const response = await fetch("http://localhost:3001/auth/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
+
         body: JSON.stringify({
           username,
           password,
@@ -68,7 +81,7 @@ export default function CreateAccount() {
           id_workplace,
         }),
       });
-  
+
       if (response.ok) {
         console.log(response);
         alert("Tạo thành công");
@@ -81,7 +94,6 @@ export default function CreateAccount() {
       console.error("Error:", error);
     }
   };
-  
 
   return (
     <Container maxWidth="sm">
@@ -130,6 +142,7 @@ export default function CreateAccount() {
             <option value="gatheringAdmin">Trưởng điểm tập kết</option>
           </select>
         </div>
+
         <div className="has-feedback">
           <div className="name">
             <label className="control-label">TỈNH/THÀNH PHỐ</label>
@@ -140,7 +153,7 @@ export default function CreateAccount() {
               name="id_workplace"
               className="form-control has-feedback-left id_workplace"
               onChange={(event) => {
-                setIDWorkplace(event.target.value);               
+                setIDWorkplace(event.target.value);
               }}
             >
               <option value="">Chọn Tỉnh/Thành phố</option>
@@ -187,8 +200,6 @@ export default function CreateAccount() {
           value={address}
           onChange={(e) => setAddress(e.target.value)}
         />
-        
-        
 
         <Button
           type="submit"
@@ -199,7 +210,6 @@ export default function CreateAccount() {
         >
           Tạo tài khoản
         </Button>
-        
       </Box>
     </Container>
   );
