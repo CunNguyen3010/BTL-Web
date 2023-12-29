@@ -130,6 +130,8 @@ export const searchAccounts = async (req, res) => {
           query[`${key}`] = { $regex: new RegExp(queryParams[key], "i") };
         }
       }
+
+      result = await User.find(query).sort(sortQuery);
     }
 
     res.json({ result }).status(200);
