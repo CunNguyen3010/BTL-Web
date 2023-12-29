@@ -28,51 +28,9 @@ export default function Confirm() {
     if (!orderCode) {
       setOrderCodeError("Vui lòng nhập mã đơn hàng!");
     }
-<<<<<<< HEAD
-    // Xử lý logic khi người dùng tìm kiếm nếu không có lỗi
-    if (orderCode) {
-      console.log("Search data:", {
-        orderCode,
-        status,
-      });
-
-      try {
-        // Gửi dữ liệu tìm kiếm lên backend
-        const response = await fetch("https://localhost:3001/confirm", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            orderCode,
-            status,
-          }),
-        });
-
-        if (response.ok) {
-          // Xử lý response nếu yêu cầu thành công
-          const data = await response.json();
-          console.log("Response data:", data);
-
-          // Reset form sau khi tìm kiếm thành công
-          setOrderCode("");
-          setStatus("");
-          setSuccessMessage("Dữ liệu đã được gửi thành công!");
-        } else {
-          // Xử lý response nếu yêu cầu thất bại
-          throw new Error("Lỗi khi gửi yêu cầu!");
-        }
-      } catch (error) {
-        // Xử lý lỗi khi fetch gặp vấn đề
-        console.error(error);
-        setSuccessMessage("Đã xảy ra lỗi khi gửi yêu cầu!");
-      }
-    }
-=======
     // deleteOrder();
     handleGetOrder1();
     handlePutOrder();
->>>>>>> 4291005b14b5317e8009bafab5fd79bad10a5b33
   };
 
   const [order, setOrder] = useState([]);

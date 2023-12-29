@@ -20,14 +20,9 @@ export default function CreateAccount() {
   const [phone, setPhone] = useState("");
   const [birth, setBirth] = useState("");
   const [address, setAddress] = useState(""); // Thêm state cho address
-<<<<<<< HEAD
-  const [role, setRole] = useState("");
-  const [id_workplace, setIDWorkplace] = useState(""); // Thêm state cho id_workplace
-=======
   const [role, setRole] = useState(""); 
   const [workplace, setWorkplace] = useState(""); // Thêm state cho workplace
   const [id_workplace, setIDWorkplace] = useState(""); 
->>>>>>> 4291005b14b5317e8009bafab5fd79bad10a5b33
 
   let callAPI = async (api) => {
     return axios.get(api).then((response) => {
@@ -56,18 +51,7 @@ export default function CreateAccount() {
     e.preventDefault();
 
     // Check if required fields are not empty
-<<<<<<< HEAD
-    if (
-      !username ||
-      !password ||
-      !role ||
-      !id_workplace ||
-      role === "" ||
-      id_workplace === ""
-    ) {
-=======
-    if (!username || !password || !role || !workplace || role==="" || workplace==="") {
->>>>>>> 4291005b14b5317e8009bafab5fd79bad10a5b33
+    if (!username || !password || !role || !workplace || role==="" || workplace==="" || id_workplace==="") {
       alert("Vui lòng nhập đầy đủ thông tin");
       return;
     }
@@ -164,11 +148,7 @@ export default function CreateAccount() {
               name="workplace"
               className="form-control has-feedback-left workplace"
               onChange={(event) => {
-<<<<<<< HEAD
-                setIDWorkplace(event.target.value);
-=======
                 setWorkplace(event.target.value);               
->>>>>>> 4291005b14b5317e8009bafab5fd79bad10a5b33
               }}
             >
               <option value="">Chọn Tỉnh/Thành phố</option>
