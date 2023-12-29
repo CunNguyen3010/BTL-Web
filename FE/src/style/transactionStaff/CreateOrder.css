@@ -235,3 +235,14 @@ label {
 .custom-control-input {
   width: 30px;
 }
+
+.has-feedback.p0 {
+  padding-left: 0px;
+  padding-right: 0px;
+  width: 100%;
+}
+
+#h23,
+#workplace {
+  height: 52px;
+}

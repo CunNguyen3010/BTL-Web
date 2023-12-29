@@ -34,7 +34,7 @@ export default function CreateAccount() {
   }, []);
 
   let renderData = (array, select) => {
-    let row = ' <option disable value="">Chọn</option>';
+    let row = ' <option disable value="">Chọn nơi làm việc</option>';
     array.forEach((element) => {
       row += `<option data-id="${element.code}" value="${element.name}">${element.name}</option>`;
     });
@@ -73,7 +73,7 @@ export default function CreateAccount() {
           address,
           role,
           workplace,
-          id_workplace
+          id_workplace,
         }),
       });
 
@@ -123,24 +123,25 @@ export default function CreateAccount() {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <div className="form-group has-feedback">
-          <label htmlFor="role">Chức vụ:</label>
+        <div className="form-group has-feedback p0">
+          {/* <label htmlFor="role">Chức vụ:</label> */}
           <select
             id="role"
             value={role}
             onChange={(e) => {
               setRole(e.target.value);
             }}
+            style={{ height: "52px" }}
           >
-            <option value="">-Chọn-</option>
+            <option value="">-Chọn chức vụ-</option>
             <option value="transactionAdmin">Trưởng điểm giao dịch</option>
             <option value="gatheringAdmin">Trưởng điểm tập kết</option>
           </select>
         </div>
 
-        <div className="has-feedback">
+        <div className="has-feedback p0">
           <div className="name">
-            <label className="control-label">TỈNH/THÀNH PHỐ</label>
+            {/* <label className="control-label">TỈNH/THÀNH PHỐ</label> */}
           </div>
           <div className="input-group">
             <select
