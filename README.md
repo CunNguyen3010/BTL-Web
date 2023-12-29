@@ -42,7 +42,7 @@ cd FE && npm start
     Tên đăng nhập: tranStaff1
     Mật khẩu: tranStaff1
 
-  +Trưởng điểm giao dịch:
+  + Trưởng điểm giao dịch:
     Tên đăng nhập: tranAdmin1
     Mật khẩu: tranAdmin1
 
@@ -54,13 +54,13 @@ cd FE && npm start
     Tên đăng nhập: gatAdmin1
     Mật khẩu: gatStaff1
 
-  +Trưởng điểm giao dịch:
+  + Trưởng điểm giao dịch:
     Tên đăng nhập: tranAdmin1
     Mật khẩu: tranAdmin1
 
-  +Lãnh đạo công ty:
+  + Lãnh đạo công ty:
     Tên đăng nhập: admin1
     Mật khẩu: admin1
-
-  Cảm ơn thầy đã đồng hành cùng bọn em trong môn học này 🫠 Hẹn gặp lại thầy trong các môn học tiếp theo 🥰
+  
+ Cảm ơn thầy đã đồng hành cùng bọn em trong môn học này 🫠 Hẹn gặp lại thầy trong các môn học tiếp theo 🥰
 
