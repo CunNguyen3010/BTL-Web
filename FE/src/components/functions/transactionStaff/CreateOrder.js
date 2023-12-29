@@ -1,5 +1,5 @@
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import User from "../../../assets/icon/user-solid.svg";
 import Phone from "../../../assets/icon/phone-solid.svg";
 import "../../../style/transactionStaff/CreateOrder.css";
@@ -60,6 +60,7 @@ export default function CreateOrder() {
     if (!receiverPhone) {
       setReceiverAddressError("Vui lòng nhập địa chỉ cụ thể người nhận!");
     }
+
     try {
       // Gửi dữ liệu đến backend
       const response = await fetch("http://localhost:3001/information/", {
@@ -394,7 +395,7 @@ export default function CreateOrder() {
                       placeholder="Tên người nhận"
                       onChange={(e) => {
                         setReceiverName(e.target.value);
-                        setReceiverAddressError("");
+                        setReceiverNameError("");
                       }}
                       className={receiverNameError ? "error-input" : ""}
                     />

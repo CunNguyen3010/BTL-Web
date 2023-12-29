@@ -12,7 +12,7 @@ import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import InputAdornment from "@mui/material/InputAdornment";
 import { MdOutlineLocalShipping } from "react-icons/md";
-import LoginImage from "../../assets/images/login_image.jpg";
+import LoginImage from "../../assets/images/login_image1.jpg";
 import axios from "axios";
 import { useSignIn } from "react-auth-kit";
 import { useState } from "react";
@@ -99,6 +99,7 @@ export default function Login() {
                 : t.palette.grey[900],
             backgroundSize: "cover",
             backgroundPosition: "center",
+            // maxHeight: 700,
           }}
         />
         <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
@@ -117,7 +118,7 @@ export default function Login() {
             <Avatar
               alt="Avatar"
               src={Login_icon}
-              sx={{ m: 1, bgcolor: "primary.main", width: 120, height: 120 }}
+              sx={{ m: 1, bgcolor: "primary.main", width: 110, height: 110 }}
             />
             <Typography component="h1" variant="h5" fontWeight="500">
               Welcome to Magic Post!
