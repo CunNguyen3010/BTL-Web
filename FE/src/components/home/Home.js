@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState, useEffect } from "react";
 import Grid from "@mui/material/Grid";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -18,7 +18,7 @@ import home from "../../assets/videos/home.mp4";
 import ImageSlider from "./ImageSlider";
 import { SliderData } from "./SliderData";
 import { Link } from "react-router-dom";
-
+import axios from "axios";
 const CustomButton = styled(Button)`
   background-color: #ffffff;
   color: #1d1d1d;
@@ -48,7 +48,6 @@ export default function Home() {
     };
 
     window.addEventListener("scroll", handleScroll);
-
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
@@ -60,6 +59,54 @@ export default function Home() {
       behavior: "smooth",
     });
   };
+  const [id, setId] = useState("");
+  const [order, setOrder] = useState([]);
+
+  function renderOrder() {
+    let element = `<tr>
+         <th>STT</th>
+         <th>Mã đơn hàng</th>
+         <th>Trạng thái</th>
+         <th>Nơi gửi</th>
+         <th>Nơi nhận</th>
+         <th>Sản phẩm</th>
+         <th>Phí</th>
+         <th>Tiền thu hộ</th>
+         </tr>`;
+
+    element += `<tr>
+           <td>0</td>
+           <td>${order._id}</td>
+           <td>${order.postalInformation?.status}</td>
+           <td>${order.postalInformation?.source}</td>
+           <td>${order.postalInformation?.destination}</td>
+           <td>${order.postalInformation?.name}</td>
+           <td>${order.postalInformation?.price}</td>
+           <td>${order.postalInformation?.price}</td>
+           </tr>`;
+
+    document.getElementById("tabledata").innerHTML = element;
+  }
+  async function handleGetOrder1() {
+    const baseUrl = "http://localhost:3001/information/search";
+    const params = {
+      id: id,
+    };
+    axios
+      .get(baseUrl, { params })
+      .then((response) => {
+        // console.log(response);
+        setOrder(response.data.result);
+        renderOrder();
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  }
+
+  function handleRenderOrder() {
+    handleGetOrder1();
+  }
 
   return (
     <div>
@@ -152,6 +199,7 @@ export default function Home() {
           justifyContent: "center",
           alignItems: "center",
           backgroundColor: "#f6f6ee",
+          flexDirection: "column",
         }}
       >
         <div
@@ -174,17 +222,26 @@ export default function Home() {
               TRA CỨU BƯU GỬI
             </Typography>
             <Stack direction="row" spacing={2}>
-              <TextField sx={{ width: "80%" }} placeholder="Nhập mã bưu gửi" />
+              {/* <TextField sx={{ width: "80%" }} placeholder="Nhập mã bưu gửi" onChange= /> */}
+              <input
+                type="text"
+                id="orderCode"
+                onChange={(e) => {
+                  setId(e.target.value);
+                }}
+              />
               <Button
                 startIcon={<SearchIcon />}
                 variant="contained"
                 size="small"
+                onClick={handleRenderOrder}
               >
                 Tra cứu
               </Button>
             </Stack>
           </Stack>
         </div>
+        <table id="tabledata"></table>
       </Box>
 
       {/* ImageSlider */}
