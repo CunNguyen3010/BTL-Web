@@ -8,12 +8,10 @@ export default function ShippingOrder() {
     gatherPlace: "",
     note: "",
   });
-  console.log(values);
+
   const handleChange = (prop) => (event) => {
     setValues({ ...values, [prop]: event.target.value });
   };
-
-  // let gatherPlace = {};
 
   function renderGatherPlace(array, select) {
     let row = '<option value="">Chọn điểm tập kết</option>';
@@ -27,6 +25,19 @@ export default function ShippingOrder() {
       console.error("Element with id '" + select + "' not found.");
     }
   }
+  const handleSubmit = () => {
+    // handle form submission logic here
+    let btn = document.getElementById("noti");
+    let p = document.createElement("p");
+    let notification = document.createTextNode("Chuyển hàng thành công");
+    p.appendChild(notification);
+    p.style.backgroundColor = "#1565C0";
+    p.style.padding = "10px";
+    p.style.marginTop = "10vh";
+    p.style.color = "white";
+    btn.appendChild(p);
+    handlePutOrder();
+  };
 
   async function getGatherPlace() {
     try {
@@ -40,26 +51,50 @@ export default function ShippingOrder() {
   useEffect(() => {
     getGatherPlace();
   }, []);
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    // handle form submission logic here
-  };
 
-  // const handleSubmitOrder = async () => {
-  //   try {
-  //     const respone = await fetch("http://localhost:3001/information/", {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify({
+  const [putdata, setPutdata] = useState({});
 
-  //       }),
+  async function handleGetOrder() {
+    const baseUrl = "http://localhost:3001/information/search";
+    const params = {
+      id: values.idOrder,
+    };
+    axios
+      .get(baseUrl, { params })
+      .then((response) => {
+        setPutdata(response.data.result);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  }
 
-  //   }) catch (error) {
-  //     console.log(error);
-  //   }
-  // }}
+  useEffect(() => {
+    handleGetOrder();
+  }, []);
+  // console.log(putdata);
+  async function handlePutOrder() {
+    if (putdata.postalInformation) {
+      putdata.postalInformation.status = "Đang giao";
+      putdata.postalInformation.destination = values.gatherPlace;
+
+      try {
+        const response = await axios.put(
+          "http://localhost:3001/information/",
+          putdata
+        );
+        console.log(putdata, response);
+      } catch (error) {
+        console.log(putdata, error);
+      }
+    } else {
+      console.error("Postal information is undefined in putdata");
+    }
+  }
+  useEffect(() => {
+    handlePutOrder();
+  }, []);
+
   return (
     <Box
       sx={{
@@ -89,7 +124,7 @@ export default function ShippingOrder() {
             padding: "10px",
           }}
         >
-          <form onSubmit={handleSubmit}>
+          <form>
             <Box
               sx={{
                 display: "flex",
@@ -124,7 +159,7 @@ export default function ShippingOrder() {
             </Box>
           </form>
         </Box>
-        <Box sx={{ textAlign: "center" }}>
+        <Box sx={{ textAlign: "center", margin: "auto" }}>
           <Button
             type="submit"
             width="50%"
@@ -132,11 +167,14 @@ export default function ShippingOrder() {
             color="primary"
             style={{
               marginTop: "1rem",
+              marginRight: "35%",
             }}
+            onClick={handleSubmit}
           >
             XÁC NHẬN
           </Button>
         </Box>
+        <div id="noti"></div>
       </Box>
     </Box>
   );
