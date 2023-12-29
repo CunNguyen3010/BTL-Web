@@ -8,23 +8,56 @@ export default function CreateOrder() {
   // Người gửi
   const [senderInformation, setSenderInformation] = useState("");
   const [senderName, setSenderName] = useState("");
+  const [senderNameError, setSenderNameError] = useState("");
   const [senderPhone, setSenderPhone] = useState("");
+  const [senderPhoneError, setSenderPhoneError] = useState("");
   const [senderProvince, setSenderProvince] = useState("");
   const [senderDistrict, setSenderDistrict] = useState("");
   const [senderWard, setSenderWard] = useState("");
   const [senderAddress, setSenderAddress] = useState("");
+<<<<<<< HEAD
+=======
+  const [senderAddressError, setSenderAddressError] = useState("");
+
+>>>>>>> 6d26b41aaffcc7aba20380ffc3307ff2428a4728
   // Người nhận
   const [receiverInformation, setReceiverInformation] = useState("");
   const [receiverName, setReceiverName] = useState("");
+  const [receiverNameError, setReceiverNameError] = useState("");
   const [receiverPhone, setReceiverPhone] = useState("");
+  const [receiverPhoneError, setReceiverPhoneError] = useState("");
   const [receiverProvince, setReceiverProvince] = useState("");
   const [receiverDistrict, setReceiverDistrict] = useState("");
   const [receiverWard, setReceiverWard] = useState("");
   const [receiverAddress, setReceiverAddress] = useState("");
+  const [receiverAddressError, setReceiverAddressError] = useState("");
 
   // const [showSuccess, setShowSuccess] = useState(false);
 
   const handleCreatePostalItems = async () => {
+    if (!senderName) {
+      setSenderNameError("Vui lòng nhập tên người gửi!");
+    }
+
+    if (!senderPhone) {
+      setSenderPhoneError("Vui lòng nhập sđt người gửi!");
+    }
+
+    if (!senderAddress) {
+      setSenderAddressError("Vui lòng nhập địa chỉ cụ thể của người gửi!");
+    }
+
+    if (!receiverName) {
+      setReceiverNameError("Vui lòng nhập tên người nhận!");
+    }
+
+    if (!receiverPhone) {
+      setReceiverPhoneError("Vui lòng nhập sđt người nhận!");
+    }
+
+    if (!receiverPhone) {
+      setReceiverAddressError("Vui lòng nhập địa chỉ cụ thể người nhận!");
+    }
     try {
       // Gửi dữ liệu đến backend
       const response = await fetch("http://localhost:3001/information/", {
@@ -193,9 +226,13 @@ export default function CreateOrder() {
                       id="senderName"
                       name="senderName"
                       // value=""
-                      className="form-control has-feedback-left"
+                      // className="form-control has-feedback-left"
                       placeholder="Tên người gửi"
-                      onChange={(e) => setSenderName(e.target.value)}
+                      onChange={(e) => {
+                        setSenderName(e.target.value);
+                        setSenderNameError("");
+                      }}
+                      className={senderNameError ? "error-input" : ""}
                     />
                   </div>
                 </div>
@@ -212,9 +249,13 @@ export default function CreateOrder() {
                       type="text"
                       id="senderPhone"
                       name="senderPhone"
-                      className="form-control has-feedback-left"
+                      // className="form-control has-feedback-left"
                       placeholder="SĐT người gửi"
-                      onChange={(e) => setSenderPhone(e.target.value)}
+                      onChange={(e) => {
+                        setSenderPhone(e.target.value);
+                        setSenderPhoneError("");
+                      }}
+                      className={senderPhoneError ? "error-input" : ""}
                     />
                   </div>
                 </div>
@@ -232,6 +273,11 @@ export default function CreateOrder() {
                       className="form-control has-feedback-left province"
                       // value={senderProvince}
                       onChange={(event) => {
+<<<<<<< HEAD
+=======
+                        // alert(event.target.value);
+                        // alert(senderProvince)
+>>>>>>> 6d26b41aaffcc7aba20380ffc3307ff2428a4728
                         setSenderProvince(event.target.value);
                         handleProvinceChange(event, "district");
                       }}
@@ -288,10 +334,18 @@ export default function CreateOrder() {
                       type="text"
                       id="senderAddress"
                       // name="senderInformation"
-                      // value=""
-                      className="form-control has-feedback-left"
+                      value={senderAddress}
+                      // className="form-control has-feedback-left"
                       placeholder="Số nhà, xóm, thôn"
+<<<<<<< HEAD
                       onChange={(e) => setSenderAddress(e.target.value)}
+=======
+                      onChange={(e) => {
+                        setSenderAddress(e.target.value);
+                        setSenderAddressError("");
+                      }}
+                      className={senderAddressError ? "error-input" : ""}
+>>>>>>> 6d26b41aaffcc7aba20380ffc3307ff2428a4728
                     />
                   </div>
                 </div>
@@ -345,9 +399,13 @@ export default function CreateOrder() {
                       id="receiverName"
                       name="receiverName"
                       // value=""
-                      className="form-control has-feedback-left"
+                      // className="form-control has-feedback-left"
                       placeholder="Tên người nhận"
-                      onChange={(e) => setReceiverName(e.target.value)}
+                      onChange={(e) => {
+                        setReceiverName(e.target.value);
+                        setReceiverAddressError("");
+                      }}
+                      className={receiverNameError ? "error-input" : ""}
                     />
                   </div>
                 </div>
@@ -365,9 +423,13 @@ export default function CreateOrder() {
                       id="receiverPhone"
                       name="receiverPhone"
                       // value=""
-                      className="form-control has-feedback-left"
+                      // className="form-control has-feedback-left"
                       placeholder="SĐT người nhận"
-                      onChange={(e) => setReceiverPhone(e.target.value)}
+                      onChange={(e) => {
+                        setReceiverPhone(e.target.value);
+                        setReceiverPhoneError("");
+                      }}
+                      className={receiverPhoneError ? "error-input" : ""}
                     />
                   </div>
                 </div>
@@ -440,9 +502,21 @@ export default function CreateOrder() {
                     <input
                       type="text"
                       id="receiverAddress"
+<<<<<<< HEAD
                       className="form-control has-feedback-left"
                       placeholder="Số nhà, xóm, thôn"
                       onChange={(e) => setReceiverAddress(e.target.value)}
+=======
+                      // name="senderInformation"
+                      // value=""
+                      // className="form-control has-feedback-left"
+                      placeholder="Số nhà, xóm, thôn"
+                      onChange={(e) => {
+                        setReceiverAddress(e.target.value);
+                        setReceiverAddressError("");
+                      }}
+                      className={receiverAddressError ? "error-input" : ""}
+>>>>>>> 6d26b41aaffcc7aba20380ffc3307ff2428a4728
                     />
                   </div>
                 </div>

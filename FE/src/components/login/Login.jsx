@@ -17,9 +17,10 @@ import axios from "axios";
 import { useSignIn } from "react-auth-kit";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-//import Logo from "../../assets/images/logo.png";
+import Login_icon from "../../assets/images/login_icon.png";
+// import Logo from "../../assets/images/logo1.png";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
-import Cookies from 'js-cookie';
+import Cookies from "js-cookie";
 
 function Copyright(props) {
   return (
@@ -54,7 +55,9 @@ export default function Login() {
       .then((result) => {
         // console.log(result);
         if (result.status === 200) {
-          Cookies.set('userData', JSON.stringify(result.data), { expires: 500 });
+          Cookies.set("userData", JSON.stringify(result.data), {
+            expires: 500,
+          });
           if (
             signIn({
               token: result.data.token,
@@ -108,9 +111,14 @@ export default function Login() {
               alignItems: "center",
             }}
           >
-            <Avatar sx={{ m: 1, bgcolor: "primary.main" }}>
+            {/* <Avatar sx={{ m: 1, bgcolor: "primary.main" }}>
               <MdOutlineLocalShipping />
-            </Avatar>
+            </Avatar> */}
+            <Avatar
+              alt="Avatar"
+              src={Login_icon}
+              sx={{ m: 1, bgcolor: "primary.main", width: 120, height: 120 }}
+            />
             <Typography component="h1" variant="h5" fontWeight="500">
               Welcome to Magic Post!
             </Typography>

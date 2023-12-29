@@ -1,217 +1,206 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../../../style/admin/CreateAccount.css";
+import { Box, Button, Container, TextField, Typography } from "@mui/material";
+import axios from "axios";
+
 
 export default function CreateAccount() {
-  const [useName, setUseName] = useState("");
-  const [useNameError, setUseNameError] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [passwordError, setPasswordError] = useState("");
   const [name, setName] = useState("");
-  const [nameError, setNameError] = useState("");
-  const [position, setPosition] = useState("");
-  const [positionError, setPositionError] = useState("");
-  const [cccd, setCccd] = useState("");
-  const [cccdError, setCccdError] = useState("");
+  const [email, setEmail] = useState(""); // Thêm state cho email
   const [phone, setPhone] = useState("");
-  const [phoneError, setPhoneError] = useState("");
-  const [email, setEmail] = useState("");
-  const [emailError, setEmailError] = useState("");
-  const [birthdate, setBirthdate] = useState("");
-  const [birthdateError, setBirthdateError] = useState("");
+  const [birth, setBirth] = useState("");
+  const [address, setAddress] = useState(""); // Thêm state cho address
+  const [role, setRole] = useState(""); 
+  const [id_workplace, setIDWorkplace] = useState(""); // Thêm state cho id_workplace
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
 
-    // Kiểm tra các trường bắt buộc
-    if (!useName) {
-      setUseName("Vui lòng nhập tên đăng nhập!");
-    }
-    if (!password) {
-      setPassword("vui lòng nhập mật khẩu!");
-    }
-    if (!name) {
-      setNameError("Vui lòng nhập tên nhân viên!");
-    }
-    if (!cccd) {
-      setCccdError("Vui lòng nhập CCCD!");
-    }
-    // if (!position) {
-    //   setPositionError("Vui lòng chọn chức vụ!");
-    // }
-    if (!phone) {
-      setPhoneError("Vui lòng nhập số điện thoại!");
-    }
-    if (!email) {
-      setEmailError("Vui lòng nhập Gmail!");
-    }
-    if (!birthdate) {
-      setBirthdateError("Vui lòng chọn ngày sinh!");
-    }
+  let callAPI = async (api) => {
+    return axios.get(api).then((response) => {
+      renderData(response.data, "id_workplace");
+    });
+  };
+  useEffect(() => {
+    callAPI("https://provinces.open-api.vn/api/?depth=1");
+  },[])
 
-    // Xử lý logic khi người dùng submit form nếu không có lỗi
-    if (name && cccd && phone && email && birthdate) {
-      console.log("Submitted data:", {
-        useName,
-        password,
-        name,
-        position,
-        cccd,
-        phone,
-        email,
-        birthdate,
-      });
-
-      // Reset form sau khi submit thành công
-      setUseName("");
-      setPassword("");
-      setName("");
-      setPosition("");
-      setCccd("");
-      setPhone("");
-      setEmail("");
-      setBirthdate("");
+  let renderData = (array, select) => {
+    let row = ' <option disable value="">Chọn</option>';
+    array.forEach((element) => {
+      row += `<option data-id="${element.code}" value="${element.name}">${element.name}</option>`;
+    });
+    // document.querySelector("#" + select).innerHTML = row;
+    const selectElement = document.querySelector("." + select);
+    if (selectElement) {
+      selectElement.innerHTML = row;
+    } else {
+      console.error("Element with id '" + select + "' not found.");
     }
   };
 
+
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+  
+    // Check if required fields are not empty
+    if (!username || !password || !role || !id_workplace || role==="" || id_workplace==="") {
+      alert("Vui lòng nhập đầy đủ thông tin");
+      return;
+    }
+  
+    try {
+      const response = await fetch("http://localhost:3001/auth/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username,
+          password,
+          name,
+          email,
+          phone,
+          birth,
+          address,
+          role,
+          id_workplace,
+        }),
+      });
+  
+      if (response.ok) {
+        console.log(response);
+        alert("Tạo thành công");
+        // Thêm logic xử lý khi đăng ký thành công
+      } else {
+        console.error("Failed to grant account to teller");
+        alert("Tạo thất bại");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+  
+
   return (
-    <div className="registration-form-container">
-      <form onSubmit={handleSubmit} className="registration-form">
-        <div className="form-group">
-          <label htmlFor="useName">
-            <span className="required-field">*</span> Tên đăng nhập:
-          </label>
-          <input
-            type="text"
-            id="useName"
-            value={name}
-            onChange={(e) => {
-              setUseName(e.target.value);
-              setUseNameError("");
-            }}
-            className={useNameError ? "error-input" : ""}
-          />
-          {nameError && <p className="error-message">{useNameError}</p>}
-        </div>
-        <div className="form-group">
-          <label htmlFor="password">
-            <span className="required-field">*</span> Mật khẩu:
-          </label>
-          <input
-            type="text"
-            id="password"
-            value={name}
-            onChange={(e) => {
-              setPassword(e.target.value);
-              setPasswordError("");
-            }}
-            className={passwordError ? "error-input" : ""}
-          />
-          {nameError && <p className="error-message">{passwordError}</p>}
-        </div>
-        <div className="form-group">
-          <label htmlFor="name">
-            <span className="required-field">*</span> Tên nhân viên:
-          </label>
-          <input
-            type="text"
-            id="name"
-            value={name}
-            onChange={(e) => {
-              setName(e.target.value);
-              setNameError("");
-            }}
-            className={nameError ? "error-input" : ""}
-          />
-          {nameError && <p className="error-message">{nameError}</p>}
-        </div>
-        <div className="form-group">
-          <label htmlFor="position">
-            <span className="required-field">*</span> Chức vụ:
-          </label>
+    <Container maxWidth="sm">
+      <Typography variant="h4" gutterBottom>
+        Cấp tài khoản
+      </Typography>
+      <Box
+        component="form"
+        onSubmit={handleSubmit}
+        noValidate
+        autoComplete="off"
+        sx={{
+          marginTop: 2,
+          backgroundColor: "#f8f9fa",
+          padding: 2,
+          borderRadius: 2,
+        }}
+      >
+        <TextField
+          fullWidth
+          required
+          margin="normal"
+          label="Tên đăng nhập"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+        />
+        <TextField
+          fullWidth
+          required
+          margin="normal"
+          label="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <div className="form-group has-feedback">
+          <label htmlFor="role">Chức vụ:</label>
           <select
-            id="position"
-            value={position}
+            id="role"
+            value={role}
             onChange={(e) => {
-              setPosition(e.target.value);
-              setPositionError("");
+              setRole(e.target.value);
             }}
-            className={positionError ? "error-input" : ""}
-            // style={{ width: "100%", padding: "8px", fontSize: "16px" }}
           >
-            {/* <option value="">-- Chọn chức vụ --</option> */}
-            <option value="Trưởng điểm giao dịch">Trưởng điểm giao dịch</option>
-            <option value="Trưởng điểm tập kết">Trưởng điểm tập kết</option>
+            <option value="">-Chọn-</option>
+            <option value="transactionAdmin">Trưởng điểm giao dịch</option>
+            <option value="gatheringAdmin">Trưởng điểm tập kết</option>
           </select>
-          {positionError && <p className="error-message">{positionError}</p>}
         </div>
-        <div className="form-group">
-          <label htmlFor="cccd">
-            <span className="required-field">*</span> CCCD:
-          </label>
-          <input
-            type="text"
-            id="cccd"
-            value={cccd}
-            onChange={(e) => {
-              setCccd(e.target.value);
-              setCccdError("");
-            }}
-            className={cccdError ? "error-input" : ""}
-          />
-          {cccdError && <p className="error-message">{cccdError}</p>}
+        <div className="has-feedback">
+          <div className="name">
+            <label className="control-label">TỈNH/THÀNH PHỐ</label>
+          </div>
+          <div className="input-group">
+            <select
+              id="id_workplace"
+              name="id_workplace"
+              className="form-control has-feedback-left id_workplace"
+              onChange={(event) => {
+                setIDWorkplace(event.target.value);               
+              }}
+            >
+              <option value="">Chọn Tỉnh/Thành phố</option>
+            </select>
+          </div>
         </div>
-        <div className="form-group">
-          <label htmlFor="phone">
-            <span className="required-field">*</span> Số điện thoại:
-          </label>
-          <input
-            type="text"
-            id="phone"
-            value={phone}
-            onChange={(e) => {
-              setPhone(e.target.value);
-              setPhoneError("");
-            }}
-            className={phoneError ? "error-input" : ""}
-          />
-          {phoneError && <p className="error-message">{phoneError}</p>}
-        </div>
-        <div className="form-group">
-          <label htmlFor="email">
-            <span className="required-field">*</span> Gmail:
-          </label>
-          <input
-            type="text"
-            id="email"
-            value={email}
-            onChange={(e) => {
-              setEmail(e.target.value);
-              setEmailError("");
-            }}
-            className={emailError ? "error-input" : ""}
-          />
-          {emailError && <p className="error-message">{emailError}</p>}
-        </div>
-        <div className="form-group">
-          <label htmlFor="birthdate">
-            <span className="required-field">*</span> Ngày sinh:
-          </label>
-          <input
-            type="date"
-            id="birthdate"
-            value={birthdate}
-            onChange={(e) => {
-              setBirthdate(e.target.value);
-              setBirthdateError("");
-            }}
-            className={birthdateError ? "error-input" : ""}
-          />
-          {birthdateError && <p className="error-message">{birthdateError}</p>}
-        </div>
-        <button type="submit">Đăng ký</button>
-      </form>
-    </div>
+        <TextField
+          fullWidth
+          required
+          margin="normal"
+          label="Họ & Tên"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
+        <TextField
+          fullWidth
+          required
+          margin="normal"
+          label="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <TextField
+          fullWidth
+          required
+          margin="normal"
+          label="Số điện thoại"
+          value={phone}
+          onChange={(e) => setPhone(e.target.value)}
+        />
+        <TextField
+          fullWidth
+          required
+          margin="normal"
+          label="Năm sinh"
+          value={birth}
+          onChange={(e) => setBirth(e.target.value)}
+        />
+        <TextField
+          fullWidth
+          required
+          margin="normal"
+          label="Địa chỉ"
+          value={address}
+          onChange={(e) => setAddress(e.target.value)}
+        />
+        
+        
+
+        <Button
+          type="submit"
+          fullWidth
+          variant="contained"
+          color="primary"
+          sx={{ marginTop: 2 }}
+        >
+          Tạo tài khoản
+        </Button>
+        
+      </Box>
+    </Container>
   );
 }
-
-// export default CreateAccount;

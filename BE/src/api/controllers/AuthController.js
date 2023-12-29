@@ -9,7 +9,7 @@ const userSchema = new mongoose.Schema({
   name: String,
   birth: Number,
   email: String,
-  sđt: String,
+  phone: String,
   address: String,
   role: String,
   id_workplace: String,
@@ -64,7 +64,7 @@ export const register = async (req, res) => {
       name: req.body.name,
       birth: req.body.birth,
       email: req.body.email,
-      sđt: req.body.sđt,
+      phone: req.body.phone,
       address: req.body.address,
       role: req.body.role,
       id_workplace: req.body.id_workplace,
@@ -100,5 +100,40 @@ export const getAllAccounts = async (req, res) => {
     res.json(users).status(200);
   } catch (error) {
     res.json({ messbirth: error.messbirth }).status(500);
+  }
+};
+
+export const searchAccounts = async (req, res) => {
+  const queryParams = req.query;
+
+  try {
+    if (Object.keys(queryParams).length === 0) {
+      return res.status(400).json({ message: "At least one query parameter is required." });
+    }
+
+    let result;
+    const sortQuery = {};
+
+    if (queryParams.id) {
+      // Nếu có 'id' trong queryParams, sử dụng findById
+      result = await User.findById(queryParams.id);
+    } else {
+      // Nếu không có 'id', sử dụng find
+      const query = {};
+      for (const key in queryParams) {
+        if (key === 'sortBy') {
+          // Nếu có tham số sắp xếp
+          sortQuery[queryParams.sortBy] = queryParams.sortOrder === 'desc' ? -1 : 1;
+        } else {
+          query[`${key}`] = { $regex: new RegExp(queryParams[key], "i") };
+        }
+      }
+
+      result = await User.find(query).sort(sortQuery);
+    }
+
+    res.json({ result }).status(200);
+  } catch (error) {
+    res.json({ message: error.message }).status(500);
   }
 };

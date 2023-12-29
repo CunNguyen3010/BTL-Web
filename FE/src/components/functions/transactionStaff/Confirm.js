@@ -31,7 +31,7 @@ export default function Confirm() {
     setSuccessMessage(`Đã xác nhận đơn hàng ${item.column2}`);
   };
 
-  const handleSearch = (event) => {
+  const handleSearch = async (event) => {
     event.preventDefault();
     // Kiểm tra các trường bắt buộc
     if (!orderCode) {
@@ -43,10 +43,45 @@ export default function Confirm() {
         orderCode,
         status,
       });
+<<<<<<< HEAD
       // Reset form sau khi tìm kiếm thành công
       setOrderCode("");
       setStatus("");
       // setShowTable(true);
+=======
+
+      try {
+        // Gửi dữ liệu tìm kiếm lên backend
+        const response = await fetch("https://localhost:3001/confirm", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            orderCode,
+            status,
+          }),
+        });
+
+        if (response.ok) {
+          // Xử lý response nếu yêu cầu thành công
+          const data = await response.json();
+          console.log("Response data:", data);
+
+          // Reset form sau khi tìm kiếm thành công
+          setOrderCode("");
+          setStatus("");
+          setSuccessMessage("Dữ liệu đã được gửi thành công!");
+        } else {
+          // Xử lý response nếu yêu cầu thất bại
+          throw new Error("Lỗi khi gửi yêu cầu!");
+        }
+      } catch (error) {
+        // Xử lý lỗi khi fetch gặp vấn đề
+        console.error(error);
+        setSuccessMessage("Đã xảy ra lỗi khi gửi yêu cầu!");
+      }
+>>>>>>> 6d26b41aaffcc7aba20380ffc3307ff2428a4728
     }
   };
   // console.log(orderCode);

@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { login, register, getAllAccounts } from "../controllers/AuthController";
+import { login, register, getAllAccounts, searchAccounts } from "../controllers/AuthController";
 
 const authRoute = new Router();
 
@@ -9,4 +9,7 @@ authRoute.post("/login", login);
 authRoute.post("/register", register);
 
 authRoute.get("/", getAllAccounts)
+
+authRoute.get("/search", searchAccounts)
+
 export default authRoute;
