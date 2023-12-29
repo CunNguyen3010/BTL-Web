@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "../../../style/transactionStaff/Confirm.css";
 import axios from "axios";
+import Cookies from "js-cookie";
 
 export default function Confirm() {
   const [orderCode, setOrderCode] = useState("");
@@ -8,17 +9,31 @@ export default function Confirm() {
   const [statusError, setStatusError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
 
+  const [workplace, setWorkplace] = useState("");
+  const [idworkplace, setIdworkplace] = useState("");
+  useEffect(() => {
+    // Lấy giá trị từ cookie khi component được mount
+    const userDataFromCookie = Cookies.get("userData");
+    if (userDataFromCookie) {
+      const userData = JSON.parse(userDataFromCookie);
+      // console.log(userData)
+      setWorkplace(userData.user.workplace || ""); // Sử dụng giá trị mặc định hoặc giá trị từ userData
+      setIdworkplace(userData.user.id_workplace || ""); // Sử dụng giá trị mặc định hoặc giá trị từ userData
+    }
+  }, []);
+
   const handleConfirm = (event) => {
     event.preventDefault();
     setSuccessMessage("Đã xác nhận đơn hàng");
     if (!orderCode) {
       setOrderCodeError("Vui lòng nhập mã đơn hàng!");
     }
-    deleteOrder();
+    // deleteOrder();
+    handleGetOrder1();
+    handlePutOrder();
   };
 
   const [order, setOrder] = useState([]);
-
   useEffect(() => {
     function renderOrder() {
       let element = `<tr>
@@ -33,7 +48,8 @@ export default function Confirm() {
        
          </tr>`;
       order.forEach((item, index) => {
-        element += `<tr>
+        if (idworkplace === item.postalInformation?.source) {
+          element += `<tr>
            <td>${index + 1}</td>
            <td>${item._id}</td>
            <td>${item.postalInformation?.status}</td>
@@ -42,11 +58,12 @@ export default function Confirm() {
            <td>${item.postalInformation?.name}</td>
            <td>${item.postalInformation?.price}</td>
            <td>${item.postalInformation?.price}</td>
-          
            </tr>`;
+        }
       });
       document.getElementById("tabledata").innerHTML = element;
     }
+
     async function handleGetOrder() {
       const baseUrl = "http://localhost:3001/information/";
       axios
@@ -60,19 +77,44 @@ export default function Confirm() {
         });
     }
     handleGetOrder();
-  }, [order]);
+  }, [idworkplace, order]);
 
-  async function deleteOrder() {
-    const baseUrl = "http://localhost:3001/information/";
+  const [putdata, setPutdata] = useState({});
+
+  async function handleGetOrder1() {
+    const baseUrl = "http://localhost:3001/information/search";
+    const params = {
+      id: orderCode,
+    };
     axios
-      .delete(baseUrl, { data: { _id: orderCode } })
+      .get(baseUrl, { params })
       .then((response) => {
-        console.log(response);
-        console.log(`Deleted post with ID ${orderCode}`);
+        setPutdata(response.data.result);
       })
       .catch((error) => {
-        console.error(error);
+        console.error("Error:", error);
       });
+  }
+  // console.log(putdata);
+  async function handlePutOrder() {
+    if (putdata.postalInformation) {
+      putdata.postalInformation.status = "Đang ở";
+      putdata.postalInformation.destination = "";
+      putdata.postalInformation.source = "GD-ThanhHoa-01";
+
+      try {
+        const response = await axios.put(
+          "http://localhost:3001/information/",
+          putdata
+        );
+        console.log(response);
+        console.log("ABC");
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      console.error("Postal information is undefined in putdata");
+    }
   }
 
   return (
