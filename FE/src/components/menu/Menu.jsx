@@ -114,10 +114,13 @@ export default function Menu() {
     { name: "Tạo tài khoản", Icon: IoCreate },
     { name: "Thống kê", Icon: ImStatsBars },
   ];
-  const gatheringStaffMenu = [{ name: "xác nhận đơn hàng", Icon: ImStatsBars }];
+  const gatheringStaffMenu = [
+    { name: "Tạo đơn hàng", Icon: IoCreate },
+    { name: "xác nhận đơn hàng", Icon: GiConfirmed },
+  ];
   const gatheringAdminMenu = [
     { name: "Tạo tài khoản", Icon: IoCreate },
-    { name: "Thống kê", Icon: IoCreate },
+    { name: "Thống kê", Icon: ImStatsBars },
   ];
   const adminMenu = [
     { name: "Quản lí tài khoản", Icon: MdManageAccounts },
@@ -287,7 +290,10 @@ export default function Menu() {
           </>
         )}
         {role === "gatheringStaff" && (
-          <>{tab === 0 ? <ConfirmGathering /> : null}</>
+          <>
+            {tab === 0 ? <CreateOrder /> : null}
+            {tab === 1 ? <ConfirmGathering /> : null}
+          </>
         )}
       </Main>
     </Box>

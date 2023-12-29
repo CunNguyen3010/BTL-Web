@@ -20,9 +20,9 @@ export default function CreateAccount() {
   const [phone, setPhone] = useState("");
   const [birth, setBirth] = useState("");
   const [address, setAddress] = useState(""); // Thêm state cho address
-  const [role, setRole] = useState("");
+  const [role, setRole] = useState(""); 
   const [workplace, setWorkplace] = useState(""); // Thêm state cho workplace
-  const [id_workplace, setIDWorkplace] = useState("");
+  const [id_workplace, setIDWorkplace] = useState(""); 
 
   let callAPI = async (api) => {
     return axios.get(api).then((response) => {
@@ -51,14 +51,7 @@ export default function CreateAccount() {
     e.preventDefault();
 
     // Check if required fields are not empty
-    if (
-      !username ||
-      !password ||
-      !role ||
-      !workplace ||
-      role === "" ||
-      workplace === ""
-    ) {
+    if (!username || !password || !role || !workplace || role==="" || workplace==="" || id_workplace==="") {
       alert("Vui lòng nhập đầy đủ thông tin");
       return;
     }
@@ -156,7 +149,7 @@ export default function CreateAccount() {
               name="workplace"
               className="form-control has-feedback-left workplace"
               onChange={(event) => {
-                setWorkplace(event.target.value);
+                setWorkplace(event.target.value);               
               }}
             >
               <option value="">Chọn Tỉnh/Thành phố</option>
