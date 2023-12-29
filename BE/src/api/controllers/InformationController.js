@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 
-
 // Định nghĩa Schema
 const informationSchema = new mongoose.Schema({
   sender: {
@@ -52,7 +51,9 @@ export const searchInformation = async (req, res) => {
 
   try {
     if (Object.keys(queryParams).length === 0) {
-      return res.status(400).json({ message: "At least one query parameter is required." });
+      return res
+        .status(400)
+        .json({ message: "At least one query parameter is required." });
     }
 
     let result;
@@ -65,9 +66,10 @@ export const searchInformation = async (req, res) => {
       // Nếu không có 'id', sử dụng find
       const query = {};
       for (const key in queryParams) {
-        if (key === 'sortBy') {
+        if (key === "sortBy") {
           // Nếu có tham số sắp xếp
-          sortQuery[queryParams.sortBy] = queryParams.sortOrder === 'desc' ? -1 : 1;
+          sortQuery[queryParams.sortBy] =
+            queryParams.sortOrder === "desc" ? -1 : 1;
         } else {
           query[`${key}`] = { $regex: new RegExp(queryParams[key], "i") };
         }
@@ -82,11 +84,13 @@ export const searchInformation = async (req, res) => {
   }
 };
 
-
 export const createInformation = async (req, res) => {
   const { sender, receiver, postalInformation } = req.body;
 
-  if (!sender || !receiver) return res.json({ message: "Sender and Receiver information are required" }).status(400);
+  if (!sender || !receiver)
+    return res
+      .json({ message: "Sender and Receiver information are required" })
+      .status(400);
 
   const newInformation = new Information({
     sender,
@@ -114,7 +118,8 @@ export const updateInformation = async (req, res) => {
       { new: true }
     );
 
-    if (!updatedInformation) return res.json({ message: "Information not found" }).status(404);
+    if (!updatedInformation)
+      return res.json({ message: "Information not found" }).status(404);
 
     res.json({ updatedInformation }).status(200);
   } catch (error) {
@@ -130,7 +135,8 @@ export const deleteInformation = async (req, res) => {
   try {
     const deletedInformation = await Information.findByIdAndDelete(_id);
 
-    if (!deletedInformation) return res.json({ message: "Information not found" }).status(404);
+    if (!deletedInformation)
+      return res.json({ message: "Information not found" }).status(404);
 
     res.json({ deletedInformation }).status(200);
   } catch (error) {
